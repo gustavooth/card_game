@@ -33,7 +33,7 @@ Sem etapa de deploy/produção neste escopo.
 4. **Batalha** — botão Batalhar → fila de matchmaking real (somente PvP humano) → partida.
 5. **Fim de partida** — tela de resultado com vitória/derrota/empate e opção de revanche (volta à fila).
 
-Sessão persistente por cookie `HttpOnly` `SameSite=Lax` (Secure em produção), token opaco de 32 bytes armazenado com hash no banco, validade deslizante de 30 dias. O jogador não refaz login a cada acesso.
+Sessão persistente por cookie `HttpOnly` `SameSite=Lax` (Secure em produção), token opaco de 32 bytes armazenado com hash no banco, validade de 30 dias. O jogador não refaz login a cada acesso.
 
 ---
 

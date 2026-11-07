@@ -1,0 +1,25 @@
+[package]
+name = "royale-server"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "royale-server"
+path = "src/main.rs"
+
+[dependencies]
+royale-shared = { path = "../shared" }
+royale-defs = { path = "../defs" }
+royale-core = { path = "../core" }
+royale-db = { path = "../db" }
+royale-auth = { path = "../auth" }
+royale-net = { path = "../net" }
+tokio.workspace = true
+axum.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+flate2.workspace = true
+serde_json.workspace = true

@@ -1,0 +1,350 @@
+{
+  "cannon": {
+    "slug": "cannon",
+    "health": 900,
+    "lifetime_ms": 30000,
+    "radius": 0.6,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 5.5,
+      "damage": 150,
+      "cooldown_ms": 900,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "cannonball",
+      "projectile_speed": 9.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.0,
+      "primary": "#475569",
+      "secondary": "#94a3b8",
+      "weapon": "none",
+      "accessory": "wheels"
+    }
+  },
+  "tesla": {
+    "slug": "tesla",
+    "health": 800,
+    "lifetime_ms": 35000,
+    "radius": 0.55,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 5.5,
+      "damage": 150,
+      "cooldown_ms": 1000,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "zap_bolt",
+      "projectile_speed": 20.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 0.95,
+      "primary": "#0369a1",
+      "secondary": "#fef08a",
+      "weapon": "none",
+      "accessory": "coil"
+    }
+  },
+  "inferno_tower": {
+    "slug": "inferno_tower",
+    "health": 1400,
+    "lifetime_ms": 40000,
+    "radius": 0.6,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.5,
+    "attack": {
+      "range": 6.0,
+      "damage": 40,
+      "cooldown_ms": 400,
+      "windup_ms": 0,
+      "first_hit_ms": 200,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "inferno_ramp"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.05,
+      "primary": "#991b1b",
+      "secondary": "#f59e0b",
+      "weapon": "none",
+      "accessory": "tower"
+    }
+  },
+  "bomb_tower": {
+    "slug": "bomb_tower",
+    "health": 900,
+    "lifetime_ms": 30000,
+    "radius": 0.65,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 5.5,
+      "damage": 200,
+      "cooldown_ms": 1600,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 1.5,
+      "projectile": "bomb",
+      "projectile_speed": 5.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.0,
+      "primary": "#57534e",
+      "secondary": "#f97316",
+      "weapon": "none",
+      "accessory": "tower"
+    }
+  },
+  "mortar": {
+    "slug": "mortar",
+    "health": 900,
+    "lifetime_ms": 30000,
+    "radius": 0.65,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 9.5,
+    "attack": {
+      "range": 9.0,
+      "damage": 250,
+      "cooldown_ms": 3000,
+      "windup_ms": 600,
+      "first_hit_ms": 600,
+      "splash_radius": 2.0,
+      "projectile": "mortar_shell",
+      "projectile_speed": 6.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.0,
+      "primary": "#3f3f46",
+      "secondary": "#a8a29e",
+      "weapon": "none",
+      "accessory": "tube"
+    }
+  },
+  "goblin_hut": {
+    "slug": "goblin_hut",
+    "health": 800,
+    "lifetime_ms": 30000,
+    "radius": 0.6,
+    "targets": [],
+    "sight_range": 0.0,
+    "attack": {
+      "range": 0.0,
+      "damage": 0,
+      "cooldown_ms": 0,
+      "windup_ms": 0,
+      "first_hit_ms": 0,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "goblin_hut_spawn"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 0.95,
+      "primary": "#15803d",
+      "secondary": "#fbbf24",
+      "weapon": "none",
+      "accessory": "hut"
+    }
+  },
+  "tombstone": {
+    "slug": "tombstone",
+    "health": 700,
+    "lifetime_ms": 25000,
+    "radius": 0.55,
+    "targets": [],
+    "sight_range": 0.0,
+    "attack": {
+      "range": 0.0,
+      "damage": 0,
+      "cooldown_ms": 0,
+      "windup_ms": 0,
+      "first_hit_ms": 0,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "tombstone_spawn"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": [
+        {
+          "troop": "skeleton",
+          "count": 4,
+          "delay_ms": 0
+        }
+      ]
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 0.9,
+      "primary": "#64748b",
+      "secondary": "#cbd5e1",
+      "weapon": "none",
+      "accessory": "stone"
+    }
+  },
+  "elixir_collector": {
+    "slug": "elixir_collector",
+    "health": 900,
+    "lifetime_ms": 70000,
+    "radius": 0.6,
+    "targets": [],
+    "sight_range": 0.0,
+    "attack": {
+      "range": 0.0,
+      "damage": 0,
+      "cooldown_ms": 0,
+      "windup_ms": 0,
+      "first_hit_ms": 0,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "elixir_collector_generate"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.0,
+      "primary": "#a855f7",
+      "secondary": "#f5d0fe",
+      "weapon": "none",
+      "accessory": "pump"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "knight": {
+    "name": "Knight",
+    "description": "A cheap, sturdy melee tank that holds the front line."
+  },
+  "archers": {
+    "name": "Archers",
+    "description": "Two ranged archers that can hit both ground and air targets."
+  },
+  "musketeer": {
+    "name": "Musketeer",
+    "description": "A long-range shooter with solid damage against troops and towers."
+  },
+  "skeletons": {
+    "name": "Skeletons",
+    "description": "Three fragile skeletons that delay enemies and act as distraction."
+  },
+  "giant": {
+    "name": "Giant",
+    "description": "A tank that ignores troops and marches straight at buildings and towers."
+  },
+  "mini_pekka": {
+    "name": "Mini P.E.K.K.A",
+    "description": "A fast single-target fighter with enormous damage per hit."
+  },
+  "hog_rider": {
+    "name": "Hog Rider",
+    "description": "A fast runner that jumps the river and only attacks buildings and towers."
+  },
+  "valkyrie": {
+    "name": "Valkyrie",
+    "description": "A durable fighter that deals area damage around herself."
+  },
+  "baby_dragon": {
+    "name": "Baby Dragon",
+    "description": "A flying dragon that lobs splash fireballs."
+  },
+  "balloon": {
+    "name": "Balloon",
+    "description": "A flying balloon that only attacks buildings and explodes when destroyed."
+  },
+  "witch": {
+    "name": "Witch",
+    "description": "A caster that fires magic and periodically summons skeletons."
+  },
+  "prince": {
+    "name": "Prince",
+    "description": "A knight that charges after building distance for bonus damage."
+  },
+  "bandit": {
+    "name": "Bandit",
+    "description": "An assassin that dashes forward and strikes before being noticed."
+  },
+  "royal_ghost": {
+    "name": "Royal Ghost",
+    "description": "A ghost that turns invisible for periods and reappears to attack."
+  },
+  "fisherman": {
+    "name": "Fisherman",
+    "description": "A fisherman who throws his hook to pull enemies toward him."
+  },
+  "mega_knight": {
+    "name": "Mega Knight",
+    "description": "A legendary tank that deals landing damage and leaps onto enemies."
+  },
+  "electro_giant": {
+    "name": "Electro Giant",
+    "description": "A giant that only attacks buildings and reflects part of incoming damage."
+  },
+  "goblin_giant": {
+    "name": "Goblin Giant",
+    "description": "A giant that ignores troops and releases spear goblins when he dies."
+  },
+  "lava_hound": {
+    "name": "Lava Hound",
+    "description": "A flying hound that only attacks buildings and splits into pups on death."
+  },
+  "phoenix": {
+    "name": "Phoenix",
+    "description": "A fiery bird that rises from its ashes after being destroyed."
+  },
+  "inferno_dragon": {
+    "name": "Inferno Dragon",
+    "description": "A flying dragon whose beam ramps up damage the longer it locks on."
+  },
+  "sparky": {
+    "name": "Sparky",
+    "description": "A machine that charges a devastating area electric blast."
+  },
+  "battle_ram": {
+    "name": "Battle Ram",
+    "description": "A fast ram that charges buildings and releases barbarians when destroyed."
+  },
+  "ice_wizard": {
+    "name": "Ice Wizard",
+    "description": "A wizard who deals area damage and slows enemies."
+  },
+  "electro_wizard": {
+    "name": "Electro Wizard",
+    "description": "A wizard who fires chain lightning and stuns his targets."
+  },
+  "guards": {
+    "name": "Guards",
+    "description": "Three shielded guards that absorb damage before falling."
+  },
+  "royal_recruits": {
+    "name": "Royal Recruits",
+    "description": "Six shielded recruits that can be deployed anywhere."
+  },
+  "wall_breakers": {
+    "name": "Wall Breakers",
+    "description": "Two explosive skeletons that sacrifice themselves against buildings."
+  },
+  "cannon_cart": {
+    "name": "Cannon Cart",
+    "description": "A mobile cannon that becomes a cannon tower when destroyed."
+  },
+  "battle_healer": {
+    "name": "Battle Healer",
+    "description": "A healer who restores nearby allies and heals on every hit."
+  },
+  "fireball": {
+    "name": "Fireball",
+    "description": "An area damage spell with great value against groups."
+  },
+  "arrows": {
+    "name": "Arrows",
+    "description": "A rain of arrows that covers a wide area and clears fragile troops."
+  },
+  "zap": {
+    "name": "Zap",
+    "description": "An instant shock that briefly stuns and hits several targets."
+  },
+  "lightning": {
+    "name": "Lightning",
+    "description": "A powerful bolt that stuns and strikes the most valuable targets in the area."
+  },
+  "rocket": {
+    "name": "Rocket",
+    "description": "A massive damage rocket with a small radius, strong against towers."
+  },
+  "poison": {
+    "name": "Poison",
+    "description": "A toxic cloud that deals continuous damage for several seconds."
+  },
+  "freeze": {
+    "name": "Freeze",
+    "description": "Freezes enemy troops and buildings for a few seconds."
+  },
+  "tornado": {
+    "name": "Tornado",
+    "description": "A tornado that pulls troops to its center and deals light damage."
+  },
+  "log": {
+    "name": "The Log",
+    "description": "A log that rolls across the arena, pushing and crushing ground troops."
+  },
+  "graveyard": {
+    "name": "Graveyard",
+    "description": "A graveyard that continuously summons skeletons in an area."
+  },
+  "rage": {
+    "name": "Rage",
+    "description": "Rage that increases allies' movement and attack speed."
+  },
+  "earthquake": {
+    "name": "Earthquake",
+    "description": "An earthquake that deals continuous damage, slows troops and wrecks buildings."
+  },
+  "cannon": {
+    "name": "Cannon",
+    "description": "A cheap defensive tower with good damage against ground troops."
+  },
+  "tesla": {
+    "name": "Tesla",
+    "description": "An electric tower that hits both ground and air targets."
+  },
+  "inferno_tower": {
+    "name": "Inferno Tower",
+    "description": "A tower whose damage ramps up against tough single targets."
+  },
+  "bomb_tower": {
+    "name": "Bomb Tower",
+    "description": "A tower that lobs area bombs at ground troops."
+  },
+  "mortar": {
+    "name": "Mortar",
+    "description": "A long-range mortar that bombards groups from afar."
+  },
+  "goblin_hut": {
+    "name": "Goblin Hut",
+    "description": "A hut that periodically summons spear goblins."
+  },
+  "tombstone": {
+    "name": "Tombstone",
+    "description": "A tombstone that spawns skeletons and releases more when destroyed."
+  },
+  "elixir_collector": {
+    "name": "Elixir Collector",
+    "description": "A collector that generates extra elixir over time."
+  }
+}

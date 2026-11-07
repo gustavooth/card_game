@@ -1,0 +1,857 @@
+[
+  {
+    "slug": "knight",
+    "rarity": "common",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "knight",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "tank",
+      "deck"
+    ],
+    "sort": 1
+  },
+  {
+    "slug": "archers",
+    "rarity": "common",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "archer",
+      "count": 2
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "deck"
+    ],
+    "sort": 2
+  },
+  {
+    "slug": "musketeer",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "musketeer",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "deck"
+    ],
+    "sort": 3
+  },
+  {
+    "slug": "skeletons",
+    "rarity": "common",
+    "elixir_cost": 1,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "skeleton",
+      "count": 3
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "swarm",
+      "deck"
+    ],
+    "sort": 4
+  },
+  {
+    "slug": "giant",
+    "rarity": "rare",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "giant",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "tank",
+      "building_target",
+      "deck"
+    ],
+    "sort": 5
+  },
+  {
+    "slug": "mini_pekka",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "mini_pekka",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "single_target"
+    ],
+    "sort": 6
+  },
+  {
+    "slug": "hog_rider",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "hog_rider",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "building_target",
+      "jump",
+      "win_condition"
+    ],
+    "sort": 7
+  },
+  {
+    "slug": "valkyrie",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "valkyrie",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "splash"
+    ],
+    "sort": 8
+  },
+  {
+    "slug": "baby_dragon",
+    "rarity": "epic",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "baby_dragon",
+      "count": 1
+    },
+    "tags": [
+      "air",
+      "ranged",
+      "splash"
+    ],
+    "sort": 9
+  },
+  {
+    "slug": "balloon",
+    "rarity": "epic",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "balloon",
+      "count": 1
+    },
+    "tags": [
+      "air",
+      "building_target",
+      "win_condition",
+      "death_damage"
+    ],
+    "sort": 10
+  },
+  {
+    "slug": "witch",
+    "rarity": "epic",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "witch",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "spawner"
+    ],
+    "sort": 11
+  },
+  {
+    "slug": "prince",
+    "rarity": "epic",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "prince",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "charge"
+    ],
+    "sort": 12
+  },
+  {
+    "slug": "bandit",
+    "rarity": "legendary",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "bandit",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "dash"
+    ],
+    "sort": 13
+  },
+  {
+    "slug": "royal_ghost",
+    "rarity": "legendary",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "royal_ghost",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "invisibility"
+    ],
+    "sort": 14
+  },
+  {
+    "slug": "fisherman",
+    "rarity": "legendary",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "fisherman",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "hook",
+      "utility"
+    ],
+    "sort": 15
+  },
+  {
+    "slug": "mega_knight",
+    "rarity": "legendary",
+    "elixir_cost": 7,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "mega_knight",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "splash",
+      "jump",
+      "tank"
+    ],
+    "sort": 16
+  },
+  {
+    "slug": "electro_giant",
+    "rarity": "epic",
+    "elixir_cost": 7,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "electro_giant",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "building_target",
+      "reflect",
+      "tank"
+    ],
+    "sort": 17
+  },
+  {
+    "slug": "goblin_giant",
+    "rarity": "epic",
+    "elixir_cost": 6,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "goblin_giant",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "building_target",
+      "death_spawn"
+    ],
+    "sort": 18
+  },
+  {
+    "slug": "lava_hound",
+    "rarity": "legendary",
+    "elixir_cost": 7,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "lava_hound",
+      "count": 1
+    },
+    "tags": [
+      "air",
+      "building_target",
+      "tank",
+      "death_spawn"
+    ],
+    "sort": 19
+  },
+  {
+    "slug": "phoenix",
+    "rarity": "legendary",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "phoenix",
+      "count": 1
+    },
+    "tags": [
+      "air",
+      "ranged",
+      "rebirth"
+    ],
+    "sort": 20
+  },
+  {
+    "slug": "inferno_dragon",
+    "rarity": "legendary",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "inferno_dragon",
+      "count": 1
+    },
+    "tags": [
+      "air",
+      "ranged",
+      "ramp",
+      "single_target"
+    ],
+    "sort": 21
+  },
+  {
+    "slug": "sparky",
+    "rarity": "legendary",
+    "elixir_cost": 6,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "sparky",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "splash",
+      "charged_shot"
+    ],
+    "sort": 22
+  },
+  {
+    "slug": "battle_ram",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "battle_ram",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "building_target",
+      "charge",
+      "death_spawn"
+    ],
+    "sort": 23
+  },
+  {
+    "slug": "ice_wizard",
+    "rarity": "legendary",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "ice_wizard",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "splash",
+      "slow"
+    ],
+    "sort": 24
+  },
+  {
+    "slug": "electro_wizard",
+    "rarity": "legendary",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "electro_wizard",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "chain",
+      "stun"
+    ],
+    "sort": 25
+  },
+  {
+    "slug": "guards",
+    "rarity": "epic",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "guard",
+      "count": 3
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "shield",
+      "swarm"
+    ],
+    "sort": 26
+  },
+  {
+    "slug": "royal_recruits",
+    "rarity": "common",
+    "elixir_cost": 7,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "royal_recruit",
+      "count": 6
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "shield",
+      "swarm",
+      "deploy_anywhere"
+    ],
+    "sort": 27
+  },
+  {
+    "slug": "wall_breakers",
+    "rarity": "epic",
+    "elixir_cost": 2,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "wall_breaker",
+      "count": 2
+    },
+    "tags": [
+      "ground",
+      "building_target",
+      "self_destruct"
+    ],
+    "sort": 28
+  },
+  {
+    "slug": "cannon_cart",
+    "rarity": "epic",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "cannon_cart",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "ranged",
+      "transform"
+    ],
+    "sort": 29
+  },
+  {
+    "slug": "battle_healer",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "troop",
+      "troop": "battle_healer",
+      "count": 1
+    },
+    "tags": [
+      "ground",
+      "melee",
+      "aura",
+      "heal"
+    ],
+    "sort": 30
+  },
+  {
+    "slug": "fireball",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "fireball"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "splash"
+    ],
+    "sort": 31
+  },
+  {
+    "slug": "arrows",
+    "rarity": "common",
+    "elixir_cost": 3,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "arrows"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "splash",
+      "deck"
+    ],
+    "sort": 32
+  },
+  {
+    "slug": "zap",
+    "rarity": "common",
+    "elixir_cost": 2,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "zap"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "stun"
+    ],
+    "sort": 33
+  },
+  {
+    "slug": "lightning",
+    "rarity": "epic",
+    "elixir_cost": 6,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "lightning"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "stun"
+    ],
+    "sort": 34
+  },
+  {
+    "slug": "rocket",
+    "rarity": "rare",
+    "elixir_cost": 6,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "rocket"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "building_damage"
+    ],
+    "sort": 35
+  },
+  {
+    "slug": "poison",
+    "rarity": "epic",
+    "elixir_cost": 4,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "poison"
+    },
+    "tags": [
+      "spell",
+      "zone",
+      "damage_over_time"
+    ],
+    "sort": 36
+  },
+  {
+    "slug": "freeze",
+    "rarity": "epic",
+    "elixir_cost": 4,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "freeze"
+    },
+    "tags": [
+      "spell",
+      "control",
+      "freeze"
+    ],
+    "sort": 37
+  },
+  {
+    "slug": "tornado",
+    "rarity": "epic",
+    "elixir_cost": 3,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "tornado"
+    },
+    "tags": [
+      "spell",
+      "control",
+      "pull"
+    ],
+    "sort": 38
+  },
+  {
+    "slug": "log",
+    "rarity": "legendary",
+    "elixir_cost": 2,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "log"
+    },
+    "tags": [
+      "spell",
+      "damage",
+      "rolling",
+      "knockback"
+    ],
+    "sort": 39
+  },
+  {
+    "slug": "graveyard",
+    "rarity": "legendary",
+    "elixir_cost": 5,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "graveyard"
+    },
+    "tags": [
+      "spell",
+      "summon",
+      "win_condition"
+    ],
+    "sort": 40
+  },
+  {
+    "slug": "rage",
+    "rarity": "epic",
+    "elixir_cost": 2,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "rage"
+    },
+    "tags": [
+      "spell",
+      "buff"
+    ],
+    "sort": 41
+  },
+  {
+    "slug": "earthquake",
+    "rarity": "rare",
+    "elixir_cost": 3,
+    "summon_time_ms": 0,
+    "type": {
+      "kind": "spell",
+      "spell": "earthquake"
+    },
+    "tags": [
+      "spell",
+      "zone",
+      "damage_over_time",
+      "building_damage"
+    ],
+    "sort": 42
+  },
+  {
+    "slug": "cannon",
+    "rarity": "common",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "cannon"
+    },
+    "tags": [
+      "building",
+      "defense",
+      "deck"
+    ],
+    "sort": 43
+  },
+  {
+    "slug": "tesla",
+    "rarity": "common",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "tesla"
+    },
+    "tags": [
+      "building",
+      "defense",
+      "air_defense"
+    ],
+    "sort": 44
+  },
+  {
+    "slug": "inferno_tower",
+    "rarity": "rare",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "inferno_tower"
+    },
+    "tags": [
+      "building",
+      "defense",
+      "ramp"
+    ],
+    "sort": 45
+  },
+  {
+    "slug": "bomb_tower",
+    "rarity": "rare",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "bomb_tower"
+    },
+    "tags": [
+      "building",
+      "defense",
+      "splash"
+    ],
+    "sort": 46
+  },
+  {
+    "slug": "mortar",
+    "rarity": "common",
+    "elixir_cost": 4,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "mortar"
+    },
+    "tags": [
+      "building",
+      "defense",
+      "splash",
+      "win_condition"
+    ],
+    "sort": 47
+  },
+  {
+    "slug": "goblin_hut",
+    "rarity": "rare",
+    "elixir_cost": 5,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "goblin_hut"
+    },
+    "tags": [
+      "building",
+      "spawner"
+    ],
+    "sort": 48
+  },
+  {
+    "slug": "tombstone",
+    "rarity": "rare",
+    "elixir_cost": 3,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "tombstone"
+    },
+    "tags": [
+      "building",
+      "spawner",
+      "death_spawn"
+    ],
+    "sort": 49
+  },
+  {
+    "slug": "elixir_collector",
+    "rarity": "rare",
+    "elixir_cost": 6,
+    "summon_time_ms": 1000,
+    "type": {
+      "kind": "building",
+      "building": "elixir_collector"
+    },
+    "tags": [
+      "building",
+      "economy"
+    ],
+    "sort": 50
+  }
+]

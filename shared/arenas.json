@@ -1,0 +1,53 @@
+{
+  "classic": {
+    "slug": "classic",
+    "width": 18,
+    "height": 32,
+    "river_top": 15.5,
+    "river_bottom": 16.5,
+    "bridges": [
+      [
+        2.5,
+        5.5
+      ],
+      [
+        12.5,
+        15.5
+      ]
+    ],
+    "tower_positions": {
+      "top": {
+        "king": [
+          9.0,
+          2.5
+        ],
+        "princess": [
+          [
+            3.5,
+            6.5
+          ],
+          [
+            14.5,
+            6.5
+          ]
+        ]
+      },
+      "bottom": {
+        "king": [
+          9.0,
+          29.5
+        ],
+        "princess": [
+          [
+            3.5,
+            25.5
+          ],
+          [
+            14.5,
+            25.5
+          ]
+        ]
+      }
+    }
+  }
+}

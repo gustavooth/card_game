@@ -1,0 +1,82 @@
+{
+  "freeze_4s": {
+    "kind": "freeze",
+    "duration_ms": 4000,
+    "params": {
+      "speed_mult": 0.0,
+      "attack_mult": 0.0
+    },
+    "visual": "ice"
+  },
+  "stun_0_5s": {
+    "kind": "stun",
+    "duration_ms": 500,
+    "params": {},
+    "visual": "stun"
+  },
+  "knockback_1": {
+    "kind": "knockback",
+    "duration_ms": 300,
+    "params": {
+      "amount": 1.0
+    },
+    "visual": "impact"
+  },
+  "slow_hit_30": {
+    "kind": "slow",
+    "duration_ms": 2000,
+    "params": {
+      "speed_mult": 0.7,
+      "attack_mult": 0.7
+    },
+    "visual": "ice"
+  },
+  "earthquake_slow": {
+    "kind": "slow",
+    "duration_ms": 3000,
+    "params": {
+      "speed_mult": 0.7,
+      "attack_mult": 0.8
+    },
+    "visual": "dust"
+  },
+  "poison_dot": {
+    "kind": "poison",
+    "duration_ms": 8000,
+    "params": {
+      "dps": 90,
+      "tick_ms": 1000,
+      "element": "poison"
+    },
+    "visual": "poison"
+  },
+  "rage_6s": {
+    "kind": "rage",
+    "duration_ms": 6000,
+    "params": {
+      "speed_mult": 1.35,
+      "attack_mult": 1.35
+    },
+    "visual": "rage"
+  },
+  "burn_dot": {
+    "kind": "burn",
+    "duration_ms": 3000,
+    "params": {
+      "dps": 30,
+      "tick_ms": 500,
+      "element": "fire"
+    },
+    "visual": "fire"
+  },
+  "shock_dot": {
+    "kind": "shock",
+    "duration_ms": 2000,
+    "params": {
+      "dps": 25,
+      "tick_ms": 500,
+      "element": "lightning"
+    },
+    "visual": "lightning"
+  }
+}

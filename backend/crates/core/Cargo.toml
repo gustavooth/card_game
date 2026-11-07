@@ -1,0 +1,9 @@
+[package]
+name = "royale-core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+royale-defs = { path = "../defs" }
+royale-shared = { path = "../shared" }
+uuid.workspace = true

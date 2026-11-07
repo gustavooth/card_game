@@ -1,0 +1,58 @@
+{
+  "princess_tower": {
+    "slug": "princess_tower",
+    "health": 2400,
+    "radius": 1.2,
+    "attack": {
+      "range": 7.5,
+      "damage": 90,
+      "cooldown_ms": 800,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "arrow",
+      "projectile_speed": 9.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.0,
+      "primary": "#3b82f6",
+      "secondary": "#94a3b8",
+      "weapon": "bow",
+      "accessory": "princess"
+    }
+  },
+  "king_tower": {
+    "slug": "king_tower",
+    "health": 4000,
+    "radius": 1.5,
+    "attack": {
+      "range": 7.0,
+      "damage": 120,
+      "cooldown_ms": 1000,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "cannonball",
+      "projectile_speed": 9.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "visual": {
+      "archetype": "building",
+      "scale": 1.2,
+      "primary": "#1d4ed8",
+      "secondary": "#f8fafc",
+      "weapon": "none",
+      "accessory": "king"
+    }
+  }
+}

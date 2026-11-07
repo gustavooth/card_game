@@ -1,0 +1,100 @@
+{
+  "arrow": {
+    "slug": "arrow",
+    "speed": 9.0,
+    "radius": 0.1,
+    "homing": true,
+    "visual": "arrow"
+  },
+  "bullet": {
+    "slug": "bullet",
+    "speed": 12.0,
+    "radius": 0.08,
+    "homing": true,
+    "visual": "bullet"
+  },
+  "spear": {
+    "slug": "spear",
+    "speed": 8.0,
+    "radius": 0.1,
+    "homing": true,
+    "visual": "spear"
+  },
+  "dark_magic": {
+    "slug": "dark_magic",
+    "speed": 5.5,
+    "radius": 0.15,
+    "homing": true,
+    "visual": "orb"
+  },
+  "dragon_breath": {
+    "slug": "dragon_breath",
+    "speed": 6.0,
+    "radius": 0.2,
+    "homing": true,
+    "visual": "fire"
+  },
+  "fire_bolt": {
+    "slug": "fire_bolt",
+    "speed": 7.0,
+    "radius": 0.14,
+    "homing": true,
+    "visual": "fire"
+  },
+  "lava_blast": {
+    "slug": "lava_blast",
+    "speed": 6.0,
+    "radius": 0.16,
+    "homing": true,
+    "visual": "fire"
+  },
+  "bomb": {
+    "slug": "bomb",
+    "speed": 5.0,
+    "radius": 0.2,
+    "homing": true,
+    "visual": "bomb"
+  },
+  "sparky_blast": {
+    "slug": "sparky_blast",
+    "speed": 8.0,
+    "radius": 0.4,
+    "homing": true,
+    "visual": "energy"
+  },
+  "ice_bolt": {
+    "slug": "ice_bolt",
+    "speed": 7.0,
+    "radius": 0.12,
+    "homing": true,
+    "visual": "shard"
+  },
+  "lightning_bolt": {
+    "slug": "lightning_bolt",
+    "speed": 20.0,
+    "radius": 0.1,
+    "homing": true,
+    "visual": "lightning"
+  },
+  "zap_bolt": {
+    "slug": "zap_bolt",
+    "speed": 20.0,
+    "radius": 0.1,
+    "homing": true,
+    "visual": "lightning"
+  },
+  "cannonball": {
+    "slug": "cannonball",
+    "speed": 9.0,
+    "radius": 0.2,
+    "homing": true,
+    "visual": "ball"
+  },
+  "mortar_shell": {
+    "slug": "mortar_shell",
+    "speed": 6.0,
+    "radius": 0.25,
+    "homing": true,
+    "visual": "ball"
+  }
+}

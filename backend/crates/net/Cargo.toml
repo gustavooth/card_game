@@ -1,0 +1,24 @@
+[package]
+name = "royale-net"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+royale-shared = { path = "../shared" }
+royale-defs = { path = "../defs" }
+royale-core = { path = "../core" }
+royale-db = { path = "../db" }
+royale-auth = { path = "../auth" }
+axum.workspace = true
+axum-extra.workspace = true
+tower-http.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+rmpv.workspace = true
+rmp-serde.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+tracing.workspace = true
+futures-util = "0.3"
+cookie = "0.18"

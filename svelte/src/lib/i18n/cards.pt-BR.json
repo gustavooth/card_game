@@ -1,0 +1,202 @@
+{
+  "knight": {
+    "name": "Cavaleiro",
+    "description": "Tanque corpo a corpo barato e resistente, ideal para segurar a linha de frente."
+  },
+  "archers": {
+    "name": "Arqueiras",
+    "description": "Duas arqueiras que atacam alvos terrestres e aéreos à distância."
+  },
+  "musketeer": {
+    "name": "Mosqueteira",
+    "description": "Atiradora de longo alcance com bom dano contra unidades e torres."
+  },
+  "skeletons": {
+    "name": "Esqueletos",
+    "description": "Três esqueletos frágeis que atrasam inimigos e servem de distração."
+  },
+  "giant": {
+    "name": "Gigante",
+    "description": "Tanque que ignora tropas e avança direto contra construções e torres."
+  },
+  "mini_pekka": {
+    "name": "Mini P.E.K.K.A",
+    "description": "Guerreira veloz de alvo único com dano altíssimo por golpe."
+  },
+  "hog_rider": {
+    "name": "Cavaleiro de Javali",
+    "description": "Corredor rápido que salta o rio e ataca apenas construções e torres."
+  },
+  "valkyrie": {
+    "name": "Valquíria",
+    "description": "Guerreira resistente que causa dano em área ao redor de si."
+  },
+  "baby_dragon": {
+    "name": "Bebê Dragão",
+    "description": "Dragão voador que dispara bolas de fogo em área."
+  },
+  "balloon": {
+    "name": "Balão",
+    "description": "Balão voador que só ataca construções e explode ao ser destruído."
+  },
+  "witch": {
+    "name": "Bruxa",
+    "description": "Invocadora que lança magia e gera esqueletos periodicamente."
+  },
+  "prince": {
+    "name": "Príncipe",
+    "description": "Cavaleiro que carrega após ganhar distância, causando dano extra."
+  },
+  "bandit": {
+    "name": "Bandida",
+    "description": "Assassina que avança rapidamente com um dash e ataca sem ser notada."
+  },
+  "royal_ghost": {
+    "name": "Fantasma Real",
+    "description": "Fantasma que fica invisível por períodos e reaparece para atacar."
+  },
+  "fisherman": {
+    "name": "Pescador",
+    "description": "Pescador que arremessa o gancho para puxar inimigos até si."
+  },
+  "mega_knight": {
+    "name": "Mega Cavaleiro",
+    "description": "Tanque lendário que causa dano ao cair e salta sobre os inimigos."
+  },
+  "electro_giant": {
+    "name": "Gigante Elétrico",
+    "description": "Gigante que só ataca construções e reflete parte do dano recebido."
+  },
+  "goblin_giant": {
+    "name": "Gigante Goblin",
+    "description": "Gigante que ignora tropas e libera goblins lanceiros ao morrer."
+  },
+  "lava_hound": {
+    "name": "Sabujo de Lava",
+    "description": "Sabujo voador que só ataca construções e se divide em filhotes ao morrer."
+  },
+  "phoenix": {
+    "name": "Fênix",
+    "description": "Ave flamejante que renasce das cinzas após ser destruída."
+  },
+  "inferno_dragon": {
+    "name": "Dragão Infernal",
+    "description": "Dragão voador cujo feixe aumenta de dano quanto mais tempo foca o alvo."
+  },
+  "sparky": {
+    "name": "Faísca",
+    "description": "Máquina que carrega um disparo elétrico devastador em área."
+  },
+  "battle_ram": {
+    "name": "Aríete de Batalha",
+    "description": "Aríete veloz que carrega contra construções e libera bárbaros ao morrer."
+  },
+  "ice_wizard": {
+    "name": "Mago de Gelo",
+    "description": "Mago que causa dano em área e reduz a velocidade dos inimigos."
+  },
+  "electro_wizard": {
+    "name": "Mago Elétrico",
+    "description": "Mago que dispara raios em cadeia e atordoa os alvos."
+  },
+  "guards": {
+    "name": "Guardas",
+    "description": "Três guardas com escudo que resistem a dano antes de cair."
+  },
+  "royal_recruits": {
+    "name": "Recrutas Reais",
+    "description": "Seis recrutas com escudo que podem ser posicionados em qualquer lugar."
+  },
+  "wall_breakers": {
+    "name": "Quebra-Muros",
+    "description": "Dois esqueletos explosivos que se sacrificam contra construções."
+  },
+  "cannon_cart": {
+    "name": "Carro-Canão",
+    "description": "Canhão móvel que vira uma torre de canhão quando destruído."
+  },
+  "battle_healer": {
+    "name": "Curandeira de Batalha",
+    "description": "Curandeira que cura aliados próximos e recupera vida a cada golpe."
+  },
+  "fireball": {
+    "name": "Bola de Fogo",
+    "description": "Feitiço de dano em área com bom custo-benefício contra grupos."
+  },
+  "arrows": {
+    "name": "Flechas",
+    "description": "Chuva de flechas que atinge áreas amplas e limpa tropas frágeis."
+  },
+  "zap": {
+    "name": "Choque",
+    "description": "Choque instantâneo que atordoa brevemente e atinge vários alvos."
+  },
+  "lightning": {
+    "name": "Raio",
+    "description": "Raio poderoso que atordoa e atinge os alvos mais valiosos da área."
+  },
+  "rocket": {
+    "name": "Foguete",
+    "description": "Foguete de dano massivo em área pequena, forte contra torres."
+  },
+  "poison": {
+    "name": "Veneno",
+    "description": "Nuvem venenosa que causa dano contínuo por vários segundos."
+  },
+  "freeze": {
+    "name": "Congelamento",
+    "description": "Congela tropas e construções inimigas por alguns segundos."
+  },
+  "tornado": {
+    "name": "Tornado",
+    "description": "Tornado que puxa tropas para o centro e causa dano leve."
+  },
+  "log": {
+    "name": "Tronco",
+    "description": "Tronco que rola pela arena, empurrando e atropelando tropas terrestres."
+  },
+  "graveyard": {
+    "name": "Cemitério",
+    "description": "Cemitério que invoca esqueletos continuamente em uma área."
+  },
+  "rage": {
+    "name": "Fúria",
+    "description": "Fúria que aumenta a velocidade de movimento e ataque dos aliados."
+  },
+  "earthquake": {
+    "name": "Terremoto",
+    "description": "Terremoto que causa dano contínuo, retarda tropas e destrói construções."
+  },
+  "cannon": {
+    "name": "Canhão",
+    "description": "Torre defensiva barata com bom dano contra tropas terrestres."
+  },
+  "tesla": {
+    "name": "Tesla",
+    "description": "Torre elétrica que atinge alvos terrestres e aéreos."
+  },
+  "inferno_tower": {
+    "name": "Torre Infernal",
+    "description": "Torre que aumenta o dano continuamente contra alvos únicos resistentes."
+  },
+  "bomb_tower": {
+    "name": "Torre de Bombas",
+    "description": "Torre que lança bombas em área contra tropas terrestres."
+  },
+  "mortar": {
+    "name": "Morteiro",
+    "description": "Morteiro de longo alcance que bombardeia grupos à distância."
+  },
+  "goblin_hut": {
+    "name": "Cabana Goblin",
+    "description": "Cabana que invoca goblins lanceiros periodicamente."
+  },
+  "tombstone": {
+    "name": "Lápide",
+    "description": "Lápide que gera esqueletos e libera mais ao ser destruída."
+  },
+  "elixir_collector": {
+    "name": "Coletor de Elixir",
+    "description": "Coletor que gera elixir extra ao longo do tempo."
+  }
+}

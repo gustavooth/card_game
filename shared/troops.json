@@ -1,0 +1,1606 @@
+{
+  "knight": {
+    "slug": "knight",
+    "health": 1400,
+    "speed": 1.0,
+    "radius": 0.32,
+    "mass": 2.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 0.8,
+      "damage": 160,
+      "cooldown_ms": 1100,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.0,
+      "primary": "#64748b",
+      "secondary": "#e2e8f0",
+      "weapon": "sword",
+      "accessory": "cape"
+    }
+  },
+  "archer": {
+    "slug": "archer",
+    "health": 200,
+    "speed": 1.1,
+    "radius": 0.25,
+    "mass": 0.6,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 5.0,
+      "damage": 80,
+      "cooldown_ms": 1000,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "arrow",
+      "projectile_speed": 9.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.9,
+      "primary": "#3b82f6",
+      "secondary": "#f8fafc",
+      "weapon": "bow",
+      "accessory": "quiver"
+    }
+  },
+  "musketeer": {
+    "slug": "musketeer",
+    "health": 700,
+    "speed": 1.0,
+    "radius": 0.28,
+    "mass": 1.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 6.0,
+      "damage": 180,
+      "cooldown_ms": 1100,
+      "windup_ms": 500,
+      "first_hit_ms": 500,
+      "splash_radius": 0.0,
+      "projectile": "bullet",
+      "projectile_speed": 12.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.95,
+      "primary": "#1d4ed8",
+      "secondary": "#e2e8f0",
+      "weapon": "bow",
+      "accessory": "hat"
+    }
+  },
+  "skeleton": {
+    "slug": "skeleton",
+    "health": 80,
+    "speed": 1.4,
+    "radius": 0.22,
+    "mass": 0.4,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.0,
+    "attack": {
+      "range": 0.7,
+      "damage": 70,
+      "cooldown_ms": 900,
+      "windup_ms": 200,
+      "first_hit_ms": 200,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "skeleton",
+      "scale": 0.65,
+      "primary": "#cbd5e1",
+      "secondary": "#475569",
+      "weapon": "sword",
+      "accessory": "none"
+    }
+  },
+  "giant": {
+    "slug": "giant",
+    "health": 3600,
+    "speed": 0.7,
+    "radius": 0.5,
+    "mass": 5.0,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 220,
+      "cooldown_ms": 1500,
+      "windup_ms": 500,
+      "first_hit_ms": 500,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "giant",
+      "scale": 1.2,
+      "primary": "#b45309",
+      "secondary": "#f1f5f9",
+      "weapon": "none",
+      "accessory": "belt"
+    }
+  },
+  "mini_pekka": {
+    "slug": "mini_pekka",
+    "health": 1200,
+    "speed": 1.3,
+    "radius": 0.32,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 0.8,
+      "damage": 550,
+      "cooldown_ms": 1600,
+      "windup_ms": 500,
+      "first_hit_ms": 500,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "machine",
+      "scale": 1.0,
+      "primary": "#475569",
+      "secondary": "#f59e0b",
+      "weapon": "sword",
+      "accessory": "antenna"
+    }
+  },
+  "hog_rider": {
+    "slug": "hog_rider",
+    "health": 1500,
+    "speed": 1.7,
+    "radius": 0.35,
+    "mass": 2.5,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 240,
+      "cooldown_ms": 1400,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "hog_jump"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "beast",
+      "scale": 1.05,
+      "primary": "#7c3aed",
+      "secondary": "#fbbf24",
+      "weapon": "hammer",
+      "accessory": "saddle"
+    }
+  },
+  "valkyrie": {
+    "slug": "valkyrie",
+    "health": 1700,
+    "speed": 1.0,
+    "radius": 0.34,
+    "mass": 2.5,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 0.9,
+      "damage": 220,
+      "cooldown_ms": 1300,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 1.2,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.0,
+      "primary": "#dc2626",
+      "secondary": "#f8fafc",
+      "weapon": "axe",
+      "accessory": "hair"
+    }
+  },
+  "baby_dragon": {
+    "slug": "baby_dragon",
+    "health": 1100,
+    "speed": 1.2,
+    "radius": 0.4,
+    "mass": 2.0,
+    "flying": true,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 3.5,
+      "damage": 130,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 1.2,
+      "projectile": "dragon_breath",
+      "projectile_speed": 6.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "dragon",
+      "scale": 1.0,
+      "primary": "#22c55e",
+      "secondary": "#facc15",
+      "weapon": "none",
+      "accessory": "wings"
+    }
+  },
+  "balloon": {
+    "slug": "balloon",
+    "health": 1600,
+    "speed": 1.1,
+    "radius": 0.4,
+    "mass": 2.5,
+    "flying": true,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 8.0,
+    "attack": {
+      "range": 1.2,
+      "damage": 600,
+      "cooldown_ms": 2000,
+      "windup_ms": 500,
+      "first_hit_ms": 500,
+      "splash_radius": 0.8,
+      "projectile": "bomb",
+      "projectile_speed": 5.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 300,
+      "radius": 2.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "flyer",
+      "scale": 1.1,
+      "primary": "#dc2626",
+      "secondary": "#f8fafc",
+      "weapon": "bomb",
+      "accessory": "balloon"
+    }
+  },
+  "witch": {
+    "slug": "witch",
+    "health": 700,
+    "speed": 1.0,
+    "radius": 0.3,
+    "mass": 1.2,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.5,
+    "attack": {
+      "range": 5.0,
+      "damage": 100,
+      "cooldown_ms": 1100,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "dark_magic",
+      "projectile_speed": 5.5,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "witch_spawn"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.95,
+      "primary": "#6d28d9",
+      "secondary": "#f8fafc",
+      "weapon": "staff",
+      "accessory": "hat"
+    }
+  },
+  "prince": {
+    "slug": "prince",
+    "health": 1900,
+    "speed": 1.1,
+    "radius": 0.36,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 320,
+      "cooldown_ms": 1400,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "prince_charge"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.1,
+      "primary": "#7c2d12",
+      "secondary": "#fbbf24",
+      "weapon": "spear",
+      "accessory": "cape"
+    }
+  },
+  "bandit": {
+    "slug": "bandit",
+    "health": 1100,
+    "speed": 1.5,
+    "radius": 0.3,
+    "mass": 1.5,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 300,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "bandit_dash"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.95,
+      "primary": "#1e293b",
+      "secondary": "#f59e0b",
+      "weapon": "sword",
+      "accessory": "mask"
+    }
+  },
+  "royal_ghost": {
+    "slug": "royal_ghost",
+    "health": 1100,
+    "speed": 1.3,
+    "radius": 0.3,
+    "mass": 1.5,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 250,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "royal_ghost_invisibility"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "spirit",
+      "scale": 0.95,
+      "primary": "#0ea5e9",
+      "secondary": "#e0f2fe",
+      "weapon": "sword",
+      "accessory": "ghost"
+    }
+  },
+  "fisherman": {
+    "slug": "fisherman",
+    "health": 1000,
+    "speed": 1.0,
+    "radius": 0.32,
+    "mass": 2.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.5,
+    "attack": {
+      "range": 1.6,
+      "damage": 180,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "fisherman_hook"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.0,
+      "primary": "#0f766e",
+      "secondary": "#f8fafc",
+      "weapon": "spear",
+      "accessory": "beard"
+    }
+  },
+  "mega_knight": {
+    "slug": "mega_knight",
+    "health": 4000,
+    "speed": 0.9,
+    "radius": 0.5,
+    "mass": 5.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 350,
+      "cooldown_ms": 1600,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 1.5,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "mega_knight_jump"
+      },
+      {
+        "skill": "mega_knight_deploy"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "giant",
+      "scale": 1.25,
+      "primary": "#1e293b",
+      "secondary": "#f59e0b",
+      "weapon": "hammer",
+      "accessory": "armor"
+    }
+  },
+  "electro_giant": {
+    "slug": "electro_giant",
+    "health": 3500,
+    "speed": 0.7,
+    "radius": 0.5,
+    "mass": 5.0,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.8,
+      "damage": 180,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "electro_giant_reflect"
+      },
+      {
+        "skill": "electro_shock"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "giant",
+      "scale": 1.2,
+      "primary": "#0ea5e9",
+      "secondary": "#e2e8f0",
+      "weapon": "none",
+      "accessory": "coil"
+    }
+  },
+  "goblin_giant": {
+    "slug": "goblin_giant",
+    "health": 2800,
+    "speed": 0.8,
+    "radius": 0.5,
+    "mass": 4.5,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 200,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": [
+        {
+          "troop": "spear_goblin",
+          "count": 3,
+          "delay_ms": 0
+        }
+      ]
+    },
+    "visual": {
+      "archetype": "giant",
+      "scale": 1.15,
+      "primary": "#15803d",
+      "secondary": "#fbbf24",
+      "weapon": "none",
+      "accessory": "goblin"
+    }
+  },
+  "lava_hound": {
+    "slug": "lava_hound",
+    "health": 3200,
+    "speed": 0.8,
+    "radius": 0.5,
+    "mass": 4.0,
+    "flying": true,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 8.0,
+    "attack": {
+      "range": 1.0,
+      "damage": 120,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "lava_blast",
+      "projectile_speed": 6.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 100,
+      "radius": 1.5,
+      "effects": [],
+      "spawn": [
+        {
+          "troop": "lava_pup",
+          "count": 6,
+          "delay_ms": 0
+        }
+      ]
+    },
+    "visual": {
+      "archetype": "beast",
+      "scale": 1.2,
+      "primary": "#b91c1c",
+      "secondary": "#f97316",
+      "weapon": "none",
+      "accessory": "wings"
+    }
+  },
+  "phoenix": {
+    "slug": "phoenix",
+    "health": 1000,
+    "speed": 1.2,
+    "radius": 0.36,
+    "mass": 1.8,
+    "flying": true,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 1.0,
+      "damage": 200,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "fire_bolt",
+      "projectile_speed": 7.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "phoenix_rebirth"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "flyer",
+      "scale": 1.0,
+      "primary": "#f97316",
+      "secondary": "#facc15",
+      "weapon": "none",
+      "accessory": "flames"
+    }
+  },
+  "inferno_dragon": {
+    "slug": "inferno_dragon",
+    "health": 1300,
+    "speed": 0.9,
+    "radius": 0.4,
+    "mass": 2.0,
+    "flying": true,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 3.5,
+      "damage": 60,
+      "cooldown_ms": 400,
+      "windup_ms": 0,
+      "first_hit_ms": 200,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "inferno_ramp"
+      },
+      {
+        "skill": "inferno_burn"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "dragon",
+      "scale": 1.0,
+      "primary": "#ef4444",
+      "secondary": "#f59e0b",
+      "weapon": "none",
+      "accessory": "beam"
+    }
+  },
+  "sparky": {
+    "slug": "sparky",
+    "health": 1200,
+    "speed": 0.6,
+    "radius": 0.45,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 4.5,
+      "damage": 500,
+      "cooldown_ms": 3000,
+      "windup_ms": 800,
+      "first_hit_ms": 800,
+      "splash_radius": 2.2,
+      "projectile": "sparky_blast",
+      "projectile_speed": 8.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "sparky_charged_shot"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "machine",
+      "scale": 1.1,
+      "primary": "#7c3aed",
+      "secondary": "#facc15",
+      "weapon": "none",
+      "accessory": "wheels"
+    }
+  },
+  "battle_ram": {
+    "slug": "battle_ram",
+    "health": 1200,
+    "speed": 1.3,
+    "radius": 0.4,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 250,
+      "cooldown_ms": 1500,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "prince_charge"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": [
+        {
+          "troop": "barbarian",
+          "count": 2,
+          "delay_ms": 0
+        }
+      ]
+    },
+    "visual": {
+      "archetype": "machine",
+      "scale": 1.05,
+      "primary": "#92400e",
+      "secondary": "#f8fafc",
+      "weapon": "none",
+      "accessory": "ram"
+    }
+  },
+  "ice_wizard": {
+    "slug": "ice_wizard",
+    "health": 700,
+    "speed": 1.0,
+    "radius": 0.3,
+    "mass": 1.2,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.5,
+    "attack": {
+      "range": 4.5,
+      "damage": 100,
+      "cooldown_ms": 1500,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 1.0,
+      "projectile": "ice_bolt",
+      "projectile_speed": 7.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "ice_wizard_slow"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.95,
+      "primary": "#0284c7",
+      "secondary": "#e0f2fe",
+      "weapon": "staff",
+      "accessory": "hood"
+    }
+  },
+  "electro_wizard": {
+    "slug": "electro_wizard",
+    "health": 850,
+    "speed": 1.1,
+    "radius": 0.3,
+    "mass": 1.2,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 5.0,
+      "damage": 120,
+      "cooldown_ms": 1400,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "lightning_bolt",
+      "projectile_speed": 20.0,
+      "pierce": false,
+      "chain": 2,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [
+      {
+        "skill": "electro_wizard_stun"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.95,
+      "primary": "#0369a1",
+      "secondary": "#fef08a",
+      "weapon": "staff",
+      "accessory": "mask"
+    }
+  },
+  "guard": {
+    "slug": "guard",
+    "health": 300,
+    "speed": 1.2,
+    "radius": 0.26,
+    "mass": 0.7,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.0,
+    "attack": {
+      "range": 0.8,
+      "damage": 90,
+      "cooldown_ms": 1100,
+      "windup_ms": 250,
+      "first_hit_ms": 250,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "shield_200"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.8,
+      "primary": "#334155",
+      "secondary": "#cbd5e1",
+      "weapon": "spear",
+      "accessory": "shield"
+    }
+  },
+  "royal_recruit": {
+    "slug": "royal_recruit",
+    "health": 400,
+    "speed": 1.4,
+    "radius": 0.27,
+    "mass": 0.8,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.9,
+      "damage": 100,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "shield_200"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 0.85,
+      "primary": "#1d4ed8",
+      "secondary": "#f8fafc",
+      "weapon": "spear",
+      "accessory": "shield"
+    }
+  },
+  "wall_breaker": {
+    "slug": "wall_breaker",
+    "health": 220,
+    "speed": 1.8,
+    "radius": 0.25,
+    "mass": 0.8,
+    "flying": false,
+    "targets": [
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 0.8,
+      "damage": 150,
+      "cooldown_ms": 1500,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "wall_breakers_self_destruct"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "skeleton",
+      "scale": 0.8,
+      "primary": "#ea580c",
+      "secondary": "#f8fafc",
+      "weapon": "bomb",
+      "accessory": "bomb"
+    }
+  },
+  "cannon_cart": {
+    "slug": "cannon_cart",
+    "health": 1100,
+    "speed": 1.0,
+    "radius": 0.4,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 7.0,
+    "attack": {
+      "range": 4.0,
+      "damage": 180,
+      "cooldown_ms": 1200,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "cannonball",
+      "projectile_speed": 9.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "cannon_cart_transform"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "machine",
+      "scale": 1.05,
+      "primary": "#78350f",
+      "secondary": "#94a3b8",
+      "weapon": "none",
+      "accessory": "wheels"
+    }
+  },
+  "battle_healer": {
+    "slug": "battle_healer",
+    "health": 1600,
+    "speed": 1.2,
+    "radius": 0.36,
+    "mass": 3.0,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 1.2,
+      "damage": 140,
+      "cooldown_ms": 1300,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [
+      {
+        "skill": "battle_healer_aura"
+      },
+      {
+        "skill": "battle_healer_heal"
+      }
+    ],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.05,
+      "primary": "#be123c",
+      "secondary": "#fef3c7",
+      "weapon": "staff",
+      "accessory": "wings"
+    }
+  },
+  "spear_goblin": {
+    "slug": "spear_goblin",
+    "health": 130,
+    "speed": 1.3,
+    "radius": 0.24,
+    "mass": 0.5,
+    "flying": false,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 4.0,
+      "damage": 70,
+      "cooldown_ms": 1200,
+      "windup_ms": 400,
+      "first_hit_ms": 400,
+      "splash_radius": 0.0,
+      "projectile": "spear",
+      "projectile_speed": 8.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "goblin",
+      "scale": 0.8,
+      "primary": "#16a34a",
+      "secondary": "#facc15",
+      "weapon": "spear",
+      "accessory": "spear"
+    }
+  },
+  "barbarian": {
+    "slug": "barbarian",
+    "health": 650,
+    "speed": 1.1,
+    "radius": 0.3,
+    "mass": 1.2,
+    "flying": false,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 5.5,
+    "attack": {
+      "range": 0.9,
+      "damage": 150,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": false
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "humanoid",
+      "scale": 1.0,
+      "primary": "#b45309",
+      "secondary": "#fbbf24",
+      "weapon": "sword",
+      "accessory": "beard"
+    }
+  },
+  "lava_pup": {
+    "slug": "lava_pup",
+    "health": 200,
+    "speed": 1.6,
+    "radius": 0.25,
+    "mass": 0.6,
+    "flying": true,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 0.8,
+      "damage": 100,
+      "cooldown_ms": 1000,
+      "windup_ms": 200,
+      "first_hit_ms": 200,
+      "splash_radius": 0.0,
+      "projectile": null,
+      "projectile_speed": 0.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "beast",
+      "scale": 0.7,
+      "primary": "#b91c1c",
+      "secondary": "#f97316",
+      "weapon": "none",
+      "accessory": "wings"
+    }
+  },
+  "phoenix_chick": {
+    "slug": "phoenix_chick",
+    "health": 900,
+    "speed": 1.2,
+    "radius": 0.3,
+    "mass": 1.5,
+    "flying": true,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "sight_range": 6.0,
+    "attack": {
+      "range": 1.0,
+      "damage": 150,
+      "cooldown_ms": 1200,
+      "windup_ms": 300,
+      "first_hit_ms": 300,
+      "splash_radius": 0.0,
+      "projectile": "fire_bolt",
+      "projectile_speed": 7.0,
+      "pierce": false,
+      "chain": 0,
+      "knockback": 0.0,
+      "multi_shot": 0,
+      "targets_air": true
+    },
+    "skills": [],
+    "death": {
+      "damage": 0,
+      "radius": 0.0,
+      "effects": [],
+      "spawn": []
+    },
+    "visual": {
+      "archetype": "flyer",
+      "scale": 0.85,
+      "primary": "#f97316",
+      "secondary": "#fde047",
+      "weapon": "none",
+      "accessory": "flames"
+    }
+  }
+}

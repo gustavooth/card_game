@@ -1,0 +1,299 @@
+{
+  "fireball": {
+    "slug": "fireball",
+    "radius": 2.5,
+    "delay_ms": 500,
+    "damage": 700,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "knockback_1"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "fireball",
+      "color": "#f97316"
+    }
+  },
+  "arrows": {
+    "slug": "arrows",
+    "radius": 4.0,
+    "delay_ms": 800,
+    "damage": 220,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "arrows",
+      "color": "#eab308"
+    }
+  },
+  "zap": {
+    "slug": "zap",
+    "radius": 2.5,
+    "delay_ms": 0,
+    "damage": 160,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "stun_0_5s"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "zap",
+      "color": "#38bdf8"
+    }
+  },
+  "lightning": {
+    "slug": "lightning",
+    "radius": 3.0,
+    "delay_ms": 500,
+    "damage": 900,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "stun_0_5s"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "lightning",
+      "color": "#a855f7"
+    }
+  },
+  "rocket": {
+    "slug": "rocket",
+    "radius": 2.0,
+    "delay_ms": 700,
+    "damage": 1400,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "knockback_1"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "rocket",
+      "color": "#ef4444"
+    }
+  },
+  "poison": {
+    "slug": "poison",
+    "radius": 3.0,
+    "delay_ms": 500,
+    "damage": 0,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": {
+      "duration_ms": 8000,
+      "dps": 90,
+      "effect": "poison_dot",
+      "slow_mult": 1.0
+    },
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "poison",
+      "color": "#84cc16"
+    }
+  },
+  "freeze": {
+    "slug": "freeze",
+    "radius": 3.0,
+    "delay_ms": 0,
+    "damage": 0,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "freeze_4s"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "freeze",
+      "color": "#67e8f9"
+    }
+  },
+  "tornado": {
+    "slug": "tornado",
+    "radius": 3.5,
+    "delay_ms": 0,
+    "damage": 120,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": {
+      "strength": 2.5,
+      "duration_ms": 1000
+    },
+    "visual": {
+      "variant": "tornado",
+      "color": "#94a3b8"
+    }
+  },
+  "log": {
+    "slug": "log",
+    "radius": 1.2,
+    "delay_ms": 0,
+    "damage": 240,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": null,
+    "spawn": null,
+    "rolling": {
+      "distance": 9.0,
+      "speed": 3.5,
+      "width": 1.2,
+      "knockback": 1.2
+    },
+    "pull": null,
+    "visual": {
+      "variant": "log",
+      "color": "#92400e"
+    }
+  },
+  "graveyard": {
+    "slug": "graveyard",
+    "radius": 3.0,
+    "delay_ms": 0,
+    "damage": 0,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": null,
+    "spawn": {
+      "troop": "skeleton",
+      "count": 10,
+      "interval_ms": 400,
+      "radius": 3.0
+    },
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "graveyard",
+      "color": "#64748b"
+    }
+  },
+  "rage": {
+    "slug": "rage",
+    "radius": 3.0,
+    "delay_ms": 0,
+    "damage": 0,
+    "tower_damage_mult": 0.35,
+    "targets": [
+      "ground",
+      "air",
+      "buildings",
+      "towers"
+    ],
+    "effects": [
+      "rage_6s"
+    ],
+    "zone": null,
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "rage",
+      "color": "#db2777"
+    }
+  },
+  "earthquake": {
+    "slug": "earthquake",
+    "radius": 3.5,
+    "delay_ms": 0,
+    "damage": 250,
+    "tower_damage_mult": 2.5,
+    "targets": [
+      "ground",
+      "buildings",
+      "towers"
+    ],
+    "effects": [],
+    "zone": {
+      "duration_ms": 3000,
+      "dps": 120,
+      "effect": "earthquake_slow",
+      "slow_mult": 0.7
+    },
+    "spawn": null,
+    "rolling": null,
+    "pull": null,
+    "visual": {
+      "variant": "earthquake",
+      "color": "#a16207"
+    }
+  }
+}

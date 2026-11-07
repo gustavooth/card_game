@@ -1,0 +1,22 @@
+{
+  "common": {
+    "slug": "common",
+    "order": 1,
+    "color": "#94a3b8"
+  },
+  "rare": {
+    "slug": "rare",
+    "order": 2,
+    "color": "#f59e0b"
+  },
+  "epic": {
+    "slug": "epic",
+    "order": 3,
+    "color": "#a855f7"
+  },
+  "legendary": {
+    "slug": "legendary",
+    "order": 4,
+    "color": "#f43f5e"
+  }
+}

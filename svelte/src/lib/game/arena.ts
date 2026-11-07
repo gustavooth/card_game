@@ -54,14 +54,108 @@ function drawGround(context: CanvasRenderingContext2D, arena: ArenaDef) {
 		for (let gx = 0; gx < ARENA_WIDTH; gx += 1) {
 			const noise = Math.abs(Math.sin(gx * 12.9898 + gy * 78.233) * 43758.5453) % 1;
 			const shade = (gx + gy) % 2 === 0 ? 0 : 1;
-			const green = 96 + Math.floor(noise * 18) + shade * 6;
-			context.fillStyle = `rgb(${34 + shade * 5}, ${green}, ${58 + shade * 6})`;
+			const green = 102 + Math.floor(noise * 10) + shade * 3;
+			context.fillStyle = `rgb(${36 + shade * 3}, ${green}, ${58 + shade * 4})`;
 			context.fillRect(
 				rect.x + gx * tileW,
 				rect.y + gy * tileH,
 				tileW + 1,
 				tileH + 1
 			);
+		}
+	}
+
+	// caminhos de pedra ligando pontes, princesas e rei
+	const path = 'rgba(146, 110, 64, 0.38)';
+	const pathEdge = 'rgba(90, 62, 30, 0.35)';
+	const bridgeCenters = arena.bridges.map(([a, b]) => (a + b) * 0.5);
+	const yOf = (worldY: number) => rect.y + worldY * tileH;
+	for (const center of bridgeCenters) {
+		const px = rect.x + center * tileW;
+		context.fillStyle = path;
+		context.fillRect(px - 13, yOf(6.5), 26, yOf(15.5) - yOf(6.5));
+		context.fillRect(px - 13, yOf(16.5), 26, yOf(25.5) - yOf(16.5));
+		context.strokeStyle = pathEdge;
+		context.lineWidth = 2;
+		context.strokeRect(px - 13, yOf(6.5), 26, yOf(15.5) - yOf(6.5));
+		context.strokeRect(px - 13, yOf(16.5), 26, yOf(25.5) - yOf(16.5));
+	}
+	for (const [worldY, towerY] of [
+		[15.5, 6.5],
+		[16.5, 25.5]
+	] as const) {
+		const x1 = rect.x + 3.5 * tileW;
+		const x2 = rect.x + 14.5 * tileW;
+		context.fillStyle = path;
+		context.fillRect(x1, yOf(towerY) - 11, x2 - x1, 22);
+		context.strokeStyle = pathEdge;
+		context.lineWidth = 2;
+		context.strokeRect(x1, yOf(towerY) - 11, x2 - x1, 22);
+	}
+
+	// bordas de pedra
+	context.fillStyle = 'rgba(30, 41, 59, 0.85)';
+	for (let bx = rect.x + 6; bx < rect.x + rect.w; bx += 34) {
+		context.fillRect(bx, rect.y, 28, 8);
+		context.fillRect(bx, rect.y + rect.h - 8, 28, 8);
+		context.strokeStyle = 'rgba(15, 23, 42, 0.7)';
+		context.lineWidth = 1;
+		context.strokeRect(bx, rect.y, 28, 8);
+		context.strokeRect(bx, rect.y + rect.h - 8, 28, 8);
+	}
+	for (let by = rect.y + 20; by < rect.y + rect.h - 20; by += 34) {
+		context.fillRect(rect.x, by, 7, 28);
+		context.fillRect(rect.x + rect.w - 7, by, 7, 28);
+	}
+
+	// vegetação e pedras decorativas
+	const tree = (wx: number, wy: number, size: number) => {
+		const tx = rect.x + wx * tileW;
+		const ty = rect.y + wy * tileH;
+		context.fillStyle = 'rgba(0,0,0,0.18)';
+		context.beginPath();
+		context.ellipse(tx, ty + 6, size * 0.8, size * 0.3, 0, 0, Math.PI * 2);
+		context.fill();
+		context.fillStyle = '#3f2d1c';
+		context.fillRect(tx - 2, ty - size * 0.2, 4, size * 0.45);
+		for (let layer = 0; layer < 3; layer += 1) {
+			context.beginPath();
+			context.arc(tx, ty - size * (0.4 + layer * 0.22), size * (0.62 - layer * 0.12), 0, Math.PI * 2);
+			context.fillStyle = layer % 2 === 0 ? '#14532d' : '#166534';
+			context.fill();
+			context.strokeStyle = 'rgba(6, 78, 59, 0.6)';
+			context.lineWidth = 1.5;
+			context.stroke();
+		}
+	};
+	tree(0.9, 1.0, 22);
+	tree(17.1, 1.0, 22);
+	tree(0.9, 31.0, 24);
+	tree(17.1, 31.0, 24);
+	tree(0.9, 12.4, 17);
+	tree(17.1, 19.6, 17);
+
+	for (let index = 0; index < 26; index += 1) {
+		const wx = 1.4 + ((index * 7.31) % 15.2);
+		const wy = 2.0 + ((index * 11.73) % 27.5);
+		if (wy > 14.8 && wy < 17.2) {
+			continue;
+		}
+		const gx = rect.x + wx * tileW;
+		const gy = rect.y + wy * tileH;
+		context.strokeStyle = 'rgba(22, 101, 52, 0.55)';
+		context.lineWidth = 1.4;
+		for (let blade = -1; blade <= 1; blade += 1) {
+			context.beginPath();
+			context.moveTo(gx + blade * 3, gy);
+			context.lineTo(gx + blade * 4, gy - 6 - Math.abs(blade) * 2);
+			context.stroke();
+		}
+		if (index % 5 === 0) {
+			context.beginPath();
+			context.arc(gx + 2, gy - 3, 2.2, 0, Math.PI * 2);
+			context.fillStyle = index % 10 === 0 ? '#fde047' : '#fda4af';
+			context.fill();
 		}
 	}
 

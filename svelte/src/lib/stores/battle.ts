@@ -20,6 +20,7 @@ export const result = writable<EndInfo | null>(null);
 export const queuePosition = writable<number | null>(null);
 export const battleError = writable<BattleError | null>(null);
 export const socketConnected = writable(false);
+export const dismissedRoom = writable('');
 export const matchActive = derived([match, result], ([$match, $result]) => !!$match && !$result);
 
 let initialized = false;
@@ -139,4 +140,11 @@ export function latestFrame(): SnapshotFrame | undefined {
 
 export function clearBattleError() {
 	battleError.set(null);
+}
+
+export function dismissMatch() {
+	const current = get(match);
+	if (current) {
+		dismissedRoom.set(current.room);
+	}
 }

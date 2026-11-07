@@ -15,29 +15,37 @@
 		battleError,
 		clearBattleError,
 		ensureSocket,
-		resetBattle
+		resetBattle,
+		sendChat,
+		dismissedRoom
 	} from '#lib/stores/battle';
-	import { gameSocket } from '#lib/net/socket';
 	import { chatMessages, chatConnected } from '#lib/stores/chat';
-	import { sendChat } from '#lib/stores/battle';
 	import { audio } from '#lib/audio/synth';
 	import { ensureSprites } from '#lib/game/sprites';
-	import type { CardDef, PlayerStats, RecentMatch, ReplayMeta, User } from '#lib/types';
+	import type {
+		CardDef,
+		MenuTab,
+		PlayerStats,
+		RecentMatch,
+		ReplayMeta
+	} from '#lib/types';
 	import CardArt from '#lib/components/CardArt.svelte';
 	import Modal from '#lib/components/Modal.svelte';
 	import LanguageToggle from '#lib/components/LanguageToggle.svelte';
 	import AudioToggle from '#lib/components/AudioToggle.svelte';
+	import BottomNav from '#lib/components/BottomNav.svelte';
+	import ArenaPreview from '#lib/components/ArenaPreview.svelte';
 
-	type Tab = 'battle' | 'cards' | 'chat';
 	type DeckSaveState = 'idle' | 'saving' | 'saved';
 
-	let tab = $state<Tab>('battle');
+	let tab = $state<MenuTab>('battle');
 	let selected = $state<CardDef | null>(null);
-	let profileOpen = $state(false);
-	let profile = $state<{ user: User; stats: PlayerStats; recent: RecentMatch[] } | null>(null);
+	let stats = $state<PlayerStats | null>(null);
+	let recent = $state<RecentMatch[]>([]);
 	let replays = $state<ReplayMeta[]>([]);
 	let profileLoading = $state(false);
-	let profileError = $state<string | null>(null);
+	let profileLoaded = $state(false);
+	let overviewLoaded = $state(false);
 	let search = $state('');
 	let typeFilter = $state('all');
 	let rarityFilter = $state('all');
@@ -46,7 +54,6 @@
 	let chatText = $state('');
 	let cooldownUntil = $state(0);
 	let clock = $state(Date.now());
-	let wasQueued = false;
 	let chatList: HTMLDivElement | undefined = $state();
 	let saveTimer: ReturnType<typeof setTimeout> | null = null;
 	let toastTimer: ReturnType<typeof setTimeout> | null = null;
@@ -60,9 +67,7 @@
 	};
 
 	const cards = $derived(
-		$content
-			? [...$content.definitions.cards].sort((a, b) => a.sort - b.sort)
-			: []
+		$content ? [...$content.definitions.cards].sort((a, b) => a.sort - b.sort) : []
 	);
 
 	const filteredCards = $derived(
@@ -87,6 +92,9 @@
 	const canBattle = $derived($deck.length === 8);
 	const activeMatch = $derived(!!$match && !$result);
 	const localName = $derived($user?.username ?? '');
+	const initial = $derived((localName || 'R').slice(0, 1).toUpperCase());
+	const wins = $derived(stats?.wins ?? 0);
+	const crowns = $derived(stats?.crowns_for ?? 0);
 
 	onMount(() => {
 		void ensureAuthenticated();
@@ -110,14 +118,10 @@
 	});
 
 	$effect(() => {
-		const position = $queuePosition;
 		const current = $match;
 		const ended = $result;
-		if (position !== null) {
-			wasQueued = true;
-		}
-		if (wasQueued && current && !ended) {
-			wasQueued = false;
+		const dismissed = $dismissedRoom;
+		if (current && !ended && current.room !== dismissed) {
 			void goto('/battle');
 		}
 	});
@@ -154,7 +158,22 @@
 			const restored = await restoreSession();
 			if (!restored) {
 				await goto('/login');
+				return;
 			}
+		}
+		await refreshOverview();
+	}
+
+	async function refreshOverview() {
+		try {
+			const [profile, replayData] = await Promise.all([api.profile(), api.replays()]);
+			stats = profile.stats;
+			recent = profile.recent;
+			replays = replayData.replays;
+			profileLoaded = true;
+			overviewLoaded = true;
+		} catch {
+			// o menu continua funcional mesmo sem o resumo
 		}
 	}
 
@@ -174,9 +193,31 @@
 		}, 3200);
 	}
 
-	function switchTab(next: Tab) {
+	function switchTab(next: MenuTab) {
 		tab = next;
 		audio.play('click');
+		if (next === 'profile' && !profileLoaded) {
+			void loadProfile();
+		}
+		if ((next === 'battle' || next === 'cards') && !overviewLoaded) {
+			void refreshOverview();
+		}
+	}
+
+	async function loadProfile() {
+		profileLoading = true;
+		try {
+			const [profile, replayData] = await Promise.all([api.profile(), api.replays()]);
+			stats = profile.stats;
+			recent = profile.recent;
+			replays = replayData.replays;
+			profileLoaded = true;
+			overviewLoaded = true;
+		} catch (cause) {
+			showToast(cause instanceof ApiError ? cause.message : $i18n.t('errors.network'), 'error');
+		} finally {
+			profileLoading = false;
+		}
 	}
 
 	function inDeck(card: CardDef): boolean {
@@ -249,21 +290,6 @@
 		audio.startMusic('menu');
 	}
 
-	async function openProfile() {
-		profileOpen = true;
-		profileLoading = true;
-		profileError = null;
-		try {
-			const [data, replayData] = await Promise.all([api.profile(), api.replays()]);
-			profile = data;
-			replays = replayData.replays;
-		} catch (cause) {
-			profileError = cause instanceof ApiError ? cause.message : $i18n.t('errors.network');
-		} finally {
-			profileLoading = false;
-		}
-	}
-
 	async function doLogout() {
 		if (!window.confirm($i18n.t('menu.logoutConfirm'))) {
 			return;
@@ -271,7 +297,6 @@
 		audio.play('click');
 		audio.stopMusic();
 		await logout();
-		gameSocket.disconnect();
 		resetBattle();
 		await goto('/login');
 	}
@@ -370,148 +395,127 @@
 	}
 </script>
 
-<div class="menu-shell">
-	<header class="topbar">
-		<div class="topbar-inner">
-			<button
-				class="logo"
-				style="border: 0; background: transparent; padding: 0; color: inherit"
-				onclick={() => switchTab('battle')}
-				type="button"
-			>
-				<div class="logo-mark">R</div>
-				<div style="text-align: left">
-					<div style="font-size: 15px; font-weight: 900">{$i18n.t('common.appName')}</div>
-					<div class="tiny muted">1v1 · 30 Hz</div>
-				</div>
-			</button>
+<svelte:head>
+	<title>{$i18n.t('common.appName')} · {$i18n.t('menu.battle')}</title>
+</svelte:head>
 
-			<div class="grow"></div>
-
-			<div class="user-pill">
-				<div class="avatar">{localName.slice(0, 1).toUpperCase()}</div>
-				<div>
-					<div style="font-size: 12px; font-weight: 800">{localName}</div>
-					<div class="tiny muted user-email">{$user?.email ?? ''}</div>
-				</div>
-			</div>
-			<button class="btn btn-sm" onclick={openProfile} type="button">
-				{$i18n.t('menu.profile')}
-			</button>
-			<AudioToggle />
-			<LanguageToggle />
-			<button class="btn btn-sm btn-ghost" onclick={doLogout} type="button">
-				{$i18n.t('auth.logout')}
-			</button>
+<div class="mobile-shell">
+	<header class="game-topbar">
+		<div class="resource-pill">
+			<span class="mini-avatar">{initial}</span>
+			{wins}W
 		</div>
+		<div class="resource-pill gold">👑 {crowns}</div>
+		<div class="resource-pill blue">🃏 {$deck.length}/8</div>
+		<div class="resource-spacer"></div>
+		<AudioToggle />
+		<LanguageToggle />
 	</header>
 
-	<main class="menu-body">
-		<div class="tabs">
-			<button class="tab" class:active={tab === 'cards'} onclick={() => switchTab('cards')} type="button">
-				{$i18n.t('menu.cards')} · 50
-			</button>
-			<button class="tab" class:active={tab === 'battle'} onclick={() => switchTab('battle')} type="button">
-				{$i18n.t('menu.battle')}
-			</button>
-			<button class="tab" class:active={tab === 'chat'} onclick={() => switchTab('chat')} type="button">
-				{$i18n.t('menu.chat')}
-			</button>
+	{#if tab !== 'profile'}
+	<section class="player-strip">
+		<div class="player-avatar-lg">
+			{initial}
+			<span class="level-badge">{wins}</span>
 		</div>
+		<div class="player-meta">
+			<strong>{localName}</strong>
+			<small>Arena Clássica · {$i18n.t('menu.battle')}</small>
+		</div>
+		<div class="trophy-badge">🏆 {wins}</div>
+	</section>
+	{/if}
 
+	<main class="mobile-content">
 		{#if tab === 'battle'}
-			<section class="battle-layout">
-				<div class="battle-hero">
-					<div class="arena-badge">
-						<span class="chip">🏰 Arena clássica</span>
-						<span class="chip">18 × 32</span>
-					</div>
-					<div class="battle-hero-content">
-						<div class="tiny muted" style="letter-spacing: .18em; text-transform: uppercase">
-							1v1 · 3:00 + 2:00
-						</div>
-						<h1 class="battle-title">{$i18n.t('menu.battle')}</h1>
-						<p class="small muted" style="max-width: 460px">
-							{$i18n.t('menu.deckHint')}
-						</p>
-
-						{#if $queuePosition !== null}
-							<div class="panel" style="padding: 14px; display: grid; gap: 10px; max-width: 420px">
-								<div class="row">
-									<span class="spinner sm"></span>
-									<strong>{$i18n.t('menu.searching')}</strong>
-								</div>
-								<div class="small muted">
-									{$i18n.t('menu.queuePosition', { position: $queuePosition ?? 1 })}
-								</div>
-								<button class="btn btn-danger" onclick={cancelQueue} type="button">
-									{$i18n.t('menu.cancelQueue')}
-								</button>
-							</div>
-						{:else if activeMatch}
-							<div class="panel" style="padding: 14px; display: grid; gap: 10px; max-width: 420px">
-								<strong>{$i18n.t('battle.inProgress')}</strong>
-								<div class="small muted">
-									{$i18n.t('battle.opponent')}: {$match?.opponent}
-								</div>
-								<button class="btn btn-primary" onclick={() => goto('/battle')} type="button">
-									{$i18n.t('battle.reconnect')}
-								</button>
-							</div>
-						{:else}
-							<div class="row wrap">
-								<button
-									class="btn btn-primary btn-lg"
-									onclick={startBattle}
-									disabled={!canBattle}
-									type="button"
-								>
-									⚔ {$i18n.t('menu.battleButton')}
-								</button>
-								<span class="chip">{$deck.length}/8 {$i18n.t('menu.cards').toLowerCase()}</span>
-								{#if !canBattle}
-									<span class="small error">{$i18n.t('menu.deckNeedsEight')}</span>
-								{/if}
-							</div>
-						{/if}
-					</div>
+			<div class="arena-preview-card">
+				<span class="arena-tag">1v1 · 30 Hz</span>
+				<div class="arena-preview-canvas">
+					<ArenaPreview />
 				</div>
+				<div class="arena-label">Arena Clássica · 18 × 32</div>
+			</div>
 
-				<div class="panel menu-panel deck-card">
-					<div class="spread">
-						<div>
-							<div class="tiny muted" style="text-transform: uppercase; letter-spacing: .08em">
-								{$i18n.t('menu.deck')}
-							</div>
-							<div style="font-size: 18px; font-weight: 900">{$deck.length}/8</div>
-						</div>
-						<button class="btn btn-sm" onclick={() => switchTab('cards')} type="button">
-							{$i18n.t('menu.cards')}
+			{#if $queuePosition !== null}
+				<div class="queue-card">
+					<div class="row" style="justify-content: center">
+						<span class="spinner"></span>
+						<strong>{$i18n.t('menu.searching')}</strong>
+					</div>
+					<div class="small muted">
+						{$i18n.t('menu.queuePosition', { position: $queuePosition ?? 1 })}
+					</div>
+					<button class="btn btn-danger" onclick={cancelQueue} type="button">
+						{$i18n.t('menu.cancelQueue')}
+					</button>
+				</div>
+			{:else if activeMatch}
+				<div class="queue-card">
+					<strong>{$i18n.t('battle.inProgress')}</strong>
+					<div class="small muted">
+						{$i18n.t('battle.opponent')}: {$match?.opponent}
+					</div>
+					<button class="btn btn-primary" onclick={() => goto('/battle')} type="button">
+						{$i18n.t('battle.reconnect')}
+					</button>
+				</div>
+			{:else}
+				<button class="battle-cta" onclick={startBattle} disabled={!canBattle} type="button">
+					⚔ {$i18n.t('menu.battleButton')}
+				</button>
+				{#if !canBattle}
+					<div class="small error" style="text-align: center; margin-top: -4px">
+						{$i18n.t('menu.deckNeedsEight')}
+					</div>
+				{/if}
+			{/if}
+
+			<div class="deck-strip">
+				{#each Array(8) as _, index}
+					{@const slug = $deck[index]}
+					{@const card = slug
+						? $content?.definitions.cards.find((item) => item.slug === slug)
+						: undefined}
+					{#if card}
+						<button
+							class="deck-strip-item"
+							onclick={() => switchTab('cards')}
+							title={$i18n.card(card.slug).name}
+							type="button"
+						>
+							<CardArt {card} size={90} />
+							<span class="mini-cost">{card.elixir_cost}</span>
 						</button>
-					</div>
-					<div class="deck-grid">
-						{#each Array(8) as _, index}
-							{#if $deck[index]}
-								{@const card = $content?.definitions.cards.find((item) => item.slug === $deck[index])}
-								<div class="deck-slot filled" title={card?.slug}>
-									{#if card}
-										<CardArt {card} size={100} />
-										<span class="cost-orb slot-cost">{card.elixir_cost}</span>
-									{/if}
-								</div>
-							{:else}
-								<div class="deck-slot"><span class="muted">+</span></div>
-							{/if}
-						{/each}
-					</div>
-					<div class="small muted">{$i18n.t('menu.chooseDeck')}</div>
-				</div>
-			</section>
+					{:else}
+						<button class="deck-strip-item empty" onclick={() => switchTab('cards')} type="button">
+							+
+						</button>
+					{/if}
+				{/each}
+			</div>
+
+			<div class="shortcut-row">
+				<button class="shortcut-tile" onclick={() => switchTab('profile')} type="button">
+					<span class="shortcut-icon">🎬</span>
+					<span>{$i18n.t('menu.replays')}</span>
+					<span class="shortcut-value">{replays.length}</span>
+				</button>
+				<button class="shortcut-tile" onclick={() => switchTab('cards')} type="button">
+					<span class="shortcut-icon">🃏</span>
+					<span>{$i18n.t('menu.cards')}</span>
+					<span class="shortcut-value">{$deck.length}/8</span>
+				</button>
+				<button class="shortcut-tile" onclick={() => switchTab('profile')} type="button">
+					<span class="shortcut-icon">📊</span>
+					<span>{$i18n.t('menu.stats')}</span>
+					<span class="shortcut-value">{stats?.games ?? 0}</span>
+				</button>
+			</div>
 		{:else if tab === 'cards'}
-			<section class="panel menu-panel" style="display: grid; gap: 14px">
+			<section class="panel menu-panel cards-section" style="display: grid; gap: 12px">
 				<div class="spread wrap">
 					<div>
-						<h2 style="font-size: 22px; font-weight: 900">{$i18n.t('menu.cards')}</h2>
+						<h2 style="font-size: 20px; font-weight: 900">{$i18n.t('menu.cards')}</h2>
 						<div class="small muted">{$i18n.t('menu.cardsGridHint')}</div>
 					</div>
 					<div class="row">
@@ -599,24 +603,21 @@
 							{/if}
 						{/each}
 					</div>
-					<div style="min-width: 100px; text-align: right">
+					<div style="min-width: 74px; text-align: right">
 						<div class="tiny muted">{$i18n.t('menu.deck')}</div>
-						<div style="font-size: 18px; font-weight: 900">{$deck.length}/8</div>
+						<div style="font-size: 17px; font-weight: 900">{$deck.length}/8</div>
 					</div>
 				</div>
 			</section>
-		{:else}
+		{:else if tab === 'chat'}
 			<section class="panel menu-panel chat-layout">
 				<div class="spread wrap">
 					<div>
-						<h2 style="font-size: 22px; font-weight: 900">{$i18n.t('menu.chat')}</h2>
+						<h2 style="font-size: 20px; font-weight: 900">{$i18n.t('menu.chat')}</h2>
 						<div class="small muted">{$i18n.t('menu.chatHint')}</div>
 					</div>
 					<span class="chip" class:success={$chatConnected}>
-						<span
-							class="dot"
-							style:background={$chatConnected ? '#22c55e' : '#64748b'}
-						></span>
+						<span class="dot" style:background={$chatConnected ? '#22c55e' : '#64748b'}></span>
 						{$chatConnected ? $i18n.t('common.online') : $i18n.t('common.offline')}
 					</span>
 				</div>
@@ -625,7 +626,7 @@
 					{#if $chatMessages.length === 0}
 						<div class="muted center" style="padding: 30px">{$i18n.t('menu.noMessages')}</div>
 					{/if}
-					{#each $chatMessages as message (message.ts + message.user)}
+					{#each $chatMessages as message, index (message.ts + '-' + message.user + '-' + index)}
 						<div class="chat-line" class:own={message.user === localName}>
 							<div class="spread">
 								<span class="chat-author">{message.user}</span>
@@ -662,8 +663,90 @@
 					</button>
 				</div>
 			</section>
+		{:else}
+			{#if profileLoading}
+				<div class="center" style="padding: 40px"><span class="spinner"></span></div>
+			{:else}
+				<div class="profile-hero">
+					<div class="player-avatar-lg">
+						{initial}
+						<span class="level-badge">{wins}</span>
+					</div>
+					<div class="player-meta">
+						<strong>{localName}</strong>
+						<small>{$user?.email ?? ''}</small>
+					</div>
+					<div class="trophy-badge">🏆 {wins}</div>
+				</div>
+
+				<div class="stats-grid">
+					<div class="stat-card">
+						<div class="stat-value">{stats?.games ?? 0}</div>
+						<div class="stat-label">{$i18n.t('menu.games')}</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-value" style="color: #86efac">{stats?.wins ?? 0}</div>
+						<div class="stat-label">{$i18n.t('menu.wins')}</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-value" style="color: #fca5a5">{stats?.losses ?? 0}</div>
+						<div class="stat-label">{$i18n.t('menu.losses')}</div>
+					</div>
+					<div class="stat-card">
+						<div class="stat-value" style="color: #fcd34d">{stats?.draws ?? 0}</div>
+						<div class="stat-label">{$i18n.t('menu.draws')}</div>
+					</div>
+				</div>
+
+				<div class="profile-section-title">
+					<span>{$i18n.t('menu.recentMatches')}</span>
+					<span class="chip">{$i18n.t('menu.crowns')}: {crowns}</span>
+				</div>
+				{#if recent.length === 0}
+					<div class="small muted">{$i18n.t('menu.noMatches')}</div>
+				{:else}
+					<div class="recent-list">
+						{#each recent as entry}
+							<div class="recent-row">
+								<span>
+									vs <strong>{entry.opponent}</strong>
+									<span class="muted">· {formatDate(entry.ended_at)}</span>
+								</span>
+								<span class={`result-${entry.result}`}>
+									{entry.crowns} : {entry.opponent_crowns}
+								</span>
+							</div>
+						{/each}
+					</div>
+				{/if}
+
+				<div class="profile-section-title">
+					<span>{$i18n.t('menu.replays')}</span>
+					<span class="chip">{replays.length}</span>
+				</div>
+				{#if replays.length === 0}
+					<div class="small muted">{$i18n.t('menu.noReplays')}</div>
+				{:else}
+					<div class="replay-list">
+						{#each replays as replay}
+							<div class="replay-row">
+								<span>{formatDate(replay.created_at)}</span>
+								<a class="btn btn-sm" href={`/replay/${replay.id}`}>
+									{$i18n.t('menu.watchReplay')}
+								</a>
+							</div>
+						{/each}
+					</div>
+				{/if}
+
+				<button class="btn btn-ghost" onclick={doLogout} type="button" style="margin-top: 6px">
+					{$i18n.t('auth.logout')}
+				</button>
+			{/if}
 		{/if}
 	</main>
+
+	<BottomNav {tab} onchange={switchTab} />
 
 	{#if selected}
 		<Modal title={$i18n.t('menu.cardDetails')} onclose={closeCard}>
@@ -677,7 +760,7 @@
 						<span class="chip">{$i18n.t(`rarity.${selected.rarity}`)}</span>
 						<span class="chip">{$i18n.t(`menu.${selected.type.kind}`)}</span>
 					</div>
-					<h3 style="font-size: 22px; font-weight: 900">{$i18n.card(selected.slug).name}</h3>
+					<h3 style="font-size: 21px; font-weight: 900">{$i18n.card(selected.slug).name}</h3>
 					<p class="small muted" style="margin-top: 6px; line-height: 1.45">
 						{$i18n.card(selected.slug).description}
 					</p>
@@ -710,85 +793,6 @@
 				{/if}
 				<button class="btn" onclick={closeCard} type="button">{$i18n.t('common.close')}</button>
 			</div>
-		</Modal>
-	{/if}
-
-	{#if profileOpen}
-		<Modal title={$i18n.t('menu.profile')} onclose={() => (profileOpen = false)} wide>
-			{#if profileLoading}
-				<div class="center" style="padding: 30px"><span class="spinner"></span></div>
-			{:else if profileError}
-				<div class="error">{profileError}</div>
-			{:else if profile}
-				<div class="row wrap" style="margin-bottom: 14px">
-					<div class="avatar" style="width: 46px; height: 46px; font-size: 20px">
-						{profile.user.username.slice(0, 1).toUpperCase()}
-					</div>
-					<div>
-						<div style="font-size: 18px; font-weight: 900">{profile.user.username}</div>
-						<div class="tiny muted">{profile.user.email}</div>
-					</div>
-				</div>
-
-				<div class="stats-grid" style="margin-bottom: 16px">
-					<div class="stat-card">
-						<div class="stat-value">{profile.stats.games}</div>
-						<div class="stat-label">{$i18n.t('menu.games')}</div>
-					</div>
-					<div class="stat-card">
-						<div class="stat-value" style="color: #86efac">{profile.stats.wins}</div>
-						<div class="stat-label">{$i18n.t('menu.wins')}</div>
-					</div>
-					<div class="stat-card">
-						<div class="stat-value" style="color: #fca5a5">{profile.stats.losses}</div>
-						<div class="stat-label">{$i18n.t('menu.losses')}</div>
-					</div>
-					<div class="stat-card">
-						<div class="stat-value" style="color: #fcd34d">{profile.stats.draws}</div>
-						<div class="stat-label">{$i18n.t('menu.draws')}</div>
-					</div>
-				</div>
-
-				<h3 style="font-size: 15px; font-weight: 900; margin-bottom: 8px">
-					{$i18n.t('menu.recentMatches')}
-				</h3>
-				{#if profile.recent.length === 0}
-					<div class="small muted">{$i18n.t('menu.noMatches')}</div>
-				{:else}
-					<div class="recent-list">
-						{#each profile.recent as recent}
-							<div class="recent-row">
-								<span>
-									vs <strong>{recent.opponent}</strong>
-									<span class="muted">· {formatDate(recent.ended_at)}</span>
-								</span>
-								<span class={`result-${recent.result}`}>
-									{recent.crowns} : {recent.opponent_crowns}
-									· {$i18n.t(`menu.${recent.result === 'win' ? 'wins' : recent.result === 'loss' ? 'losses' : 'draws'}`)}
-								</span>
-							</div>
-						{/each}
-					</div>
-				{/if}
-
-				<h3 style="font-size: 15px; font-weight: 900; margin: 16px 0 8px">
-					{$i18n.t('menu.replays')}
-				</h3>
-				{#if replays.length === 0}
-					<div class="small muted">{$i18n.t('menu.noReplays')}</div>
-				{:else}
-					<div class="replay-list">
-						{#each replays as replay}
-							<div class="replay-row">
-								<span>{formatDate(replay.created_at)}</span>
-								<a class="btn btn-sm" href={`/replay/${replay.id}`}>
-									{$i18n.t('menu.watchReplay')}
-								</a>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			{/if}
 		</Modal>
 	{/if}
 

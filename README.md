@@ -29,8 +29,9 @@ npm install
 npm run dev
 ```
 
-Abra `http://localhost:5173`. Crie duas contas (ou use duas janelas anônimas) para o PvP real:
-o matchmaking não usa bots.
+Abra `http://localhost:5173`. A interface é **mobile-first** (shell retrato centralizado no desktop,
+barra de recursos, navegação inferior e HUD de cartas na batalha). Crie duas contas (ou use duas
+janelas anônimas) para o PvP real: o matchmaking não usa bots.
 
 Variáveis do backend (opcionais, os padrões funcionam com o compose):
 

@@ -43,6 +43,17 @@ export function formatTime(remainingMs: number): string {
 	return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+function truncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+	if (ctx.measureText(text).width <= maxWidth) {
+		return text;
+	}
+	let value = text;
+	while (value.length > 3 && ctx.measureText(`${value}…`).width > maxWidth) {
+		value = value.slice(0, -1);
+	}
+	return `${value}…`;
+}
+
 export interface HudOptions {
 	snapshot: Snapshot;
 	localSide: Side;
@@ -53,9 +64,9 @@ export interface HudOptions {
 }
 
 export function handLayout() {
-	const cardWidth = 145;
-	const gap = 10;
-	const startX = (DESIGN.width - (cardWidth * 4 + gap * 3)) / 2;
+	const cardWidth = HUD.cardWidth;
+	const gap = HUD.cardGap;
+	const startX = 78;
 	return {
 		cardWidth,
 		cardHeight: HUD.handHeight,
@@ -88,22 +99,22 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 
 	ctx.font = 'bold 17px system-ui, sans-serif';
 	ctx.textAlign = 'left';
-	ctx.fillStyle = '#cbd5e1';
-	ctx.fillText(options.opponent, 22, 26);
+	ctx.fillStyle = '#fca5a5';
+	ctx.fillText(truncate(ctx, options.opponent, 180), 58, 26);
 	ctx.textAlign = 'right';
-	ctx.fillStyle = '#cbd5e1';
-	ctx.fillText(options.username, DESIGN.width - 22, 26);
+	ctx.fillStyle = '#93c5fd';
+	ctx.fillText(truncate(ctx, options.username, 180), DESIGN.width - 58, 26);
 
 	// coroas
 	ctx.textAlign = 'left';
-	drawCrown(ctx, 30, 48, enemy.c >= 3 ? '#facc15' : enemy.c >= 2 ? '#facc15' : '#94a3b8');
+	drawCrown(ctx, 64, 48, enemy.c >= 3 ? '#facc15' : enemy.c >= 2 ? '#facc15' : '#94a3b8');
 	ctx.fillStyle = '#f8fafc';
 	ctx.font = 'bold 16px system-ui, sans-serif';
-	ctx.fillText(String(enemy.c), 44, 54);
+	ctx.fillText(String(enemy.c), 78, 54);
 
 	ctx.textAlign = 'right';
-	drawCrown(ctx, DESIGN.width - 32, 48, local.c >= 3 ? '#facc15' : local.c >= 2 ? '#facc15' : '#94a3b8');
-	ctx.fillText(String(local.c), DESIGN.width - 46, 54);
+	drawCrown(ctx, DESIGN.width - 64, 48, local.c >= 3 ? '#facc15' : local.c >= 2 ? '#facc15' : '#94a3b8');
+	ctx.fillText(String(local.c), DESIGN.width - 78, 54);
 
 	// tempo
 	const remaining =
@@ -126,8 +137,8 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 	);
 
 	// elixir
-	const barX = 45;
-	const barWidth = DESIGN.width - 90;
+	const barX = 10;
+	const barWidth = DESIGN.width - 20;
 	const barY = HUD.elixirY;
 	const segmentGap = 3;
 	const segmentWidth = (barWidth - segmentGap * 9) / 10;
@@ -249,42 +260,44 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 		ctx.stroke();
 	}
 
-	// próxima carta (mini)
+	// próxima carta (mini, à esquerda como na referência)
 	const nextEntry = local.n;
 	if (nextEntry) {
 		const next = loaded.definitions.cards[nextEntry[0]];
 		if (next) {
-			const x = DESIGN.width - 82;
-			const y = HUD.handY + 34;
+			const x = 8;
+			const y = HUD.handY + 6;
 			ctx.save();
-			ctx.globalAlpha = 0.9;
-			ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-			roundRect(ctx, x, y, 54, 100, 10);
+			ctx.globalAlpha = 0.92;
+			ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+			roundRect(ctx, x, y, 58, 112, 10);
 			ctx.fill();
 			ctx.strokeStyle = '#475569';
 			ctx.lineWidth = 1.5;
 			ctx.stroke();
-			drawCardIcon(ctx, next, loaded.definitions, x + 3, y + 4, 48, 0);
+			drawCardIcon(ctx, next, loaded.definitions, x + 4, y + 6, 50, 0);
 			ctx.fillStyle = '#a855f7';
 			ctx.beginPath();
-			ctx.arc(x + 10, y + 10, 9, 0, Math.PI * 2);
+			ctx.arc(x + 11, y + 11, 9, 0, Math.PI * 2);
 			ctx.fill();
 			ctx.fillStyle = '#f8fafc';
 			ctx.font = 'bold 11px system-ui, sans-serif';
 			ctx.textAlign = 'center';
-			ctx.fillText(String(Math.round(nextEntry[1])), x + 10, y + 14);
-			ctx.font = '9px system-ui, sans-serif';
+			ctx.fillText(String(Math.round(nextEntry[1])), x + 11, y + 15);
+			ctx.font = 'bold 9px system-ui, sans-serif';
 			ctx.fillStyle = '#94a3b8';
-			ctx.fillText(literal.t('battle.next').toUpperCase(), x + 27, y + 116);
+			ctx.fillText(literal.t('battle.next').toUpperCase(), x + 29, y + 126);
 			ctx.restore();
 		}
 	}
 
-	// nome local
-	ctx.textAlign = 'center';
-	ctx.font = 'bold 11px system-ui, sans-serif';
-	ctx.fillStyle = '#94a3b8';
-	ctx.fillText(options.username, DESIGN.width / 2, DESIGN.height - 4);
+	// faixa de elixir (abaixo das cartas)
+	ctx.save();
+	ctx.fillStyle = 'rgba(2, 6, 23, 0.55)';
+	roundRect(ctx, 0, HUD.elixirY - 3, DESIGN.width, 22, 8);
+	ctx.fill();
+	ctx.restore();
+
 	ctx.restore();
 }
 

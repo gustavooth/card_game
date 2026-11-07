@@ -13,12 +13,12 @@ export const ARENA_HEIGHT = 32;
 export const HUD = {
 	top: 8,
 	bottom: 1064,
-	handY: 1092,
-	handHeight: 172,
-	cardWidth: 150,
-	cardGap: 12,
-	elixirY: 1070,
-	elixirHeight: 14
+	handY: 1088,
+	handHeight: 160,
+	cardWidth: 148,
+	cardGap: 5,
+	elixirY: 1250,
+	elixirHeight: 16
 };
 
 export const TEAM_COLORS = {

@@ -15,7 +15,8 @@
 		deploy,
 		joinQueue,
 		resetBattle,
-		ensureSocket
+		ensureSocket,
+		dismissMatch
 	} from '#lib/stores/battle';
 	import { audio } from '#lib/audio/synth';
 	import { GameView } from '#lib/game/gameView';
@@ -141,6 +142,7 @@
 	}
 
 	async function backToMenu() {
+		dismissMatch();
 		audio.stopMusic();
 		await goto('/menu');
 	}
@@ -161,16 +163,9 @@
 		<canvas bind:this={canvas} aria-label={$i18n.t('menu.battle')}></canvas>
 
 		<div class="queue-badge">
-			<button class="btn btn-sm hud-chip" onclick={backToMenu} type="button">
-				← {$i18n.t('common.back')}
+			<button class="btn hud-chip back-chip" onclick={backToMenu} type="button" aria-label={$i18n.t('common.back')}>
+				←
 			</button>
-			<div class="hud-chip">
-				{#if $match}
-					{$i18n.t('battle.opponent')}: {$match.opponent}
-				{:else}
-					{$i18n.t('battle.waitingOpponent')}
-				{/if}
-			</div>
 			<AudioToggle />
 		</div>
 

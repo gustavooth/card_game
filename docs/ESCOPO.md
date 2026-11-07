@@ -40,8 +40,9 @@ Sessão persistente por cookie `HttpOnly` `SameSite=Lax` (Secure em produção),
 ## 3. Interface e responsividade
 
 - Canvas do jogo sempre em **9:16**, com letterbox (preenchimento) em telas de outras proporções; funciona em desktop, tablet e mobile.
+- Interface **mobile-first**: shell retrato, barra de recursos, arena em destaque, CTA grande, navegação inferior e HUD de cartas no rodapé da batalha.
 - Controles por mouse e toque (seleção de carta, posicionamento, cancelamento).
-- Layout do menu responsivo, com abas fixas e áreas roláveis.
+- Layout do menu responsivo, com navegação inferior fixa e áreas roláveis.
 - Textos de interface em **pt-BR e inglês** (i18n no frontend), com seletor de idioma.
 - Nomes e descrições das cartas ficam **somente no frontend**, indexados pelo slug (os JSON do backend são neutros).
 

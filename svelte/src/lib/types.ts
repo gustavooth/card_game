@@ -1,5 +1,6 @@
 export type Side = 0 | 1;
 export type Locale = 'pt-BR' | 'en';
+export type MenuTab = 'cards' | 'battle' | 'chat' | 'profile';
 
 export interface Catalog {
 	cards: string[];

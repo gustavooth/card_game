@@ -48,104 +48,95 @@
 		}
 	}
 </script>
+<svelte:head>
+	<title>{$i18n.t('common.appName')}</title>
+</svelte:head>
 
-<div class="auth-screen page">
-	<section class="auth-hero">
-		<div class="logo">
+<div class="auth-page">
+	<div class="auth-single">
+		<div class="auth-lang"><LanguageToggle /></div>
+		<div class="auth-brand">
 			<div class="logo-mark">R</div>
 			<div>
-				<div style="font-size: 18px; font-weight: 900">{$i18n.t('common.appName')}</div>
+				<div class="auth-brand-name">{$i18n.t('common.appName')}</div>
 				<div class="tiny muted">{$i18n.t('common.tagline')}</div>
 			</div>
 		</div>
-		<div class="auth-hero-content">
-			<h1 class="auth-title">{$i18n.t('auth.registerTitle')}</h1>
-			<p class="auth-sub">{$i18n.t('auth.registerSubtitle')}</p>
-			<div class="auth-features">
-				<span class="chip">50 {$i18n.t('menu.cards').toLowerCase()}</span>
-				<span class="chip">8 {$i18n.t('menu.deck').toLowerCase()}</span>
-				<span class="chip">{$i18n.t('menu.chatHint')}</span>
-			</div>
+
+		<div class="auth-heading">
+			<h1>{$i18n.t('auth.registerTitle')}</h1>
+			<p>{$i18n.t('auth.registerSubtitle')}</p>
 		</div>
-		<div class="small muted">{$i18n.t('common.appName')}</div>
-	</section>
 
-	<section class="auth-panel">
-		<div class="lang-row"><LanguageToggle /></div>
-		<div class="auth-card panel">
-			<h2 style="font-size: 24px; font-weight: 900">{$i18n.t('auth.register')}</h2>
-			<p class="small muted" style="margin: 6px 0 18px">{$i18n.t('auth.registerSubtitle')}</p>
-
-			<form onsubmit={submit}>
-				<div class="field">
-					<label class="label" for="username">{$i18n.t('auth.username')}</label>
-					<input
-						id="username"
-						class="input"
-						bind:value={username}
-						autocomplete="username"
-						minlength="3"
-						maxlength="20"
-						required
-						placeholder="ArenaKing"
-					/>
-					<div class="tiny muted" style="margin-top: 4px">{$i18n.t('auth.nameHint')}</div>
-				</div>
-				<div class="field">
-					<label class="label" for="email">{$i18n.t('auth.email')}</label>
-					<input
-						id="email"
-						class="input"
-						type="email"
-						bind:value={email}
-						autocomplete="email"
-						required
-						placeholder="voce@exemplo.com"
-					/>
-				</div>
-				<div class="field">
-					<label class="label" for="password">{$i18n.t('auth.password')}</label>
-					<input
-						id="password"
-						class="input"
-						type="password"
-						bind:value={password}
-						autocomplete="new-password"
-						minlength="8"
-						required
-						placeholder="••••••••"
-					/>
-					<div class="tiny muted" style="margin-top: 4px">{$i18n.t('auth.passwordHint')}</div>
-				</div>
-				<div class="field">
-					<label class="label" for="confirmation">{$i18n.t('auth.confirmPassword')}</label>
-					<input
-						id="confirmation"
-						class="input"
-						type="password"
-						bind:value={confirmation}
-						autocomplete="new-password"
-						required
-						placeholder="••••••••"
-					/>
-				</div>
-				{#if error}
-					<div class="error" style="margin-bottom: 10px">{error}</div>
+		<form onsubmit={submit}>
+			<div class="field">
+				<label class="label" for="username">{$i18n.t('auth.username')}</label>
+				<input
+					id="username"
+					class="input"
+					bind:value={username}
+					autocomplete="username"
+					minlength="3"
+					maxlength="20"
+					required
+					placeholder="ArenaKing"
+				/>
+				<div class="tiny muted" style="margin-top: 4px">{$i18n.t('auth.nameHint')}</div>
+			</div>
+			<div class="field">
+				<label class="label" for="email">{$i18n.t('auth.email')}</label>
+				<input
+					id="email"
+					class="input"
+					type="email"
+					bind:value={email}
+					autocomplete="email"
+					required
+					placeholder="voce@exemplo.com"
+				/>
+			</div>
+			<div class="field">
+				<label class="label" for="password">{$i18n.t('auth.password')}</label>
+				<input
+					id="password"
+					class="input"
+					type="password"
+					bind:value={password}
+					autocomplete="new-password"
+					minlength="8"
+					required
+					placeholder="••••••••"
+				/>
+				<div class="tiny muted" style="margin-top: 4px">{$i18n.t('auth.passwordHint')}</div>
+			</div>
+			<div class="field">
+				<label class="label" for="confirmation">{$i18n.t('auth.confirmPassword')}</label>
+				<input
+					id="confirmation"
+					class="input"
+					type="password"
+					bind:value={confirmation}
+					autocomplete="new-password"
+					required
+					placeholder="••••••••"
+				/>
+			</div>
+			{#if error}
+				<div class="error" style="margin-bottom: 10px">{error}</div>
+			{/if}
+			<button class="btn btn-primary btn-lg" style="width: 100%" type="submit" disabled={loading}>
+				{#if loading}
+					<span class="spinner sm"></span>
+					{$i18n.t('auth.registering')}
+				{:else}
+					{$i18n.t('auth.createAccount')}
 				{/if}
-				<button class="btn btn-primary btn-lg" style="width: 100%" type="submit" disabled={loading}>
-					{#if loading}
-						<span class="spinner sm"></span>
-						{$i18n.t('auth.registering')}
-					{:else}
-						{$i18n.t('auth.createAccount')}
-					{/if}
-				</button>
-			</form>
+			</button>
+		</form>
 
-			<div class="auth-links">
-				{$i18n.t('auth.hasAccount')}
-				<a href="/login">{$i18n.t('auth.loginInstead')}</a>
-			</div>
+		<div class="auth-links">
+			{$i18n.t('auth.hasAccount')}
+			<a href="/login">{$i18n.t('auth.loginInstead')}</a>
 		</div>
-	</section>
+	</div>
 </div>

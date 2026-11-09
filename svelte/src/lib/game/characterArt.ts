@@ -1,6 +1,6 @@
 import type { Side, VisualDef } from '#lib/types';
 import { TEAM_COLORS } from './constants';
-import { buildHumanoidRig, clamp, type ClipName, type Point } from './skeleton';
+import { buildHumanoidRig, clamp, metricsFor, twoBoneIK, type ClipName, type Point } from './skeleton';
 
 export const SPRITE_SIZE = 128;
 export const GROUND_Y = 112;
@@ -939,14 +939,14 @@ function drawKnight(
 
 	const drawPauldron = (shoulder: Point, radius: number) => {
 		ctx.beginPath();
-		ctx.ellipse(shoulder.x, shoulder.y - 1, radius, radius * 0.85, -0.12, 0, Math.PI * 2);
+		ctx.ellipse(shoulder.x, shoulder.y - 1, radius, radius * 0.75, -0.12, 0, Math.PI * 2);
 		ctx.fillStyle = steelMid;
 		ctx.fill();
 		ctx.strokeStyle = outline;
 		ctx.lineWidth = 2;
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.ellipse(shoulder.x - radius * 0.15, shoulder.y - 3, radius * 0.55, radius * 0.4, -0.18, 0, Math.PI * 2);
+		ctx.ellipse(shoulder.x - radius * 0.12, shoulder.y - 2.6, radius * 0.5, radius * 0.32, -0.18, 0, Math.PI * 2);
 		ctx.fillStyle = steel;
 		ctx.fill();
 	};
@@ -962,18 +962,18 @@ function drawKnight(
 		const guard = { x: hand.x + dir.x * 8, y: hand.y + dir.y * 8 };
 		strokeLine(
 			ctx,
-			{ x: guard.x - perp.x * 12, y: guard.y - perp.y * 12 },
-			{ x: guard.x + perp.x * 12, y: guard.y + perp.y * 12 },
+			{ x: guard.x - perp.x * 13, y: guard.y - perp.y * 13 },
+			{ x: guard.x + perp.x * 13, y: guard.y + perp.y * 13 },
 			4.5,
 			gold
 		);
 		fillCircle(ctx, { x: hand.x - dir.x * 8, y: hand.y - dir.y * 8 }, 3.2, gold, outline, 1.5);
-		// lâmina
+		// lâmina larga
 		ctx.beginPath();
-		ctx.moveTo(base.x + perp.x * 5.2, base.y + perp.y * 5.2);
-		ctx.lineTo(tip.x + perp.x * 1.6, tip.y + perp.y * 1.6);
+		ctx.moveTo(base.x + perp.x * 7.5, base.y + perp.y * 7.5);
+		ctx.lineTo(tip.x + perp.x * 2.4, tip.y + perp.y * 2.4);
 		ctx.lineTo(tip.x, tip.y);
-		ctx.lineTo(base.x - perp.x * 5.2, base.y - perp.y * 5.2);
+		ctx.lineTo(base.x - perp.x * 7.5, base.y - perp.y * 7.5);
 		ctx.closePath();
 		ctx.fillStyle = steel;
 		ctx.fill();
@@ -981,7 +981,7 @@ function drawKnight(
 		ctx.lineWidth = 2;
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(base.x + perp.x * 0.8, base.y + perp.y * 0.8);
+		ctx.moveTo(base.x + perp.x * 1, base.y + perp.y * 1);
 		ctx.lineTo(tip.x, tip.y);
 		ctx.strokeStyle = steelDark;
 		ctx.lineWidth = 1.4;
@@ -994,43 +994,43 @@ function drawKnight(
 		ctx.translate(center.x, center.y);
 		ctx.rotate(rig.headAngle * 0.35);
 		// coifa de cota de malha
-		fillCircle(ctx, { x: 0, y: 0 }, 11.5, mailDark, outline, 2);
-		drawMailTexture({ x: 0, y: 0 }, 11.5);
+		fillCircle(ctx, { x: 0, y: 0 }, 12, mailDark, outline, 2);
+		drawMailTexture({ x: 0, y: 0 }, 12);
 		// faixa de metal no topo
 		ctx.beginPath();
-		ctx.arc(0, -1.5, 11.4, Math.PI * 1.12, Math.PI * 1.88);
+		ctx.arc(0, -1.5, 11.9, Math.PI * 1.12, Math.PI * 1.88);
 		ctx.strokeStyle = steelMid;
 		ctx.lineWidth = 3;
 		ctx.stroke();
 		if (back) {
 			// Nuca coberta pela malha, com um leve volume.
-			fillCircle(ctx, { x: 0, y: 0.5 }, 8.6, mailDark, outline, 1.5);
-			drawMailTexture({ x: 0, y: 0.5 }, 8.6);
+			fillCircle(ctx, { x: 0, y: 0.5 }, 9, mailDark, outline, 1.5);
+			drawMailTexture({ x: 0, y: 0.5 }, 9);
 		} else {
 			// rosto
-			fillCircle(ctx, { x: 0, y: 0.5 }, 8.6, skin, outline, 1.5);
+			fillCircle(ctx, { x: 0, y: 0.5 }, 9.2, skin, outline, 1.5);
 			// nariz
 			ctx.beginPath();
-			ctx.ellipse(0, 3.2, 3, 2.6, 0, 0, Math.PI * 2);
+			ctx.ellipse(0, 2.4, 3.4, 2.7, 0, 0, Math.PI * 2);
 			ctx.fillStyle = skinShade;
 			ctx.fill();
 			ctx.strokeStyle = outline;
 			ctx.lineWidth = 1;
 			ctx.stroke();
 			// olhos
-			fillCircle(ctx, { x: -3.2, y: -1.2 }, 2.1, '#f8fafc', outline, 1);
-			fillCircle(ctx, { x: 3.2, y: -1.2 }, 2.1, '#f8fafc', outline, 1);
-			fillCircle(ctx, { x: -2.9, y: -1 }, 1, '#0f172a', outline, 0);
-			fillCircle(ctx, { x: 3.5, y: -1 }, 1, '#0f172a', outline, 0);
+			fillCircle(ctx, { x: -3.6, y: -2.2 }, 2.3, '#f8fafc', outline, 1);
+			fillCircle(ctx, { x: 3.6, y: -2.2 }, 2.3, '#f8fafc', outline, 1);
+			fillCircle(ctx, { x: -3.2, y: -2 }, 1.1, '#0f172a', outline, 0);
+			fillCircle(ctx, { x: 4, y: -2 }, 1.1, '#0f172a', outline, 0);
 			// sobrancelhas douradas
-			strokeLine(ctx, { x: -6, y: -4 }, { x: -1.8, y: -4.8 }, 2.6, gold);
-			strokeLine(ctx, { x: 6, y: -4 }, { x: 1.8, y: -4.8 }, 2.6, gold);
-			// bigode grande e enrolado
-			strokeLine(ctx, { x: -0.8, y: 3.6 }, { x: -7.5, y: 2.4 }, 4.4, gold);
-			strokeLine(ctx, { x: 0.8, y: 3.6 }, { x: 7.5, y: 2.4 }, 4.4, gold);
-			fillCircle(ctx, { x: -8.4, y: 1.4 }, 2.6, gold, goldDark, 1.2);
-			fillCircle(ctx, { x: 8.4, y: 1.4 }, 2.6, gold, goldDark, 1.2);
-			fillCircle(ctx, { x: 0, y: 4.2 }, 2.4, gold, goldDark, 1);
+			strokeLine(ctx, { x: -6.6, y: -5.4 }, { x: -1.8, y: -5.8 }, 2.6, gold);
+			strokeLine(ctx, { x: 6.6, y: -5.4 }, { x: 1.8, y: -5.8 }, 2.6, gold);
+			// bigode grande e enrolado, abaixo do nariz
+			strokeLine(ctx, { x: -0.8, y: 4.6 }, { x: -7.6, y: 3.6 }, 4.2, gold);
+			strokeLine(ctx, { x: 0.8, y: 4.6 }, { x: 7.6, y: 3.6 }, 4.2, gold);
+			fillCircle(ctx, { x: -8.4, y: 2.4 }, 2.2, gold, goldDark, 1.2);
+			fillCircle(ctx, { x: 8.4, y: 2.4 }, 2.2, gold, goldDark, 1.2);
+			fillCircle(ctx, { x: 0, y: 5 }, 2.4, gold, goldDark, 1);
 		}
 		ctx.restore();
 	};
@@ -1140,28 +1140,37 @@ function drawKnight(
 		p(rig.footFront.x, rig.footFront.y),
 		false
 	);
-	drawArm(
-		p(rig.shoulderFront.x, rig.shoulderFront.y),
-		p(rig.elbowFront.x, rig.elbowFront.y),
-		p(rig.handFront.x, rig.handFront.y),
-		false
-	);
+	// O Cavaleiro mantém a espada erguida; no ataque o braço segue o rig.
+	const metrics = metricsFor(visual.archetype);
+	const raisedArm =
+		clip === 'attack'
+			? null
+			: twoBoneIK(
+					rig.shoulderFront,
+					{ x: rig.chest.x + 12, y: rig.chest.y + 2 },
+					metrics.upperArm,
+					metrics.lowerArm,
+					-1
+				);
+	const frontElbow = raisedArm ? p(raisedArm.joint.x, raisedArm.joint.y) : p(rig.elbowFront.x, rig.elbowFront.y);
+	const frontHand = raisedArm ? p(raisedArm.end.x, raisedArm.end.y) : p(rig.handFront.x, rig.handFront.y);
+	drawArm(p(rig.shoulderFront.x, rig.shoulderFront.y), frontElbow, frontHand, false);
 
 	// Espada na mão da frente
-	let swordAngle = -Math.PI / 2 - 0.3;
+	let swordAngle = -1.35;
 	if (clip === 'walk') {
 		swordAngle += Math.sin((frame / Math.max(1, frames)) * Math.PI * 2) * 0.05;
 	} else if (clip === 'attack') {
 		const swing = Math.sin((frame / Math.max(1, frames)) * Math.PI);
 		swordAngle = -1.9 + swing * 2.65;
 	}
-	drawSword(p(rig.weaponHand.x, rig.weaponHand.y), swordAngle);
-	fillCircle(ctx, p(rig.weaponHand.x, rig.weaponHand.y), 4.6, skin, outline, 2);
+	drawSword(frontHand, swordAngle);
+	fillCircle(ctx, frontHand, 4.6, skin, outline, 2);
 
-	// Cabeça e ombreiras
+	// Ombreiras e cabeça
+	drawPauldron(p(rig.chest.x - 10, rig.chest.y + 1), 6.5);
+	drawPauldron(p(rig.chest.x + 10, rig.chest.y + 1), 7);
 	drawHead();
-	drawPauldron(p(rig.shoulderBack.x, rig.shoulderBack.y), 7);
-	drawPauldron(p(rig.shoulderFront.x, rig.shoulderFront.y), 7.5);
 }
 
 export function drawCharacter(

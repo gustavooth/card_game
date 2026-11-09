@@ -105,7 +105,8 @@
 		"offlineHint": "Connecting to chat...",
 		"logoutConfirm": "Log out?",
 		"loadingProfile": "Loading profile...",
-		"deckHint": "Cards cycle automatically through your hand."
+		"deckHint": "Cards cycle automatically through your hand.",
+		"searchingHint": "Your interface is locked until an opponent is found."
 	},
 	"rarity": {
 		"common": "Common",

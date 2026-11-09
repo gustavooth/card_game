@@ -105,7 +105,8 @@
 		"offlineHint": "Conectando ao chat...",
 		"logoutConfirm": "Sair da conta?",
 		"loadingProfile": "Carregando perfil...",
-		"deckHint": "As cartas são liberadas automaticamente no ciclo da mão."
+		"deckHint": "As cartas são liberadas automaticamente no ciclo da mão.",
+		"searchingHint": "Sua interface fica bloqueada até um oponente ser encontrado."
 	},
 	"rarity": {
 		"common": "Comum",

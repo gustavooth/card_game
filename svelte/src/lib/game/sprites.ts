@@ -87,7 +87,8 @@ export function bakeCharacter(
 				clip,
 				frame,
 				frames,
-				effectiveView
+				effectiveView,
+				slug
 			);
 			list.push(canvas);
 		}

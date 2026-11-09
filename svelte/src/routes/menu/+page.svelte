@@ -53,6 +53,7 @@
 	let chatList: HTMLDivElement | undefined = $state();
 	let contentEl = $state<HTMLElement | null>(null);
 	let viewportHeight = $state(900);
+	let searching = $state(false);
 	let saveTimer: ReturnType<typeof setTimeout> | null = null;
 	let toastTimer: ReturnType<typeof setTimeout> | null = null;
 	let cooldownTimer: ReturnType<typeof setInterval> | null = null;
@@ -135,6 +136,7 @@
 		const ended = $result;
 		const dismissed = $dismissedRoom;
 		if (current && !ended && current.room !== dismissed) {
+			searching = false;
 			void goto('/battle');
 		}
 	});
@@ -142,6 +144,7 @@
 	$effect(() => {
 		const error = $battleError;
 		if (error) {
+			searching = false;
 			showToast(error.message || translateError(error.code), 'error');
 			audio.play('error');
 			clearBattleError();
@@ -291,10 +294,12 @@
 		audio.ensure();
 		audio.play('queue');
 		audio.startMusic('battle');
+		searching = true;
 		joinQueue();
 	}
 
 	function cancelQueue() {
+		searching = false;
 		leaveQueue();
 		audio.play('click');
 		audio.startMusic('menu');
@@ -409,7 +414,7 @@
 	<title>{$i18n.t('common.appName')}</title>
 </svelte:head>
 
-<div class="mobile-shell">
+<div class="mobile-shell" inert={searching || $queuePosition !== null}>
 	<header class="game-topbar">
 		<div class="resource-pill">
 			<span class="mini-avatar">{initial}</span>
@@ -447,20 +452,7 @@
 				<div class="arena-label"><CrownIcon size={12} /> Arena Clássica</div>
 			</div>
 
-			{#if $queuePosition !== null}
-				<div class="queue-card">
-					<div class="row" style="justify-content: center">
-						<span class="spinner"></span>
-						<strong>{$i18n.t('menu.searching')}</strong>
-					</div>
-					<div class="small muted">
-						{$i18n.t('menu.queuePosition', { position: $queuePosition ?? 1 })}
-					</div>
-					<button class="btn btn-danger" onclick={cancelQueue} type="button">
-						{$i18n.t('menu.cancelQueue')}
-					</button>
-				</div>
-			{:else if activeMatch}
+			{#if activeMatch}
 				<div class="queue-card">
 					<strong>{$i18n.t('battle.inProgress')}</strong>
 					<div class="small muted">
@@ -816,3 +808,21 @@
 		</div>
 	{/if}
 </div>
+
+{#if searching || $queuePosition !== null}
+	<div class="queue-overlay" role="dialog" aria-modal="true" aria-labelledby="queue-title">
+		<div class="queue-modal">
+			<span class="spinner queue-spinner"></span>
+			<h2 id="queue-title">{$i18n.t('menu.searching')}</h2>
+			<p class="small muted" style="max-width: 300px; margin: 0 auto">
+				{$i18n.t('menu.searchingHint')}
+			</p>
+			<div class="queue-position">
+				{$i18n.t('menu.queuePosition', { position: $queuePosition ?? 1 })}
+			</div>
+			<button class="btn btn-danger btn-lg" onclick={cancelQueue} type="button">
+				{$i18n.t('menu.cancelQueue')}
+			</button>
+		</div>
+	</div>
+{/if}

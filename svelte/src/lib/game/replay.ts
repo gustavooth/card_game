@@ -171,7 +171,7 @@ export class ReplayView {
 					reconnect: false
 				},
 				pair,
-				{ selectedSlot: null, hover: null, valid: false, cardKind: 'troop' },
+				{ selectedSlot: null, hover: null, valid: false, cardKind: 'troop', drag: null, dragCard: null },
 				{ opponent: this.opponent, username: this.username, selectedSlot: null },
 				now
 			);

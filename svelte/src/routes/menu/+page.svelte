@@ -249,6 +249,11 @@
 		scheduleSave(next);
 	}
 
+	function toggleCardFromModal(card: CardDef) {
+		toggleCard(card);
+		closeCard();
+	}
+
 	function scheduleSave(next: string[]) {
 		if (!get(user)) {
 			return;
@@ -795,13 +800,13 @@
 
 			<div class="row" style="margin-top: 16px">
 				{#if inDeck(selected)}
-					<button class="btn btn-danger grow" onclick={() => toggleCard(selected!)} type="button">
+					<button class="btn btn-danger grow" onclick={() => toggleCardFromModal(selected!)} type="button">
 						{$i18n.t('menu.removeFromDeck')}
 					</button>
 				{:else}
 					<button
 						class="btn btn-primary grow"
-						onclick={() => toggleCard(selected!)}
+						onclick={() => toggleCardFromModal(selected!)}
 						disabled={deckFull}
 						type="button"
 					>

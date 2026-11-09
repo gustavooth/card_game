@@ -14,7 +14,8 @@
 		"online": "online",
 		"offline": "offline",
 		"error": "Algo deu errado",
-		"language": "Idioma"
+		"language": "Idioma",
+		"tagline": "Cartas, arena e batalhas"
 	},
 	"auth": {
 		"login": "Entrar",
@@ -42,13 +43,13 @@
 	},
 	"loading": {
 		"title": "Preparando a arena",
-		"content": "Carregando definições",
-		"session": "Verificando sessão",
-		"sprites": "Gerando sprites e animações",
-		"audio": "Preparando áudio",
+		"content": "Abrindo os portões",
+		"session": "Preparando seu perfil",
+		"sprites": "Preparando as tropas",
+		"audio": "Aquecendo a arena",
 		"ready": "Pronto!",
 		"errorTitle": "Não foi possível carregar",
-		"errorHint": "Verifique se o servidor e o PostgreSQL estão ativos e tente novamente."
+		"errorHint": "Verifique sua conexão e tente novamente."
 	},
 	"menu": {
 		"cards": "Cartas",
@@ -68,7 +69,7 @@
 		"chatPlaceholder": "Escreva para todos...",
 		"send": "Enviar",
 		"noMessages": "Nenhuma mensagem ainda. Diga olá!",
-		"chatHint": "Chat em tempo real • sem histórico",
+		"chatHint": "Converse com outros jogadores",
 		"wins": "Vitórias",
 		"losses": "Derrotas",
 		"draws": "Empates",
@@ -141,7 +142,7 @@
 		"youLost": "Você perdeu",
 		"replaySaved": "Replay salvo no seu perfil",
 		"leaveMatch": "Sair da partida",
-		"leaveConfirm": "Sair agora conta como derrota? A partida continua no servidor.",
+		"leaveConfirm": "Sair agora conta como derrota? A partida continua em andamento.",
 		"soundOn": "Som ligado",
 		"soundOff": "Som desligado",
 		"reconnecting": "Reconectando...",
@@ -159,14 +160,14 @@
 		"finished": "Fim do replay"
 	},
 	"errors": {
-		"network": "Sem conexão com o servidor",
-		"session": "Sua sessão expirou. Entre novamente.",
+		"network": "Sem conexão. Verifique sua internet.",
+		"session": "Sua conexão expirou. Entre novamente.",
 		"rate_limited": "Muitas ações. Aguarde um instante.",
 		"not_found": "Recurso não encontrado",
 		"unauthorized": "Faça login para continuar",
 		"conflict": "Este nome ou e-mail já está em uso",
 		"bad_request": "Dados inválidos",
-		"internal": "Erro interno do servidor",
+		"internal": "Algo deu errado. Tente novamente.",
 		"invalid_placement": "Posição inválida",
 		"not_enough_elixir": "Elixir insuficiente",
 		"not_in_match": "Você não está em uma partida",

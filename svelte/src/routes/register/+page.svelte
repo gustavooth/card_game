@@ -55,7 +55,7 @@
 			<div class="logo-mark">R</div>
 			<div>
 				<div style="font-size: 18px; font-weight: 900">{$i18n.t('common.appName')}</div>
-				<div class="tiny muted">9:16 · 30 Hz · autoritativo</div>
+				<div class="tiny muted">{$i18n.t('common.tagline')}</div>
 			</div>
 		</div>
 		<div class="auth-hero-content">
@@ -67,7 +67,7 @@
 				<span class="chip">{$i18n.t('menu.chatHint')}</span>
 			</div>
 		</div>
-		<div class="small muted">{$i18n.t('common.appName')} · 2026</div>
+		<div class="small muted">{$i18n.t('common.appName')}</div>
 	</section>
 
 	<section class="auth-panel">

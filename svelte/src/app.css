@@ -1298,10 +1298,13 @@ a {
 /* ============================================================
    Mobile-first game shell (menu)
    ============================================================ */
+
 .mobile-shell {
 	position: relative;
 	width: min(540px, 100%);
-	min-height: 100dvh;
+	height: 100dvh;
+	max-height: 100dvh;
+	min-height: 0;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -1462,11 +1465,15 @@ a {
 	color: #fde68a;
 }
 
+
 .mobile-content {
 	flex: 1;
+	min-height: 0;
 	padding: 10px 10px calc(84px + env(safe-area-inset-bottom));
 	overflow-y: auto;
-	overscroll-behavior: contain;
+	overflow-x: hidden;
+	over-scroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
 	display: grid;
 	gap: 12px;
 	align-content: start;

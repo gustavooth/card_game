@@ -14,7 +14,8 @@
 		"online": "online",
 		"offline": "offline",
 		"error": "Something went wrong",
-		"language": "Language"
+		"language": "Language",
+		"tagline": "Cards, arena and battles"
 	},
 	"auth": {
 		"login": "Log in",
@@ -42,13 +43,13 @@
 	},
 	"loading": {
 		"title": "Preparing the arena",
-		"content": "Loading definitions",
-		"session": "Checking session",
-		"sprites": "Baking sprites and animations",
-		"audio": "Preparing audio",
+		"content": "Opening the gates",
+		"session": "Preparing your profile",
+		"sprites": "Preparing the troops",
+		"audio": "Warming up the arena",
 		"ready": "Ready!",
 		"errorTitle": "Could not load",
-		"errorHint": "Check that the server and PostgreSQL are running and try again."
+		"errorHint": "Check your connection and try again."
 	},
 	"menu": {
 		"cards": "Cards",
@@ -68,7 +69,7 @@
 		"chatPlaceholder": "Write to everyone...",
 		"send": "Send",
 		"noMessages": "No messages yet. Say hello!",
-		"chatHint": "Real-time chat • no history",
+		"chatHint": "Chat with other players",
 		"wins": "Wins",
 		"losses": "Losses",
 		"draws": "Draws",
@@ -141,7 +142,7 @@
 		"youLost": "You lost",
 		"replaySaved": "Replay saved to your profile",
 		"leaveMatch": "Leave match",
-		"leaveConfirm": "Leaving now counts as a loss? The match keeps running on the server.",
+		"leaveConfirm": "Leaving now counts as a loss? The match keeps running.",
 		"soundOn": "Sound on",
 		"soundOff": "Sound off",
 		"reconnecting": "Reconnecting...",
@@ -159,14 +160,14 @@
 		"finished": "End of replay"
 	},
 	"errors": {
-		"network": "No connection to the server",
-		"session": "Your session expired. Log in again.",
+		"network": "No connection. Check your internet.",
+		"session": "Your connection expired. Log in again.",
 		"rate_limited": "Too many actions. Wait a moment.",
 		"not_found": "Resource not found",
 		"unauthorized": "Log in to continue",
 		"conflict": "This name or email is already in use",
 		"bad_request": "Invalid data",
-		"internal": "Internal server error",
+		"internal": "Something went wrong. Try again.",
 		"invalid_placement": "Invalid placement",
 		"not_enough_elixir": "Not enough elixir",
 		"not_in_match": "You are not in a match",

@@ -155,7 +155,7 @@
 </script>
 
 <svelte:head>
-	<title>{$i18n.t('menu.battle')} · {$i18n.t('common.appName')}</title>
+	<title>{$i18n.t('common.appName')}</title>
 </svelte:head>
 
 <div class="battle-root">

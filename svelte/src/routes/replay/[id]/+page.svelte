@@ -129,7 +129,7 @@
 </script>
 
 <svelte:head>
-	<title>{$i18n.t('replay.title')} · {$i18n.t('common.appName')}</title>
+	<title>{$i18n.t('common.appName')}</title>
 </svelte:head>
 
 <div class="replay-root">
@@ -204,9 +204,6 @@
 				aria-label={$i18n.t('replay.title')}
 			/>
 			<div class="row wrap" style="justify-content: space-between">
-				<span class="chip">
-					{$i18n.t('menu.cards')}: {data.frames.length}
-				</span>
 				<span class="chip">
 					{data.meta.side === 0 ? data.meta.blue : data.meta.red} vs {data.meta.opponent}
 				</span>

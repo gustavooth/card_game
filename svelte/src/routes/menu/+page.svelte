@@ -396,7 +396,7 @@
 </script>
 
 <svelte:head>
-	<title>{$i18n.t('common.appName')} · {$i18n.t('menu.battle')}</title>
+	<title>{$i18n.t('common.appName')}</title>
 </svelte:head>
 
 <div class="mobile-shell">
@@ -420,7 +420,7 @@
 		</div>
 		<div class="player-meta">
 			<strong>{localName}</strong>
-			<small>Arena Clássica · {$i18n.t('menu.battle')}</small>
+			<small>Arena Clássica</small>
 		</div>
 		<div class="trophy-badge">🏆 {wins}</div>
 	</section>
@@ -429,11 +429,11 @@
 	<main class="mobile-content">
 		{#if tab === 'battle'}
 			<div class="arena-preview-card">
-				<span class="arena-tag">1v1 · 30 Hz</span>
+				<span class="arena-tag">1v1</span>
 				<div class="arena-preview-canvas">
 					<ArenaPreview />
 				</div>
-				<div class="arena-label">Arena Clássica · 18 × 32</div>
+				<div class="arena-label">Arena Clássica</div>
 			</div>
 
 			{#if $queuePosition !== null}

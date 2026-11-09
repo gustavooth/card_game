@@ -35,18 +35,20 @@ pub async fn register(
     jar: CookieJar,
     Json(payload): Json<RegisterPayload>,
 ) -> Result<Response, ApiError> {
+    if payload.password != payload.password_confirmation {
+        return Err(ApiError::BadRequest("As senhas não conferem".into()));
+    }
     let ip = client_ip(&headers, Some(connect));
+    // Limite generoso por IP + e-mail: protege contra abuso sem bloquear
+    // tentativas legítimas de corrigir dados do formulário.
     if !state.limiter().check(
-        &format!("register:{ip}:{}", payload.email.to_lowercase()),
-        3.0,
-        3.0 / 600.0,
+        &format!("register:{ip}:{}", payload.email.trim().to_lowercase()),
+        20.0,
+        20.0 / 600.0,
     ) {
         return Err(ApiError::RateLimited(
             "Muitas tentativas de registro. Aguarde alguns minutos.",
         ));
-    }
-    if payload.password != payload.password_confirmation {
-        return Err(ApiError::BadRequest("As senhas não conferem".into()));
     }
     let locale = match payload.locale.as_deref() {
         Some("en") => "en",
@@ -77,9 +79,9 @@ pub async fn login(
 ) -> Result<Response, ApiError> {
     let ip = client_ip(&headers, Some(connect));
     if !state.limiter().check(
-        &format!("login:{ip}:{}", payload.email.to_lowercase()),
-        10.0,
-        10.0 / 60.0,
+        &format!("login:{ip}:{}", payload.email.trim().to_lowercase()),
+        30.0,
+        0.5,
     ) {
         return Err(ApiError::RateLimited(
             "Muitas tentativas de login. Aguarde um instante.",

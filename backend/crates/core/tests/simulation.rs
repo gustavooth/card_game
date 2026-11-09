@@ -188,7 +188,16 @@ fn freeze_stuns_and_expires() {
 fn phoenix_rebirth_creates_chick() {
     let mut game = new_match();
     let id = game
-        .spawn_troop(Side::Blue, "phoenix", "phoenix", 9.0, 20.0, None, false, None)
+        .spawn_troop(
+            Side::Blue,
+            "phoenix",
+            "phoenix",
+            9.0,
+            20.0,
+            None,
+            false,
+            None,
+        )
         .expect("fênix");
     game.deal_damage(id, 50_000, Side::Red, None, None, false);
     game.process_deaths();
@@ -216,5 +225,8 @@ fn witch_spawns_skeletons_periodically() {
         .iter()
         .filter(|entity| entity.slug == "skeleton" && entity.side == Side::Blue)
         .count();
-    assert!(skeletons >= 3, "esperava esqueletos invocados, achou {skeletons}");
+    assert!(
+        skeletons >= 3,
+        "esperava esqueletos invocados, achou {skeletons}"
+    );
 }

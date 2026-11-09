@@ -470,28 +470,45 @@
 				{/if}
 			{/if}
 
-			<div class="deck-strip">
-				{#each Array(8) as _, index}
-					{@const slug = $deck[index]}
-					{@const card = slug
-						? $content?.definitions.cards.find((item) => item.slug === slug)
-						: undefined}
-					{#if card}
-						<button
-							class="deck-strip-item"
-							onclick={() => switchTab('cards')}
-							title={$i18n.card(card.slug).name}
-							type="button"
-						>
-							<CardArt {card} size={90} />
-							<span class="mini-cost">{card.elixir_cost}</span>
-						</button>
-					{:else}
-						<button class="deck-strip-item empty" onclick={() => switchTab('cards')} type="button">
-							+
-						</button>
-					{/if}
-				{/each}
+			<div class="home-deck">
+				<div class="spread">
+					<div>
+						<div class="home-deck-title">{$i18n.t('menu.deck')}</div>
+						<div class="tiny muted">{$i18n.t('menu.chooseDeck')}</div>
+					</div>
+					<button class="btn btn-sm" onclick={() => switchTab('cards')} type="button">
+						{$i18n.t('menu.cards')}
+					</button>
+				</div>
+				<div class="home-deck-grid">
+					{#each Array(8) as _, index}
+						{@const slug = $deck[index]}
+						{@const card = slug
+							? $content?.definitions.cards.find((item) => item.slug === slug)
+							: undefined}
+						{#if card}
+							<button
+								class="home-deck-card"
+								onclick={() => openCard(card)}
+								title={$i18n.card(card.slug).name}
+								type="button"
+							>
+								<span class="cost-orb">{card.elixir_cost}</span>
+								<span class="home-deck-art"><CardArt {card} size={110} /></span>
+								<span class="home-deck-name">{$i18n.card(card.slug).name}</span>
+							</button>
+						{:else}
+							<button
+								class="home-deck-card empty"
+								onclick={() => switchTab('cards')}
+								type="button"
+								aria-label={$i18n.t('menu.addToDeck')}
+							>
+								+
+							</button>
+						{/if}
+					{/each}
+				</div>
 			</div>
 
 			<div class="shortcut-row">

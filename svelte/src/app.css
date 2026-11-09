@@ -1625,34 +1625,94 @@ a {
 	color: #fde68a;
 }
 
-.deck-strip {
-	display: flex;
-	gap: 4px;
-	padding: 7px;
-	border-radius: 12px;
-	background: rgba(8, 13, 24, 0.75);
-	border: 1px solid rgba(38, 52, 73, 0.8);
+.home-deck {
+	display: grid;
+	gap: 9px;
+	padding: 10px;
+	border-radius: 16px;
+	background: linear-gradient(180deg, rgba(30, 41, 59, 0.82), rgba(8, 13, 24, 0.92));
+	border: 1px solid rgba(148, 163, 184, 0.18);
+	box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
 }
 
-.deck-strip-item {
+.home-deck-title {
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #cbd5e1;
+}
+
+.home-deck-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-rows: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.home-deck-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	aspect-ratio: 0.82;
+	padding: 0;
+	border-radius: 9px;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 50% 38%, rgba(148, 163, 184, 0.16), transparent 62%),
+		linear-gradient(180deg, rgba(30, 41, 59, 0.85), rgba(8, 13, 24, 0.95));
+	border: 1px solid rgba(148, 163, 184, 0.22);
+	transition: transform 0.1s ease, border-color 0.1s ease;
+}
+
+.home-deck-card:hover {
+	transform: translateY(-1px);
+	border-color: rgba(96, 165, 250, 0.45);
+}
+
+.home-deck-art {
 	position: relative;
 	flex: 1;
-	aspect-ratio: 0.78;
-	border-radius: 6px;
+	min-height: 0;
 	overflow: hidden;
-	background: rgba(30, 41, 59, 0.55);
-	border: 1px solid rgba(148, 163, 184, 0.16);
-	display: grid;
-	place-items: center;
-	min-width: 0;
-	padding: 0;
+	display: block;
 }
 
-.deck-strip-item.empty {
+.home-deck-name {
+	display: block;
+	padding: 3px 4px 4px;
+	font-size: 8.5px;
+	font-weight: 800;
+	line-height: 1.1;
+	text-align: center;
+	color: #e2e8f0;
+	background: rgba(2, 6, 23, 0.5);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.home-deck-card.empty {
+	display: grid;
+	place-items: center;
 	border-style: dashed;
+	border-color: rgba(148, 163, 184, 0.3);
+	background: rgba(15, 23, 42, 0.55);
 	color: #475569;
-	font-size: 13px;
+	font-size: 20px;
 	font-weight: 900;
+}
+
+.home-deck-card .cost-orb {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	z-index: 2;
+	width: 19px;
+	height: 19px;
+	font-size: 9px;
+	border-width: 1.5px;
 }
 
 .queue-card {

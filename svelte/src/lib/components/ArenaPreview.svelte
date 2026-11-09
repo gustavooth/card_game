@@ -147,7 +147,7 @@
 			{ def: king, side: 1 as const, x: 320, y: 200, role: 'King' },
 			{ def: princess, side: 0 as const, x: 200, y: 416, role: 'Princess' },
 			{ def: princess, side: 0 as const, x: 440, y: 416, role: 'Princess' },
-			{ def: king, side: 0 as const, x: 320, y: 350, role: 'King' }
+			{ def: king, side: 0 as const, x: 320, y: 440, role: 'King' }
 		];
 		for (const tower of towers) {
 			drawTower(

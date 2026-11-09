@@ -22,23 +22,17 @@
 	import { chatMessages, chatConnected } from '#lib/stores/chat';
 	import { audio } from '#lib/audio/synth';
 	import { ensureSprites } from '#lib/game/sprites';
-	import type {
-		CardDef,
-		MenuTab,
-		PlayerStats,
-		RecentMatch,
-		ReplayMeta
-	} from '#lib/types';
+	import type { CardDef, PlayerStats, RecentMatch, ReplayMeta } from '#lib/types';
 	import CardArt from '#lib/components/CardArt.svelte';
 	import Modal from '#lib/components/Modal.svelte';
 	import LanguageToggle from '#lib/components/LanguageToggle.svelte';
 	import AudioToggle from '#lib/components/AudioToggle.svelte';
-	import BottomNav from '#lib/components/BottomNav.svelte';
 	import ArenaPreview from '#lib/components/ArenaPreview.svelte';
 
 	type DeckSaveState = 'idle' | 'saving' | 'saved';
 
-	let tab = $state<MenuTab>('battle');
+	type Screen = 'home' | 'cards' | 'chat' | 'profile';
+	let tab = $state<Screen>('home');
 	let selected = $state<CardDef | null>(null);
 	let stats = $state<PlayerStats | null>(null);
 	let recent = $state<RecentMatch[]>([]);
@@ -55,6 +49,8 @@
 	let cooldownUntil = $state(0);
 	let clock = $state(Date.now());
 	let chatList: HTMLDivElement | undefined = $state();
+	let contentEl = $state<HTMLElement | null>(null);
+	let viewportHeight = $state(900);
 	let saveTimer: ReturnType<typeof setTimeout> | null = null;
 	let toastTimer: ReturnType<typeof setTimeout> | null = null;
 	let cooldownTimer: ReturnType<typeof setInterval> | null = null;
@@ -87,6 +83,19 @@
 		})
 	);
 
+	const recentPreview = $derived(recent.slice(0, viewportHeight < 760 ? 2 : 3));
+	const replayPreview = $derived(replays.slice(0, viewportHeight < 760 ? 2 : 3));
+	const chatPreview = $derived($chatMessages.slice(viewportHeight < 760 ? -6 : -9));
+	const screenTitle = $derived(
+		tab === 'cards'
+			? $i18n.t('menu.cards')
+			: tab === 'chat'
+				? $i18n.t('menu.chat')
+				: tab === 'profile'
+					? $i18n.t('menu.profile')
+					: $i18n.t('menu.battle')
+	);
+
 	const chatRemaining = $derived(Math.max(0, Math.ceil((cooldownUntil - clock) / 1000)));
 	const deckFull = $derived($deck.length >= 8);
 	const canBattle = $derived($deck.length === 8);
@@ -101,10 +110,21 @@
 		ensureSocket();
 		audio.ensure();
 		audio.startMusic('menu');
+		viewportHeight = window.innerHeight;
+		const onResize = () => {
+			viewportHeight = window.innerHeight;
+		};
+		window.addEventListener('resize', onResize);
+		requestAnimationFrame(() => {
+			if (contentEl) {
+				contentEl.scrollTop = 0;
+			}
+		});
 		cooldownTimer = setInterval(() => {
 			clock = Date.now();
 		}, 500);
 		return () => {
+			window.removeEventListener('resize', onResize);
 			if (saveTimer) {
 				clearTimeout(saveTimer);
 			}
@@ -132,17 +152,6 @@
 			showToast(error.message || translateError(error.code), 'error');
 			audio.play('error');
 			clearBattleError();
-		}
-	});
-
-	$effect(() => {
-		const list = $chatMessages;
-		if (chatList && list.length >= 0) {
-			requestAnimationFrame(() => {
-				if (chatList) {
-					chatList.scrollTop = chatList.scrollHeight;
-				}
-			});
 		}
 	});
 
@@ -193,13 +202,16 @@
 		}, 3200);
 	}
 
-	function switchTab(next: MenuTab) {
+	function switchScreen(next: Screen) {
 		tab = next;
+		if (contentEl) {
+			contentEl.scrollTop = 0;
+		}
 		audio.play('click');
 		if (next === 'profile' && !profileLoaded) {
 			void loadProfile();
 		}
-		if ((next === 'battle' || next === 'cards') && !overviewLoaded) {
+		if ((next === 'home' || next === 'cards') && !overviewLoaded) {
 			void refreshOverview();
 		}
 	}
@@ -431,8 +443,17 @@
 	</section>
 	{/if}
 
-	<main class="mobile-content">
-		{#if tab === 'battle'}
+	<main class="mobile-content" class:scrollable={tab === 'cards'} class:chat-screen={tab === 'chat'} bind:this={contentEl}>
+		{#if tab !== 'home'}
+			<div class="screen-header">
+				<button class="btn btn-sm screen-back" onclick={() => switchScreen('home')} type="button" aria-label={$i18n.t('common.back')}>
+					←
+				</button>
+				<strong>{screenTitle}</strong>
+				<span class="screen-header-spacer"></span>
+			</div>
+		{/if}
+		{#if tab === 'home'}
 			<div class="arena-preview-card">
 				<span class="arena-tag">1v1</span>
 				<div class="arena-preview-canvas">
@@ -481,7 +502,7 @@
 						<div class="home-deck-title">{$i18n.t('menu.deck')}</div>
 						<div class="tiny muted">{$i18n.t('menu.chooseDeck')}</div>
 					</div>
-					<button class="btn btn-sm" onclick={() => switchTab('cards')} type="button">
+					<button class="btn btn-sm" onclick={() => switchScreen('cards')} type="button">
 						{$i18n.t('menu.cards')}
 					</button>
 				</div>
@@ -505,7 +526,7 @@
 						{:else}
 							<button
 								class="home-deck-card empty"
-								onclick={() => switchTab('cards')}
+								onclick={() => switchScreen('cards')}
 								type="button"
 								aria-label={$i18n.t('menu.addToDeck')}
 							>
@@ -516,23 +537,24 @@
 				</div>
 			</div>
 
-			<div class="shortcut-row">
-				<button class="shortcut-tile" onclick={() => switchTab('profile')} type="button">
-					<span class="shortcut-icon">🎬</span>
-					<span>{$i18n.t('menu.replays')}</span>
-					<span class="shortcut-value">{replays.length}</span>
-				</button>
-				<button class="shortcut-tile" onclick={() => switchTab('cards')} type="button">
+			<div class="shortcut-row home-actions">
+				<button class="shortcut-tile" onclick={() => switchScreen('cards')} type="button">
 					<span class="shortcut-icon">🃏</span>
 					<span>{$i18n.t('menu.cards')}</span>
 					<span class="shortcut-value">{$deck.length}/8</span>
 				</button>
-				<button class="shortcut-tile" onclick={() => switchTab('profile')} type="button">
-					<span class="shortcut-icon">📊</span>
-					<span>{$i18n.t('menu.stats')}</span>
+				<button class="shortcut-tile" onclick={() => switchScreen('chat')} type="button">
+					<span class="shortcut-icon">💬</span>
+					<span>{$i18n.t('menu.chat')}</span>
+					<span class="shortcut-value">{$chatConnected ? $i18n.t('common.online') : $i18n.t('common.offline')}</span>
+				</button>
+				<button class="shortcut-tile" onclick={() => switchScreen('profile')} type="button">
+					<span class="shortcut-icon">👤</span>
+					<span>{$i18n.t('menu.profile')}</span>
 					<span class="shortcut-value">{stats?.games ?? 0}</span>
 				</button>
 			</div>
+
 		{:else if tab === 'cards'}
 			<section class="panel menu-panel cards-section" style="display: grid; gap: 12px">
 				<div class="spread wrap">
@@ -645,10 +667,10 @@
 				</div>
 
 				<div class="chat-list" bind:this={chatList}>
-					{#if $chatMessages.length === 0}
+					{#if chatPreview.length === 0}
 						<div class="muted center" style="padding: 30px">{$i18n.t('menu.noMessages')}</div>
 					{/if}
-					{#each $chatMessages as message, index (message.ts + '-' + message.user + '-' + index)}
+					{#each chatPreview as message, index (message.ts + '-' + message.user + '-' + index)}
 						<div class="chat-line" class:own={message.user === localName}>
 							<div class="spread">
 								<span class="chat-author">{message.user}</span>
@@ -728,7 +750,7 @@
 					<div class="small muted">{$i18n.t('menu.noMatches')}</div>
 				{:else}
 					<div class="recent-list">
-						{#each recent as entry}
+						{#each recentPreview as entry}
 							<div class="recent-row">
 								<span>
 									vs <strong>{entry.opponent}</strong>
@@ -750,7 +772,7 @@
 					<div class="small muted">{$i18n.t('menu.noReplays')}</div>
 				{:else}
 					<div class="replay-list">
-						{#each replays as replay}
+						{#each replayPreview as replay}
 							<div class="replay-row">
 								<span>{formatDate(replay.created_at)}</span>
 								<a class="btn btn-sm" href={`/replay/${replay.id}`}>
@@ -768,7 +790,6 @@
 		{/if}
 	</main>
 
-	<BottomNav {tab} onchange={switchTab} />
 
 	{#if selected}
 		<Modal title={$i18n.t('menu.cardDetails')} onclose={closeCard}>

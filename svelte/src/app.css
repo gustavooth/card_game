@@ -500,7 +500,9 @@ a {
 
 /* ---------- auth ---------- */
 .auth-page {
-	min-height: 100dvh;
+	height: 100dvh;
+	min-height: 0;
+	overflow: hidden;
 	display: grid;
 	place-items: center;
 	padding: 20px;
@@ -891,7 +893,7 @@ a {
 }
 
 .chat-list {
-	height: min(52dvh, 480px);
+	height: min(46dvh, 480px);
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
@@ -1112,17 +1114,22 @@ a {
 
 /* ---------- replay ---------- */
 .replay-root {
-	min-height: 100dvh;
+	height: 100dvh;
+	min-height: 0;
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 14px;
-	padding: 14px;
+	gap: 8px;
+	padding: 8px;
 }
 
 .replay-stage {
-	width: min(100vw - 28px, calc((100dvh - 130px) * 9 / 16));
+	height: min(calc(100dvh - 210px), calc((100vw - 28px) * 16 / 9));
+	width: auto;
+	max-width: calc(100vw - 28px);
 	aspect-ratio: 9 / 16;
+	flex: none;
 	position: relative;
 	border-radius: 14px;
 	overflow: hidden;
@@ -1138,9 +1145,10 @@ a {
 
 .replay-controls {
 	width: min(620px, 100%);
-	padding: 12px;
+	padding: 10px 12px;
 	display: grid;
-	gap: 10px;
+	gap: 7px;
+	flex: none;
 }
 
 .range {
@@ -1263,12 +1271,6 @@ a {
 	.deck-bar {
 		bottom: 6px;
 		padding: 7px;
-	}
-	.card-filters {
-		grid-template-columns: 1fr 1fr;
-	}
-	.card-filters .input {
-		grid-column: 1 / -1;
 	}
 	.battle-hero {
 		min-height: 260px;
@@ -1459,9 +1461,8 @@ a {
 .mobile-content {
 	flex: 1;
 	min-height: 0;
-	padding: 10px 10px calc(84px + env(safe-area-inset-bottom));
-	overflow-y: auto;
-	overflow-x: hidden;
+	padding: 10px 10px 14px;
+	overflow: hidden;
 	over-scroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
 	display: grid;
@@ -1471,9 +1472,10 @@ a {
 
 .arena-preview-card {
 	position: relative;
-	width: min(350px, calc(100vw - 44px));
-	height: min(350px, calc(100vw - 44px));
-	min-height: min(350px, calc(100vw - 44px));
+	--arena-size: min(300px, 40dvh, calc(100vw - 44px));
+	width: var(--arena-size);
+	height: var(--arena-size);
+	min-height: var(--arena-size);
 	margin: 0 auto;
 	align-self: start;
 	aspect-ratio: auto;
@@ -1666,7 +1668,7 @@ a {
 	display: flex;
 	flex-direction: column;
 	min-width: 0;
-	aspect-ratio: 1.2;
+	aspect-ratio: 1.35;
 	padding: 0;
 	border-radius: 9px;
 	overflow: hidden;
@@ -1861,14 +1863,11 @@ a {
 	position: fixed;
 	left: 50%;
 	transform: translateX(-50%);
-	bottom: calc(74px + env(safe-area-inset-bottom));
+	bottom: calc(10px + env(safe-area-inset-bottom));
 	z-index: 25;
 	width: min(520px, calc(100vw - 16px));
 }
 
-.mobile-content .cards-section {
-	padding-bottom: 112px;
-}
 
 .mobile-content .card-grid {
 	gap: 8px;
@@ -1879,11 +1878,11 @@ a {
 }
 
 .mobile-content .card-filters {
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .mobile-content .card-filters .input {
-	grid-column: 1 / -1;
+	grid-column: auto;
 }
 
 .mobile-content .tab {
@@ -1964,4 +1963,163 @@ a {
 	font-weight: 900;
 	display: grid;
 	place-items: center;
+}
+
+.pagination-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+}
+
+.pagination-row .btn {
+	min-width: 42px;
+	font-size: 18px;
+	line-height: 1;
+}
+
+
+/* Adaptação por altura: sem scroll de página em telas curtas */
+@media (max-height: 720px) {
+	.player-strip {
+		display: none;
+	}
+	.profile-hero {
+		display: none;
+	}
+	.arena-preview-card {
+		--arena-size: min(230px, 32dvh, calc(100vw - 44px));
+	}
+	.home-deck-card {
+		aspect-ratio: 1.55;
+	}
+	.mobile-content {
+		padding-top: 8px;
+	}
+	.chat-list {
+		height: min(40dvh, 360px);
+	}
+	.auth-single {
+		padding: 16px 18px;
+	}
+	.auth-brand {
+		padding-bottom: 10px;
+		margin-bottom: 12px;
+	}
+	.auth-brand-name {
+		font-size: 17px;
+	}
+	.auth-heading h1 {
+		font-size: 22px;
+	}
+	.auth-heading p {
+		margin: 4px 0 10px;
+		font-size: 12px;
+	}
+	.auth-single .field {
+		margin-bottom: 8px;
+	}
+	.auth-single .input {
+		padding: 8px 10px;
+	}
+	.auth-single .btn-lg {
+		padding: 10px 16px;
+		font-size: 16px;
+	}
+}
+
+@media (max-height: 620px) {
+	.home-deck-card {
+		aspect-ratio: 1.8;
+	}
+	.home-actions .shortcut-tile {
+		padding: 4px 2px;
+	}
+	.arena-preview-card {
+		--arena-size: min(200px, 32dvh, calc(100vw - 44px));
+	}
+	.battle-cta {
+		min-height: 50px;
+		font-size: 20px;
+	}
+	.replay-stage {
+		height: min(calc(100dvh - 180px), calc((100vw - 28px) * 16 / 9));
+	}
+}
+
+
+.mobile-content.scrollable {
+	overflow-y: auto;
+	padding-bottom: 104px;
+}
+
+.screen-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 36px;
+	padding: 0 2px 2px;
+}
+
+.screen-header strong {
+	flex: 1;
+	text-align: center;
+	font-size: 17px;
+	font-weight: 900;
+}
+
+.screen-back {
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	font-size: 18px;
+	display: grid;
+	place-items: center;
+}
+
+.screen-header-spacer {
+	width: 34px;
+}
+
+.home-actions {
+	gap: 8px;
+}
+
+.home-actions .shortcut-tile {
+	padding: 6px 4px;
+	gap: 2px;
+}
+
+.home-actions .shortcut-icon {
+	width: 24px;
+	height: 24px;
+	font-size: 13px;
+	border-radius: 7px;
+}
+
+.home-actions .shortcut-value {
+	font-size: 10px;
+}
+
+.mobile-content .chat-layout {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.chat-layout .chat-list {
+	flex: 1;
+	min-height: 0;
+	height: auto;
+	overflow: hidden;
+}
+
+.mobile-content.chat-screen {
+	display: flex;
+	flex-direction: column;
+}
+
+.chat-screen .chat-layout {
+	flex: 1;
+	min-height: 0;
 }

@@ -7,6 +7,7 @@
 	import { restoreSession, user } from '#lib/stores/session';
 	import { bakeAll } from '#lib/game/sprites';
 	import { ensureSocket } from '#lib/stores/battle';
+	import CrownIcon from '#lib/components/CrownIcon.svelte';
 	import { audio } from '#lib/audio/synth';
 
 	let progress = $state(0.02);
@@ -76,7 +77,7 @@
 
 <div class="loading-screen">
 	<div class="loading-card panel">
-		<div class="loading-emblem"><span>R</span></div>
+		<div class="loading-emblem"><CrownIcon size={48} /></div>
 		<div>
 			<div class="tiny muted" style="letter-spacing: .18em; text-transform: uppercase">
 				{$i18n.t('common.appName')}

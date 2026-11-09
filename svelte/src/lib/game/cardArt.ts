@@ -285,7 +285,7 @@ export function drawCardIcon(
 		if (!troop) {
 			return;
 		}
-		const baked = ensureBaked(troop.visual, side);
+		const baked = ensureBaked(troop.visual, side, 'front', troop.slug);
 		if (baked) {
 			const frame = baked.clips.idle[0];
 			if (frame) {

@@ -91,29 +91,31 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 
 	// barra superior
 	ctx.save();
-	const gradient = ctx.createLinearGradient(0, 0, 0, 72);
-	gradient.addColorStop(0, 'rgba(2, 6, 23, 0.92)');
-	gradient.addColorStop(1, 'rgba(2, 6, 23, 0.15)');
+	const gradient = ctx.createLinearGradient(0, 0, 0, 84);
+	gradient.addColorStop(0, 'rgba(6, 12, 24, 0.98)');
+	gradient.addColorStop(1, 'rgba(8, 16, 32, 0.2)');
 	ctx.fillStyle = gradient;
 	ctx.fillRect(0, 0, DESIGN.width, 84);
+	ctx.fillStyle = 'rgba(247, 212, 92, 0.65)';
+	ctx.fillRect(0, 82, DESIGN.width, 1.5);
 
-	ctx.font = 'bold 17px system-ui, sans-serif';
+	ctx.font = 'bold 17px Georgia, serif';
 	ctx.textAlign = 'left';
-	ctx.fillStyle = '#fca5a5';
+	ctx.fillStyle = '#ffb3b3';
 	ctx.fillText(truncate(ctx, options.opponent, 180), 58, 26);
 	ctx.textAlign = 'right';
-	ctx.fillStyle = '#93c5fd';
+	ctx.fillStyle = '#9dc4ff';
 	ctx.fillText(truncate(ctx, options.username, 180), DESIGN.width - 58, 26);
 
 	// coroas
 	ctx.textAlign = 'left';
-	drawCrown(ctx, 64, 48, enemy.c >= 3 ? '#facc15' : enemy.c >= 2 ? '#facc15' : '#94a3b8');
+	drawCrown(ctx, 64, 48, enemy.c >= 2 ? '#f7d45c' : '#cbd5e1');
 	ctx.fillStyle = '#f8fafc';
 	ctx.font = 'bold 16px system-ui, sans-serif';
 	ctx.fillText(String(enemy.c), 78, 54);
 
 	ctx.textAlign = 'right';
-	drawCrown(ctx, DESIGN.width - 64, 48, local.c >= 3 ? '#facc15' : local.c >= 2 ? '#facc15' : '#94a3b8');
+	drawCrown(ctx, DESIGN.width - 64, 48, local.c >= 2 ? '#f7d45c' : '#cbd5e1');
 	ctx.fillText(String(local.c), DESIGN.width - 78, 54);
 
 	// tempo
@@ -125,11 +127,14 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 				: 0;
 	const overtime = snapshot.ph === 1;
 	ctx.textAlign = 'center';
-	ctx.font = 'bold 30px system-ui, sans-serif';
-	ctx.fillStyle = overtime ? '#fb923c' : '#f8fafc';
+	ctx.font = 'bold 31px Georgia, serif';
+	ctx.fillStyle = overtime ? '#ff9d4d' : '#ffe28a';
+	ctx.shadowColor = 'rgba(247, 212, 92, 0.35)';
+	ctx.shadowBlur = 10;
 	ctx.fillText(formatTime(remaining), DESIGN.width / 2, 44);
-	ctx.font = 'bold 11px system-ui, sans-serif';
-	ctx.fillStyle = overtime ? '#fdba74' : '#94a3b8';
+	ctx.shadowBlur = 0;
+	ctx.font = 'bold 11px Georgia, serif';
+	ctx.fillStyle = overtime ? '#fdba74' : '#d9b85c';
 	ctx.fillText(
 		overtime ? literal.t('battle.overtime') : literal.t('battle.timeLeft').toUpperCase(),
 		DESIGN.width / 2,
@@ -164,6 +169,14 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 		roundRect(ctx, barX + index * (segmentWidth + segmentGap), barY, segmentWidth, HUD.elixirHeight, 4);
 		ctx.stroke();
 	}
+	// moldura dourada da barra de elixir
+	ctx.save();
+	ctx.strokeStyle = 'rgba(247, 212, 92, 0.55)';
+	ctx.lineWidth = 1.2;
+	roundRect(ctx, barX - 2, barY - 2, barWidth + 4, HUD.elixirHeight + 4, 6);
+	ctx.stroke();
+	ctx.restore();
+
 	// cartas
 	const layout = handLayout();
 	for (let slot = 0; slot < 4; slot += 1) {
@@ -214,13 +227,17 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 		// custo
 		ctx.beginPath();
 		ctx.arc(x + 17, y + 18, 13, 0, Math.PI * 2);
-		ctx.fillStyle = affordable ? '#a855f7' : '#4c1d95';
+		const costFill = ctx.createLinearGradient(x + 5, y + 5, x + 29, y + 31);
+		costFill.addColorStop(0, '#fff2a8');
+		costFill.addColorStop(0.55, '#e9b521');
+		costFill.addColorStop(1, '#8a5206');
+		ctx.fillStyle = affordable ? costFill : '#4a3410';
 		ctx.fill();
-		ctx.strokeStyle = '#0f172a';
+		ctx.strokeStyle = '#3a2102';
 		ctx.lineWidth = 2;
 		ctx.stroke();
-		ctx.fillStyle = '#f8fafc';
-		ctx.font = 'bold 16px system-ui, sans-serif';
+		ctx.fillStyle = '#2a1a02';
+		ctx.font = 'bold 16px Georgia, serif';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		ctx.fillText(String(Math.round(cost)), x + 17, y + 19);
@@ -228,9 +245,9 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 
 		// nome
 		const text = literal.card(card.slug).name;
-		ctx.font = 'bold 12px system-ui, sans-serif';
+		ctx.font = 'bold 12px Georgia, serif';
 		ctx.textAlign = 'center';
-		ctx.fillStyle = affordable ? '#f8fafc' : '#cbd5e1';
+		ctx.fillStyle = affordable ? '#fff3c4' : '#b9c1cf';
 		let label = text;
 		while (ctx.measureText(label).width > layout.cardWidth - 16 && label.length > 4) {
 			label = `${label.slice(0, -2)}…`;
@@ -249,8 +266,8 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 				y + height / 2
 			);
 		}
-		ctx.strokeStyle = selected ? '#facc15' : `${rarity[1]}88`;
-		ctx.lineWidth = selected ? 3 : 1.5;
+		ctx.strokeStyle = selected ? '#ffe789' : affordable ? 'rgba(217, 165, 33, 0.72)' : '#475569';
+		ctx.lineWidth = selected ? 3 : 1.4;
 		roundRect(ctx, x, y, layout.cardWidth, height, 12);
 		ctx.stroke();
 	}
@@ -271,16 +288,16 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 			ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
 			roundRect(ctx, x, y, width, height, 10);
 			ctx.fill();
-			ctx.strokeStyle = '#475569';
+			ctx.strokeStyle = 'rgba(217, 165, 33, 0.7)';
 			ctx.lineWidth = 1.5;
 			ctx.stroke();
 			drawCardIcon(ctx, next, loaded.definitions, x + 4, y + 4, iconSize, 0);
-			ctx.fillStyle = '#a855f7';
+			ctx.fillStyle = '#e9b521';
 			ctx.beginPath();
 			ctx.arc(x + 11, y + 11, 9, 0, Math.PI * 2);
 			ctx.fill();
-			ctx.fillStyle = '#f8fafc';
-			ctx.font = 'bold 11px system-ui, sans-serif';
+			ctx.fillStyle = '#2a1a02';
+			ctx.font = 'bold 11px Georgia, serif';
 			ctx.textAlign = 'center';
 			ctx.fillText(String(Math.round(nextEntry[1])), x + 11, y + 15);
 			ctx.font = 'bold 9px system-ui, sans-serif';

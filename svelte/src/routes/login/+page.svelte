@@ -5,6 +5,7 @@
 	import { login } from '#lib/stores/session';
 	import LanguageToggle from '#lib/components/LanguageToggle.svelte';
 	import { audio } from '#lib/audio/synth';
+	import CrownIcon from '#lib/components/CrownIcon.svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -45,7 +46,7 @@
 	<div class="auth-single">
 		<div class="auth-lang"><LanguageToggle /></div>
 		<div class="auth-brand">
-			<div class="logo-mark">R</div>
+			<div class="logo-mark"><CrownIcon size={22} /></div>
 			<div>
 				<div class="auth-brand-name">{$i18n.t('common.appName')}</div>
 				<div class="tiny muted">{$i18n.t('common.tagline')}</div>

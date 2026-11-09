@@ -10,7 +10,7 @@ import type {
 import { ANIM, ENTITY, KIND } from '#lib/types';
 import { ARENA_LAYOUT, DESIGN, HUD, INTERPOLATION_MS, TEAM_COLORS } from './constants';
 import { drawArenaGround, drawDeployOverlay, drawTower } from './arena';
-import { drawBaked, ensureBaked } from './sprites';
+import { drawBaked, ensureBaked, type SpriteView } from './sprites';
 import { drawCardIcon } from './cardArt';
 import {
 	drawProjectile,
@@ -28,6 +28,14 @@ export interface RenderPair {
 	latest: Snapshot;
 }
 
+export interface PendingDeployView {
+	card: CardDef;
+	x: number;
+	y: number;
+	side: Side;
+	progress: number;
+}
+
 export interface Interaction {
 	selectedSlot: number | null;
 	hover: { x: number; y: number } | null;
@@ -35,6 +43,7 @@ export interface Interaction {
 	cardKind: 'troop' | 'spell' | 'building';
 	drag: { x: number; y: number } | null;
 	dragCard: CardDef | null;
+	pending: PendingDeployView[];
 }
 
 export interface HudRender {
@@ -145,7 +154,8 @@ function drawTroop(
 	anim: number,
 	shield: number,
 	effects: number[],
-	elapsedMs: number
+	elapsedMs: number,
+	view: SpriteView
 ) {
 	const visual = troop.visual;
 	const archetypeScale =
@@ -176,7 +186,7 @@ function drawTroop(
 		ctx.restore();
 		return;
 	}
-	const baked = ensureBaked(visual, team);
+	const baked = ensureBaked(visual, team, view, troop.slug);
 	if (baked) {
 		let clip: 'idle' | 'walk' | 'attack' = 'idle';
 		if (anim === ANIM.WALK) {
@@ -203,13 +213,35 @@ function drawTroop(
 	}
 }
 
+// A vista depende do sentido do movimento no ponto de vista local:
+// subindo (para longe do jogador) mostra as costas, descendo mostra a frente.
+function resolveSpriteView(
+	id: number,
+	prev: number[] | undefined,
+	next: number[],
+	localSide: Side,
+	views: Map<number, SpriteView>
+): SpriteView {
+	if (prev) {
+		const dy = next[ENTITY.Y] - prev[ENTITY.Y];
+		const localDy = localSide === 0 ? dy : -dy;
+		if (localDy < -0.008) {
+			views.set(id, 'back');
+		} else if (localDy > 0.008) {
+			views.set(id, 'front');
+		}
+	}
+	return views.get(id) ?? 'front';
+}
+
 // import tardio para evitar ciclo de módulos na inicialização
 function drawTowersAndEntities(
 	ctx: CanvasRenderingContext2D,
 	content: Content,
 	pair: RenderPair,
 	localSide: Side,
-	elapsedMs: number
+	elapsedMs: number,
+	views: Map<number, SpriteView>
 ) {
 	const prevMap = new Map<number, number[]>();
 	for (const entity of pair.prev.e) {
@@ -270,6 +302,7 @@ function drawTowersAndEntities(
 				effects.push(entity[base] ?? 0, entity[base + 1] ?? 0, entity[base + 2] ?? 0);
 			}
 			const anim = entity[ENTITY.ANIM];
+			const view = resolveSpriteView(id, prevMap.get(id), entity, localSide, views);
 			drawTroop(
 				ctx,
 				troop,
@@ -281,7 +314,8 @@ function drawTowersAndEntities(
 				anim,
 				entity[ENTITY.SHIELD],
 				effects,
-				elapsedMs
+				elapsedMs,
+				view
 			);
 		}
 	}
@@ -395,6 +429,55 @@ function drawDraggedCard(
 	ctx.restore();
 }
 
+function drawPendingDeploy(
+	ctx: CanvasRenderingContext2D,
+	content: Content,
+	localSide: Side,
+	pending: PendingDeployView
+) {
+	const point = worldToScreen(pending.x, pending.y, localSide);
+	const width = 46;
+	const height = Math.round(width * (HUD.handHeight / HUD.cardWidth));
+	const x = point.x - width / 2;
+	const y = point.y - height - 8;
+	const progress = Math.max(0, Math.min(1, pending.progress));
+
+	// carta translúcida indicando o local onde a tropa vai surgir
+	ctx.save();
+	ctx.globalAlpha = 0.42;
+	ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+	ctx.beginPath();
+	ctx.roundRect(x, y, width, height, 8);
+	ctx.fill();
+	ctx.strokeStyle = pending.side === localSide ? '#93c5fd' : '#fca5a5';
+	ctx.lineWidth = 1.5;
+	ctx.stroke();
+	drawCardIcon(ctx, pending.card, content.definitions, x + 3, y + 2, width - 6, 0);
+	ctx.restore();
+
+	// barra de carregamento acima da carta
+	const barHeight = 5;
+	const barX = x;
+	const barY = y - 10;
+	ctx.save();
+	ctx.fillStyle = 'rgba(2, 6, 23, 0.85)';
+	ctx.beginPath();
+	ctx.roundRect(barX, barY, width, barHeight, barHeight / 2);
+	ctx.fill();
+	if (progress > 0) {
+		ctx.fillStyle = pending.side === localSide ? '#60a5fa' : '#f87171';
+		ctx.beginPath();
+		ctx.roundRect(barX, barY, width * progress, barHeight, barHeight / 2);
+		ctx.fill();
+	}
+	ctx.strokeStyle = 'rgba(226, 232, 240, 0.45)';
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.roundRect(barX, barY, width, barHeight, barHeight / 2);
+	ctx.stroke();
+	ctx.restore();
+}
+
 function drawGhost(
 	ctx: CanvasRenderingContext2D,
 	content: Content,
@@ -423,7 +506,8 @@ export function renderFrame(
 	pair: RenderPair,
 	interaction: Interaction,
 	hud: HudRender,
-	elapsedMs: number
+	elapsedMs: number,
+	views: Map<number, SpriteView>
 ) {
 	ctx.clearRect(0, 0, DESIGN.width, DESIGN.height);
 	const arena = content.definitions.arenas[match.arena] ?? Object.values(content.definitions.arenas)[0];
@@ -445,8 +529,12 @@ export function renderFrame(
 		);
 	}
 
-	drawTowersAndEntities(ctx, content, pair, match.side, elapsedMs);
+	drawTowersAndEntities(ctx, content, pair, match.side, elapsedMs, views);
 	drawProjectiles(ctx, content, pair, match.side, elapsedMs);
+
+	for (const pending of interaction.pending) {
+		drawPendingDeploy(ctx, content, match.side, pending);
+	}
 
 	if (interaction.hover) {
 		drawGhost(ctx, content, interaction, interaction.hover);

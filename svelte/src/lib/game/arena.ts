@@ -164,6 +164,43 @@ function drawGround(context: CanvasRenderingContext2D, arena: ArenaDef) {
 	context.fillRect(rect.x + rect.w * 0.18, rect.y, rect.w * 0.03, rect.h);
 	context.fillRect(rect.x + rect.w * 0.79, rect.y, rect.w * 0.03, rect.h);
 
+	// marcas d'água reais com coroas no centro de cada metade
+	context.save();
+	context.globalAlpha = 0.09;
+	const crest = goldGradient(context, rect.x, rect.y, rect.h);
+	drawCrownShape(context, rect.x + rect.w * 0.5, rect.y + rect.h * 0.3, rect.w * 0.2, rect.h * 0.1, crest);
+	drawCrownShape(context, rect.x + rect.w * 0.5, rect.y + rect.h * 0.7, rect.w * 0.2, rect.h * 0.1, crest);
+	context.restore();
+
+	// torches e estandartes nas laterais
+	const torch = (tx: number, ty: number) => {
+		context.fillStyle = '#5b3b12';
+		context.fillRect(tx - 2, ty - 18, 4, 20);
+		context.fillStyle = '#f7d45c';
+		context.fillRect(tx - 4, ty - 22, 8, 4);
+		const glow = context.createRadialGradient(tx, ty - 28, 1, tx, ty - 28, 18);
+		glow.addColorStop(0, 'rgba(255, 222, 120, 0.95)');
+		glow.addColorStop(0.45, 'rgba(247, 160, 30, 0.5)');
+		glow.addColorStop(1, 'rgba(247, 160, 30, 0)');
+		context.fillStyle = glow;
+		context.fillRect(tx - 18, ty - 48, 36, 34);
+		context.beginPath();
+		context.moveTo(tx, ty - 34);
+		context.quadraticCurveTo(tx + 6, ty - 26, tx, ty - 18);
+		context.quadraticCurveTo(tx - 6, ty - 26, tx, ty - 34);
+		context.fillStyle = '#ffbe3d';
+		context.fill();
+	};
+	torch(rect.x + 14, rect.y + 100);
+	torch(rect.x + rect.w - 14, rect.y + 100);
+	torch(rect.x + 14, rect.y + rect.h - 26);
+	torch(rect.x + rect.w - 14, rect.y + rect.h - 26);
+
+	// faixa dourada nas bordas
+	context.strokeStyle = 'rgba(247, 212, 92, 0.4)';
+	context.lineWidth = 1.5;
+	context.strokeRect(rect.x + 10, rect.y + 10, rect.w - 20, rect.h - 20);
+
 	// rio
 	const river = context.createLinearGradient(0, riverTop, 0, riverBottom);
 	river.addColorStop(0, '#0ea5e9');
@@ -328,6 +365,107 @@ export function drawDeployOverlay(
 	}
 }
 
+function goldGradient(context: CanvasRenderingContext2D, x: number, y: number, height: number) {
+	const gradient = context.createLinearGradient(x, y, x, y + height);
+	gradient.addColorStop(0, '#fff6c4');
+	gradient.addColorStop(0.3, '#f7d45c');
+	gradient.addColorStop(0.62, '#d9a521');
+	gradient.addColorStop(1, '#8a5206');
+	return gradient;
+}
+
+function drawCrownShape(
+	context: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	width: number,
+	height: number,
+	fill: string | CanvasGradient
+) {
+	context.beginPath();
+	context.moveTo(x - width / 2, y + height * 0.6);
+	context.lineTo(x - width * 0.56, y - height * 0.15);
+	context.lineTo(x - width * 0.2, y + height * 0.18);
+	context.lineTo(x, y - height * 0.6);
+	context.lineTo(x + width * 0.2, y + height * 0.18);
+	context.lineTo(x + width * 0.56, y - height * 0.15);
+	context.lineTo(x + width / 2, y + height * 0.6);
+	context.closePath();
+	context.fillStyle = fill;
+	context.fill();
+	context.strokeStyle = '#5d3603';
+	context.lineWidth = 1.2;
+	context.stroke();
+}
+
+function drawRoyalBust(
+	context: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	scale: number,
+	queen: boolean
+) {
+	context.save();
+	context.translate(x, y);
+	context.scale(scale, scale);
+	const gold = context.createLinearGradient(0, -16, 0, 12);
+	gold.addColorStop(0, '#fff2a8');
+	gold.addColorStop(0.45, '#f1c63e');
+	gold.addColorStop(1, '#8c5606');
+	// manto
+	context.beginPath();
+	context.moveTo(-10, 12);
+	context.lineTo(-7, -2);
+	context.lineTo(7, -2);
+	context.lineTo(10, 12);
+	context.closePath();
+	context.fillStyle = queen ? '#8f1d2c' : '#1d4ed8';
+	context.fill();
+	context.strokeStyle = '#2a070c';
+	context.lineWidth = 1;
+	context.stroke();
+	// ombros/armadura dourada
+	context.beginPath();
+	context.moveTo(-8, 6);
+	context.quadraticCurveTo(0, 0, 8, 6);
+	context.lineTo(6, 11);
+	context.lineTo(-6, 11);
+	context.closePath();
+	context.fillStyle = gold;
+	context.fill();
+	context.strokeStyle = '#5d3603';
+	context.stroke();
+	// cabeça
+	context.beginPath();
+	context.arc(0, -7, 5.2, 0, Math.PI * 2);
+	context.fillStyle = '#f8dc9a';
+	context.fill();
+	context.strokeStyle = '#5d3603';
+	context.stroke();
+	// cabelo/veu
+	if (queen) {
+		context.beginPath();
+		context.arc(0, -8, 7, Math.PI * 0.95, Math.PI * 2.05);
+		context.strokeStyle = '#f7d45c';
+		context.lineWidth = 2;
+		context.stroke();
+	}
+	// coroa
+	drawCrownShape(context, 0, -15, 12, 8, gold);
+	// cetro
+	context.beginPath();
+	context.moveTo(8, 2);
+	context.lineTo(12, -12);
+	context.strokeStyle = '#f7d45c';
+	context.lineWidth = 1.6;
+	context.stroke();
+	context.beginPath();
+	context.arc(12, -13, 2, 0, Math.PI * 2);
+	context.fillStyle = queen ? '#ff9aa7' : '#7dd3fc';
+	context.fill();
+	context.restore();
+}
+
 export function drawTower(
 	context: CanvasRenderingContext2D,
 	tower: TowerDef,
@@ -341,109 +479,210 @@ export function drawTower(
 ) {
 	const team = side === 0 ? TEAM_COLORS.blue : TEAM_COLORS.red;
 	const king = role === 'King';
-	const width = king ? 68 : 54;
-	const height = king ? 96 : 72;
+	const width = king ? 76 : 60;
+	const height = king ? 106 : 82;
 	const baseY = y;
 	const topY = baseY - height;
 	context.save();
-	context.globalAlpha = active || role !== 'King' ? 1 : 0.72;
+	context.globalAlpha = active || role !== 'King' ? 1 : 0.78;
 
 	// sombra
 	context.beginPath();
-	context.ellipse(x, baseY + 3, width * 0.7, width * 0.3, 0, 0, Math.PI * 2);
-	context.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	context.ellipse(x, baseY + 4, width * 0.78, width * 0.32, 0, 0, Math.PI * 2);
+	context.fillStyle = 'rgba(0, 0, 0, 0.42)';
 	context.fill();
 
-	// base
+	// plinto de pedra com filete dourado
 	context.beginPath();
-	context.moveTo(x - width * 0.62, baseY);
-	context.lineTo(x - width * 0.5, topY + height * 0.24);
-	context.lineTo(x + width * 0.5, topY + height * 0.24);
-	context.lineTo(x + width * 0.62, baseY);
+	context.moveTo(x - width * 0.72, baseY);
+	context.lineTo(x - width * 0.56, baseY - height * 0.14);
+	context.lineTo(x + width * 0.56, baseY - height * 0.14);
+	context.lineTo(x + width * 0.72, baseY);
 	context.closePath();
-	context.fillStyle = '#475569';
+	const plinth = context.createLinearGradient(x, baseY - height * 0.14, x, baseY);
+	plinth.addColorStop(0, '#8c98a8');
+	plinth.addColorStop(1, '#39424f');
+	context.fillStyle = plinth;
 	context.fill();
-	context.strokeStyle = '#0f172a';
-	context.lineWidth = 3;
+	context.strokeStyle = '#0d1420';
+	context.lineWidth = 2.5;
 	context.stroke();
+	context.fillStyle = goldGradient(context, x, baseY - height * 0.15, 6);
+	context.fillRect(x - width * 0.58, baseY - height * 0.16, width * 1.16, 3);
 
-	// corpo
+	// corpo de pedra
+	const bodyTop = topY + height * 0.23;
+	const bodyHeight = height * 0.57;
+	const bodyLeft = x - width * 0.43;
+	const bodyWidth = width * 0.86;
+	const stone = context.createLinearGradient(x, bodyTop, x, bodyTop + bodyHeight);
+	stone.addColorStop(0, '#aab4c2');
+	stone.addColorStop(0.4, '#7b8899');
+	stone.addColorStop(1, '#3d4958');
 	context.beginPath();
-	context.roundRect(x - width * 0.42, topY + height * 0.2, width * 0.84, height * 0.62, 8);
-	context.fillStyle = '#64748b';
+	context.roundRect(bodyLeft, bodyTop, bodyWidth, bodyHeight, king ? 10 : 7);
+	context.fillStyle = stone;
 	context.fill();
+	context.strokeStyle = '#0d1420';
+	context.lineWidth = 2.5;
 	context.stroke();
 
-	// faixa de time
-	context.fillStyle = team.primary;
-	context.fillRect(x - width * 0.42, topY + height * 0.34, width * 0.84, height * 0.2);
-	context.strokeStyle = team.dark;
-	context.lineWidth = 2;
-	context.strokeRect(x - width * 0.42, topY + height * 0.34, width * 0.84, height * 0.2);
+	// blocos de pedra
+	context.save();
+	context.beginPath();
+	context.roundRect(bodyLeft, bodyTop, bodyWidth, bodyHeight, king ? 10 : 7);
+	context.clip();
+	context.strokeStyle = 'rgba(24, 33, 46, 0.32)';
+	context.lineWidth = 1;
+	for (let row = 1; row < 5; row += 1) {
+		const lineY = bodyTop + (bodyHeight / 5) * row;
+		context.beginPath();
+		context.moveTo(bodyLeft, lineY);
+		context.lineTo(bodyLeft + bodyWidth, lineY);
+		context.stroke();
+	}
+	for (let row = 0; row < 5; row += 1) {
+		const lineY = bodyTop + (bodyHeight / 5) * row;
+		const offset = row % 2 === 0 ? bodyWidth * 0.33 : bodyWidth * 0.66;
+		context.beginPath();
+		context.moveTo(bodyLeft + offset, lineY);
+		context.lineTo(bodyLeft + offset, lineY + bodyHeight / 5);
+		context.stroke();
+	}
+	context.restore();
+
+	// pilastras douradas
+	context.fillStyle = goldGradient(context, x, bodyTop, bodyHeight);
+	context.fillRect(bodyLeft + 2, bodyTop + 3, 3.5, bodyHeight - 6);
+	context.fillRect(bodyLeft + bodyWidth - 5.5, bodyTop + 3, 3.5, bodyHeight - 6);
+
+	// janelas com brilho
+	for (const offset of [-width * 0.17, width * 0.17]) {
+		const wx = x + offset;
+		const wy = bodyTop + bodyHeight * 0.18;
+		context.beginPath();
+		context.moveTo(wx, wy);
+		context.lineTo(wx, wy + 10);
+		context.arc(wx, wy + 10, 4.2, Math.PI, 0, true);
+		context.closePath();
+		context.fillStyle = '#ffd76a';
+		context.shadowColor = 'rgba(247, 212, 92, 0.75)';
+		context.shadowBlur = 8;
+		context.fill();
+		context.shadowBlur = 0;
+		context.strokeStyle = '#3a2704';
+		context.lineWidth = 1;
+		context.stroke();
+	}
+
+	// estandarte do time com brasão
+	const bannerTop = bodyTop + bodyHeight * 0.34;
+	const bannerHeight = bodyHeight * 0.38;
+	context.beginPath();
+	context.moveTo(x - width * 0.27, bannerTop);
+	context.lineTo(x + width * 0.27, bannerTop);
+	context.lineTo(x + width * 0.27, bannerTop + bannerHeight);
+	context.lineTo(x, bannerTop + bannerHeight + 7);
+	context.lineTo(x - width * 0.27, bannerTop + bannerHeight);
+	context.closePath();
+	const banner = context.createLinearGradient(x, bannerTop, x, bannerTop + bannerHeight);
+	banner.addColorStop(0, team.light);
+	banner.addColorStop(0.5, team.primary);
+	banner.addColorStop(1, team.dark);
+	context.fillStyle = banner;
+	context.fill();
+	context.strokeStyle = '#e6bb4c';
+	context.lineWidth = 1.5;
+	context.stroke();
+	drawCrownShape(context, x, bannerTop + bannerHeight * 0.42, width * 0.2, width * 0.13, goldGradient(context, x, bannerTop, bannerHeight));
+
+	// estátua dourada do rei/rainha
+	drawRoyalBust(context, x, bodyTop + bodyHeight - 7, king ? 0.95 : 0.68, !king);
 
 	// ameias
 	for (let index = -1; index <= 1; index += 1) {
-		context.fillStyle = '#94a3b8';
-		context.fillRect(x + index * width * 0.28 - width * 0.09, topY + height * 0.08, width * 0.18, height * 0.14);
-		context.strokeStyle = '#0f172a';
-		context.lineWidth = 2;
-		context.strokeRect(x + index * width * 0.28 - width * 0.09, topY + height * 0.08, width * 0.18, height * 0.14);
+		const bx = x + index * width * 0.28 - width * 0.085;
+		const by = topY + height * 0.12;
+		context.fillStyle = '#9aa6b5';
+		context.fillRect(bx, by, width * 0.17, height * 0.11);
+		context.strokeStyle = '#0d1420';
+		context.lineWidth = 1.8;
+		context.strokeRect(bx, by, width * 0.17, height * 0.11);
+		context.fillStyle = goldGradient(context, bx, by, 3);
+		context.fillRect(bx, by, width * 0.17, 2.5);
 	}
 
-	// telhado / coroa
+	// telhado e coroa
 	if (king) {
 		context.beginPath();
-		context.moveTo(x - width * 0.34, topY + height * 0.08);
-		context.lineTo(x, topY - height * 0.12);
-		context.lineTo(x + width * 0.34, topY + height * 0.08);
+		context.moveTo(x - width * 0.44, topY + height * 0.13);
+		context.lineTo(x, topY - height * 0.08);
+		context.lineTo(x + width * 0.44, topY + height * 0.13);
 		context.closePath();
-		context.fillStyle = team.dark;
+		const roof = context.createLinearGradient(x, topY - height * 0.08, x, topY + height * 0.13);
+		roof.addColorStop(0, '#f7d45c');
+		roof.addColorStop(0.55, '#c98b0d');
+		roof.addColorStop(1, '#6b3c02');
+		context.fillStyle = roof;
 		context.fill();
+		context.strokeStyle = '#4a2c02';
+		context.lineWidth = 2;
 		context.stroke();
-		context.fillStyle = '#facc15';
+		drawCrownShape(context, x, topY - height * 0.19, width * 0.38, height * 0.14, goldGradient(context, x, topY - height * 0.28, height * 0.2));
 		context.beginPath();
-		context.moveTo(x - 10, topY - height * 0.1);
-		context.lineTo(x - 7, topY - height * 0.2);
-		context.lineTo(x, topY - height * 0.12);
-		context.lineTo(x + 7, topY - height * 0.2);
-		context.lineTo(x + 10, topY - height * 0.1);
-		context.closePath();
+		context.arc(x, topY - height * 0.3, 2.4, 0, Math.PI * 2);
+		context.fillStyle = '#ff5a6f';
 		context.fill();
-		context.strokeStyle = '#a16207';
-		context.lineWidth = 1.5;
-		context.stroke();
 	} else {
 		context.beginPath();
-		context.moveTo(x - width * 0.5, topY + height * 0.1);
+		context.moveTo(x - width * 0.52, topY + height * 0.14);
 		context.lineTo(x, topY - height * 0.05);
-		context.lineTo(x + width * 0.5, topY + height * 0.1);
+		context.lineTo(x + width * 0.52, topY + height * 0.14);
 		context.closePath();
-		context.fillStyle = team.dark;
+		const roof = context.createLinearGradient(x, topY - height * 0.05, x, topY + height * 0.14);
+		roof.addColorStop(0, team.light);
+		roof.addColorStop(0.55, team.primary);
+		roof.addColorStop(1, team.dark);
+		context.fillStyle = roof;
 		context.fill();
+		context.strokeStyle = '#0d1420';
+		context.lineWidth = 2;
 		context.stroke();
+		context.beginPath();
+		context.moveTo(x - width * 0.52, topY + height * 0.14);
+		context.lineTo(x + width * 0.52, topY + height * 0.14);
+		context.strokeStyle = 'rgba(255, 230, 122, 0.75)';
+		context.lineWidth = 2;
+		context.stroke();
+		drawCrownShape(context, x, topY + height * 0.02, width * 0.22, height * 0.09, goldGradient(context, x, topY - height * 0.05, height * 0.12));
 	}
 
 	// porta
 	context.beginPath();
-	context.arc(x, baseY - height * 0.12, width * 0.13, Math.PI, Math.PI * 2);
-	context.lineTo(x + width * 0.13, baseY);
-	context.lineTo(x - width * 0.13, baseY);
+	context.arc(x, baseY - height * 0.1, width * 0.15, Math.PI, Math.PI * 2);
+	context.lineTo(x + width * 0.15, baseY);
+	context.lineTo(x - width * 0.15, baseY);
 	context.closePath();
-	context.fillStyle = '#1e293b';
+	context.fillStyle = '#161f2c';
 	context.fill();
+	context.strokeStyle = '#c9962e';
+	context.lineWidth = 1.5;
 	context.stroke();
 
-	// barra de vida
+	// barra de vida em moldura dourada
 	if (hp < maxHp) {
-		const barWidth = width * 0.95;
-		const barY = topY - height * 0.28;
-		context.fillStyle = 'rgba(15, 23, 42, 0.8)';
-		context.fillRect(x - barWidth / 2 - 2, barY - 2, barWidth + 4, 10);
-		context.fillStyle = side === 0 ? '#3b82f6' : '#ef4444';
+		const barWidth = width * 1.02;
+		const barY = topY - height * 0.36;
+		context.fillStyle = 'rgba(8, 13, 24, 0.88)';
+		context.fillRect(x - barWidth / 2 - 3, barY - 3, barWidth + 6, 12);
+		context.strokeStyle = 'rgba(247, 212, 92, 0.85)';
+		context.lineWidth = 1.2;
+		context.strokeRect(x - barWidth / 2 - 3, barY - 3, barWidth + 6, 12);
+		const fill = context.createLinearGradient(x - barWidth / 2, barY, x - barWidth / 2, barY + 6);
+		fill.addColorStop(0, team.light);
+		fill.addColorStop(1, team.dark);
+		context.fillStyle = fill;
 		context.fillRect(x - barWidth / 2, barY, barWidth * (hp / maxHp), 6);
-		context.strokeStyle = '#0f172a';
-		context.lineWidth = 1;
-		context.strokeRect(x - barWidth / 2 - 2, barY - 2, barWidth + 4, 10);
 	}
 	context.restore();
 }

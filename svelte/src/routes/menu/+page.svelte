@@ -28,6 +28,8 @@
 	import LanguageToggle from '#lib/components/LanguageToggle.svelte';
 	import AudioToggle from '#lib/components/AudioToggle.svelte';
 	import ArenaPreview from '#lib/components/ArenaPreview.svelte';
+	import BottomNav from '#lib/components/BottomNav.svelte';
+	import CrownIcon from '#lib/components/CrownIcon.svelte';
 
 	type DeckSaveState = 'idle' | 'saving' | 'saved';
 
@@ -83,18 +85,9 @@
 		})
 	);
 
-	const recentPreview = $derived(recent.slice(0, viewportHeight < 760 ? 2 : 3));
-	const replayPreview = $derived(replays.slice(0, viewportHeight < 760 ? 2 : 3));
+	const recentPreview = $derived(recent.slice(0, viewportHeight < 880 ? 2 : 3));
+	const replayPreview = $derived(replays.slice(0, viewportHeight < 880 ? 2 : 3));
 	const chatPreview = $derived($chatMessages.slice(viewportHeight < 760 ? -6 : -9));
-	const screenTitle = $derived(
-		tab === 'cards'
-			? $i18n.t('menu.cards')
-			: tab === 'chat'
-				? $i18n.t('menu.chat')
-				: tab === 'profile'
-					? $i18n.t('menu.profile')
-					: $i18n.t('menu.battle')
-	);
 
 	const chatRemaining = $derived(Math.max(0, Math.ceil((cooldownUntil - clock) / 1000)));
 	const deckFull = $derived($deck.length >= 8);
@@ -422,7 +415,7 @@
 			<span class="mini-avatar">{initial}</span>
 			{wins}W
 		</div>
-		<div class="resource-pill gold">👑 {crowns}</div>
+		<div class="resource-pill gold"><CrownIcon size={15} /> {crowns}</div>
 		<div class="resource-pill blue">🃏 {$deck.length}/8</div>
 		<div class="resource-spacer"></div>
 		<AudioToggle />
@@ -432,6 +425,7 @@
 	{#if tab !== 'profile'}
 	<section class="player-strip">
 		<div class="player-avatar-lg">
+			<span class="avatar-crown"><CrownIcon size={12} /></span>
 			{initial}
 			<span class="level-badge">{wins}</span>
 		</div>
@@ -444,22 +438,13 @@
 	{/if}
 
 	<main class="mobile-content" class:scrollable={tab === 'cards'} class:chat-screen={tab === 'chat'} bind:this={contentEl}>
-		{#if tab !== 'home'}
-			<div class="screen-header">
-				<button class="btn btn-sm screen-back" onclick={() => switchScreen('home')} type="button" aria-label={$i18n.t('common.back')}>
-					←
-				</button>
-				<strong>{screenTitle}</strong>
-				<span class="screen-header-spacer"></span>
-			</div>
-		{/if}
 		{#if tab === 'home'}
 			<div class="arena-preview-card">
 				<span class="arena-tag">1v1</span>
 				<div class="arena-preview-canvas">
 					<ArenaPreview />
 				</div>
-				<div class="arena-label">Arena Clássica</div>
+				<div class="arena-label"><CrownIcon size={12} /> Arena Clássica</div>
 			</div>
 
 			{#if $queuePosition !== null}
@@ -499,7 +484,7 @@
 			<div class="home-deck">
 				<div class="spread">
 					<div>
-						<div class="home-deck-title">{$i18n.t('menu.deck')}</div>
+						<div class="home-deck-title"><CrownIcon size={13} /> {$i18n.t('menu.deck')}</div>
 						<div class="tiny muted">{$i18n.t('menu.chooseDeck')}</div>
 					</div>
 					<button class="btn btn-sm" onclick={() => switchScreen('cards')} type="button">
@@ -537,23 +522,7 @@
 				</div>
 			</div>
 
-			<div class="shortcut-row home-actions">
-				<button class="shortcut-tile" onclick={() => switchScreen('cards')} type="button">
-					<span class="shortcut-icon">🃏</span>
-					<span>{$i18n.t('menu.cards')}</span>
-					<span class="shortcut-value">{$deck.length}/8</span>
-				</button>
-				<button class="shortcut-tile" onclick={() => switchScreen('chat')} type="button">
-					<span class="shortcut-icon">💬</span>
-					<span>{$i18n.t('menu.chat')}</span>
-					<span class="shortcut-value">{$chatConnected ? $i18n.t('common.online') : $i18n.t('common.offline')}</span>
-				</button>
-				<button class="shortcut-tile" onclick={() => switchScreen('profile')} type="button">
-					<span class="shortcut-icon">👤</span>
-					<span>{$i18n.t('menu.profile')}</span>
-					<span class="shortcut-value">{stats?.games ?? 0}</span>
-				</button>
-			</div>
+
 
 		{:else if tab === 'cards'}
 			<section class="panel menu-panel cards-section" style="display: grid; gap: 12px">
@@ -713,6 +682,7 @@
 			{:else}
 				<div class="profile-hero">
 					<div class="player-avatar-lg">
+						<span class="avatar-crown"><CrownIcon size={12} /></span>
 						{initial}
 						<span class="level-badge">{wins}</span>
 					</div>
@@ -790,6 +760,7 @@
 		{/if}
 	</main>
 
+	<BottomNav {tab} onchange={switchScreen} />
 
 	{#if selected}
 		<Modal title={$i18n.t('menu.cardDetails')} onclose={closeCard}>

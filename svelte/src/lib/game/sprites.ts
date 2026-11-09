@@ -1,7 +1,16 @@
 import { writable } from 'svelte/store';
 import type { Content, Side, TroopDef, VisualDef } from '#lib/types';
-import { CLIP_FRAMES, SPRITE_SIZE, drawCharacter } from './characterArt';
+import {
+	CLIP_FRAMES,
+	SPRITE_SIZE,
+	drawCharacter,
+	normalizeView,
+	supportsBackView
+} from './characterArt';
+import type { SpriteView } from './characterArt';
 import type { ClipName } from './skeleton';
+
+export type { SpriteView };
 
 type SpriteCanvas = OffscreenCanvas | HTMLCanvasElement;
 
@@ -9,6 +18,7 @@ export interface BakedCharacter {
 	key: string;
 	visual: VisualDef;
 	side: Side;
+	view: SpriteView;
 	clips: Record<ClipName, SpriteCanvas[]>;
 }
 
@@ -25,9 +35,16 @@ function createCanvas(width: number, height: number): SpriteCanvas {
 	return canvas;
 }
 
-export function visualKey(visual: VisualDef, side: Side): string {
+export function visualKey(
+	visual: VisualDef,
+	side: Side,
+	view: SpriteView = 'front',
+	slug = ''
+): string {
 	return [
+		slug,
 		side,
+		normalizeView(visual, view),
 		visual.archetype,
 		visual.scale,
 		visual.primary,
@@ -37,12 +54,18 @@ export function visualKey(visual: VisualDef, side: Side): string {
 	].join('|');
 }
 
-export function bakeCharacter(visual: VisualDef, side: Side): BakedCharacter {
-	const key = visualKey(visual, side);
+export function bakeCharacter(
+	visual: VisualDef,
+	side: Side,
+	view: SpriteView = 'front',
+	slug = ''
+): BakedCharacter {
+	const key = visualKey(visual, side, view, slug);
 	const cached = cache.get(key);
 	if (cached) {
 		return cached;
 	}
+	const effectiveView = normalizeView(visual, view);
 	const clips = {} as Record<ClipName, SpriteCanvas[]>;
 	for (const clip of Object.keys(CLIP_FRAMES) as ClipName[]) {
 		const frames = CLIP_FRAMES[clip];
@@ -57,26 +80,44 @@ export function bakeCharacter(visual: VisualDef, side: Side): BakedCharacter {
 				continue;
 			}
 			context.clearRect(0, 0, SPRITE_SIZE, SPRITE_SIZE);
-			drawCharacter(context as CanvasRenderingContext2D, visual, side, clip, frame, frames);
+			drawCharacter(
+				context as CanvasRenderingContext2D,
+				visual,
+				side,
+				clip,
+				frame,
+				frames,
+				effectiveView
+			);
 			list.push(canvas);
 		}
 		clips[clip] = list;
 	}
-	const baked = { key, visual, side, clips };
+	const baked = { key, visual, side, view: effectiveView, clips };
 	cache.set(key, baked);
 	return baked;
 }
 
-export function bakedFor(troop: TroopDef, side: Side): BakedCharacter {
-	return bakeCharacter(troop.visual, side);
+export function bakedFor(troop: TroopDef, side: Side, view: SpriteView = 'front'): BakedCharacter {
+	return bakeCharacter(troop.visual, side, view, troop.slug);
 }
 
-export function ensureBaked(visual: VisualDef, side: Side): BakedCharacter {
-	return getBaked(visual, side) ?? bakeCharacter(visual, side);
+export function ensureBaked(
+	visual: VisualDef,
+	side: Side,
+	view: SpriteView = 'front',
+	slug = ''
+): BakedCharacter {
+	return getBaked(visual, side, view, slug) ?? bakeCharacter(visual, side, view, slug);
 }
 
-export function getBaked(visual: VisualDef, side: Side): BakedCharacter | undefined {
-	return cache.get(visualKey(visual, side));
+export function getBaked(
+	visual: VisualDef,
+	side: Side,
+	view: SpriteView = 'front',
+	slug = ''
+): BakedCharacter | undefined {
+	return cache.get(visualKey(visual, side, view, slug));
 }
 
 export async function bakeAll(content: Content, onProgress?: (value: number) => void) {
@@ -84,8 +125,12 @@ export async function bakeAll(content: Content, onProgress?: (value: number) => 
 	const total = troops.length;
 	let index = 0;
 	for (const troop of troops) {
-		bakeCharacter(troop.visual, 0);
-		bakeCharacter(troop.visual, 1);
+		bakeCharacter(troop.visual, 0, 'front', troop.slug);
+		bakeCharacter(troop.visual, 1, 'front', troop.slug);
+		if (supportsBackView(troop.visual)) {
+			bakeCharacter(troop.visual, 0, 'back', troop.slug);
+			bakeCharacter(troop.visual, 1, 'back', troop.slug);
+		}
 		index += 1;
 		onProgress?.(index / total);
 		if (index % 3 === 0) {
@@ -97,7 +142,10 @@ export async function bakeAll(content: Content, onProgress?: (value: number) => 
 }
 
 export async function ensureSprites(content: Content, onProgress?: (value: number) => void) {
-	const expected = Object.keys(content.definitions.troops).length * 2;
+	let expected = 0;
+	for (const troop of Object.values(content.definitions.troops)) {
+		expected += supportsBackView(troop.visual) ? 4 : 2;
+	}
 	if (cache.size >= expected) {
 		return;
 	}

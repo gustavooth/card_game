@@ -1,9 +1,11 @@
 import { get } from 'svelte/store';
-import type { CardDef, Content, MatchInfo, Snapshot } from '#lib/types';
+import type { CardDef, Content, MatchInfo, Side, Snapshot } from '#lib/types';
+import { EVENT } from '#lib/types';
 import { frames } from '#lib/stores/battle';
 import { audio } from '#lib/audio/synth';
 import { DESIGN } from './constants';
 import { battleFramePair, renderFrame, type RenderPair } from './renderer';
+import type { SpriteView } from './sprites';
 import { insideArena, screenToWorld } from './projection';
 import { handCardAt } from './hud';
 import { validatePlacement } from './placement';
@@ -26,6 +28,16 @@ export class GameView {
 	private dragMoved = false;
 	private lastTick = -1;
 	private latest: Snapshot | null = null;
+	private lastEventTick = -1;
+	private views = new Map<number, SpriteView>();
+	private pendingDeploys: {
+		card: CardDef;
+		x: number;
+		y: number;
+		side: Side;
+		startMs: number;
+		durationMs: number;
+	}[] = [];
 
 	constructor(
 		private canvas: HTMLCanvasElement,
@@ -110,6 +122,44 @@ export class GameView {
 		return snapshot.p.find((player) => player.s === this.match.side)?.e ?? 0;
 	}
 
+	private collectDeploys(latest: Snapshot) {
+		for (const frame of get(frames)) {
+			const snapshot = frame.snapshot;
+			if (snapshot.k <= this.lastEventTick) {
+				continue;
+			}
+			this.lastEventTick = snapshot.k;
+			for (const event of snapshot.ev) {
+				if (Math.round(event[0]) !== EVENT.DEPLOY) {
+					continue;
+				}
+				const side = Math.round(event[3]) as Side;
+				if (side !== this.match.side) {
+					continue;
+				}
+				const card = this.content.definitions.cards[Math.round(event[4])];
+				if (!card) {
+					continue;
+				}
+				let duration = card.summon_time_ms;
+				if (card.type.kind === 'spell') {
+					duration += this.content.definitions.spells[card.type.spell]?.delay_ms ?? 0;
+				}
+				this.pendingDeploys.push({
+					card,
+					x: event[1],
+					y: event[2],
+					side,
+					startMs: snapshot.m,
+					durationMs: Math.max(0, duration)
+				});
+			}
+		}
+		this.pendingDeploys = this.pendingDeploys.filter(
+			(pending) => latest.m < pending.startMs + pending.durationMs
+		);
+	}
+
 	private render(now: number) {
 		const pair = battleFramePair(get(frames), now);
 		if (!pair) {
@@ -126,6 +176,14 @@ export class GameView {
 			this.lastTick = pair.latest.k;
 		}
 		this.latest = pair.latest;
+		this.collectDeploys(pair.latest);
+		const pending = this.pendingDeploys.map((deploy) => ({
+			card: deploy.card,
+			x: deploy.x,
+			y: deploy.y,
+			side: deploy.side,
+			progress: (pair.latest.m - deploy.startMs) / Math.max(1, deploy.durationMs)
+		}));
 		const card = this.selectedSlot !== null ? this.cardAt(this.selectedSlot, pair.latest) : undefined;
 		let valid = false;
 		if (card && this.hover) {
@@ -150,14 +208,16 @@ export class GameView {
 				valid,
 				cardKind: card?.type.kind ?? 'troop',
 				drag: this.pointer && this.dragMoved ? this.pointer : null,
-				dragCard: this.pointer && this.dragMoved ? (card ?? null) : null
+				dragCard: this.pointer && this.dragMoved ? (card ?? null) : null,
+				pending
 			},
 			{
 				opponent: this.match.opponent,
 				username: this.username,
 				selectedSlot: this.selectedSlot
 			},
-			now
+			now,
+			this.views
 		);
 		this.selectedCardIsValid = valid;
 		this.selectedCard = card;

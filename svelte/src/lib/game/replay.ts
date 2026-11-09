@@ -2,6 +2,7 @@ import { decode } from '@msgpack/msgpack';
 import type { Content, ReplayHeader, Snapshot } from '#lib/types';
 import { DESIGN } from './constants';
 import { renderFrame, type RenderPair } from './renderer';
+import type { SpriteView } from './sprites';
 import { audio } from '#lib/audio/synth';
 
 export interface ReplayData {
@@ -103,6 +104,7 @@ export class ReplayView {
 	private duration = 0;
 	private lastNow = 0;
 	private lastTick = -1;
+	private views = new Map<number, SpriteView>();
 	private username: string;
 	private opponent: string;
 
@@ -171,9 +173,10 @@ export class ReplayView {
 					reconnect: false
 				},
 				pair,
-				{ selectedSlot: null, hover: null, valid: false, cardKind: 'troop', drag: null, dragCard: null },
+				{ selectedSlot: null, hover: null, valid: false, cardKind: 'troop', drag: null, dragCard: null, pending: [] },
 				{ opponent: this.opponent, username: this.username, selectedSlot: null },
-				now
+				now,
+				this.views
 			);
 		}
 		this.onProgress(this.time, this.duration, this.playing);

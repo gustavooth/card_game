@@ -114,6 +114,27 @@
 		context.strokeRect(left + 4, top + 4, right - left - 8, bottom - top - 8);
 		context.restore();
 
+		// moldura dourada da plataforma
+		context.save();
+		context.strokeStyle = 'rgba(247, 212, 92, 0.75)';
+		context.lineWidth = 2;
+		context.strokeRect(left + 6, top + 6, right - left - 12, bottom - top - 12);
+		for (const [cx, cy] of [
+			[left + 6, top + 6],
+			[right - 6, top + 6],
+			[left + 6, bottom - 6],
+			[right - 6, bottom - 6]
+		]) {
+			context.beginPath();
+			context.arc(cx, cy, 4, 0, Math.PI * 2);
+			context.fillStyle = '#f7d45c';
+			context.fill();
+			context.strokeStyle = '#5d3603';
+			context.lineWidth = 1;
+			context.stroke();
+		}
+		context.restore();
+
 		// torres
 		const princess = loaded.definitions.towers['princess_tower'];
 		const king = loaded.definitions.towers['king_tower'];
@@ -155,7 +176,7 @@
 			if (!troop) {
 				continue;
 			}
-			const baked = ensureBaked(troop.visual, unit.side);
+			const baked = ensureBaked(troop.visual, unit.side, 'front', troop.slug);
 			context.beginPath();
 			context.ellipse(unit.x, unit.y + 2, unit.size * 0.22, unit.size * 0.08, 0, 0, Math.PI * 2);
 			context.fillStyle = 'rgba(0,0,0,0.3)';

@@ -1,5 +1,6 @@
 import type {
 	BuildingDef,
+	CardDef,
 	Content,
 	MatchInfo,
 	Side,
@@ -7,7 +8,7 @@ import type {
 	TroopDef
 } from '#lib/types';
 import { ANIM, ENTITY, KIND } from '#lib/types';
-import { ARENA_LAYOUT, DESIGN, INTERPOLATION_MS, TEAM_COLORS } from './constants';
+import { ARENA_LAYOUT, DESIGN, HUD, INTERPOLATION_MS, TEAM_COLORS } from './constants';
 import { drawArenaGround, drawDeployOverlay, drawTower } from './arena';
 import { drawBaked, ensureBaked } from './sprites';
 import { drawCardIcon } from './cardArt';
@@ -32,6 +33,8 @@ export interface Interaction {
 	hover: { x: number; y: number } | null;
 	valid: boolean;
 	cardKind: 'troop' | 'spell' | 'building';
+	drag: { x: number; y: number } | null;
+	dragCard: CardDef | null;
 }
 
 export interface HudRender {
@@ -366,6 +369,32 @@ function drawZones(
 	}
 }
 
+function drawDraggedCard(
+	ctx: CanvasRenderingContext2D,
+	content: Content,
+	card: CardDef,
+	pointer: { x: number; y: number }
+) {
+	const width = 64;
+	const height = Math.round(width * (HUD.handHeight / HUD.cardWidth));
+	const x = Math.max(4, Math.min(DESIGN.width - width - 4, pointer.x - width / 2));
+	const y = Math.max(4, Math.min(DESIGN.height - height - 4, pointer.y - height - 28));
+	ctx.save();
+	ctx.globalAlpha = 0.9;
+	ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+	ctx.shadowBlur = 12;
+	ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+	ctx.beginPath();
+	ctx.roundRect(x, y, width, height, 10);
+	ctx.fill();
+	ctx.shadowBlur = 0;
+	ctx.strokeStyle = '#64748b';
+	ctx.lineWidth = 1.5;
+	ctx.stroke();
+	drawCardIcon(ctx, card, content.definitions, x + 4, y + 3, width - 8, 0);
+	ctx.restore();
+}
+
 function drawGhost(
 	ctx: CanvasRenderingContext2D,
 	content: Content,
@@ -421,6 +450,9 @@ export function renderFrame(
 
 	if (interaction.hover) {
 		drawGhost(ctx, content, interaction, interaction.hover);
+	}
+	if (interaction.drag && interaction.dragCard) {
+		drawDraggedCard(ctx, content, interaction.dragCard, interaction.drag);
 	}
 
 	drawHud(ctx, {

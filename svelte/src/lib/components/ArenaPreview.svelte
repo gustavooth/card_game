@@ -8,7 +8,7 @@
 
 	let canvas: HTMLCanvasElement;
 	const width = 640;
-	const height = 420;
+	const height = 640;
 
 	$effect(() => {
 		const loaded = get(content);
@@ -56,10 +56,10 @@
 		context.restore();
 
 		// plataforma
-		const left = 76;
-		const top = 42;
-		const right = width - 76;
-		const bottom = height - 34;
+		const left = 60;
+		const top = 60;
+		const right = width - 60;
+		const bottom = height - 60;
 		context.save();
 		context.beginPath();
 		context.roundRect(left, top, right - left, bottom - top, 18);
@@ -86,7 +86,7 @@
 		context.fillStyle = river;
 		context.fillRect(left, riverY - 14, right - left, 28);
 		context.fillStyle = '#8b5a2b';
-		for (const bx of [left + 48, right - 120]) {
+		for (const bx of [164, 404]) {
 			context.fillRect(bx, riverY - 22, 72, 44);
 			context.strokeStyle = '#4a2c12';
 			context.lineWidth = 2;
@@ -101,12 +101,12 @@
 
 		// caminhos de pedra
 		context.fillStyle = 'rgba(120, 113, 108, 0.55)';
-		for (const bx of [left + 84, right - 84]) {
+		for (const bx of [200, 440]) {
 			context.fillRect(bx - 12, top + 40, 24, riverY - top - 52);
 			context.fillRect(bx - 12, riverY + 12, 24, bottom - riverY - 36);
 		}
-		context.fillRect(left + 80, top + 56, right - left - 160, 18);
-		context.fillRect(left + 80, bottom - 62, right - left - 160, 18);
+		context.fillRect(left + 80, 200, right - left - 160, 18);
+		context.fillRect(left + 80, 422, right - left - 160, 18);
 
 		// borda de pedra
 		context.strokeStyle = 'rgba(203, 213, 225, 0.25)';
@@ -121,11 +121,11 @@
 			return;
 		}
 		const towers = [
-			{ def: princess, side: 1 as const, x: 172, y: 136, role: 'Princess' },
-			{ def: princess, side: 1 as const, x: 468, y: 136, role: 'Princess' },
-			{ def: king, side: 1 as const, x: 320, y: 120, role: 'King' },
-			{ def: princess, side: 0 as const, x: 172, y: 320, role: 'Princess' },
-			{ def: princess, side: 0 as const, x: 468, y: 320, role: 'Princess' },
+			{ def: princess, side: 1 as const, x: 200, y: 224, role: 'Princess' },
+			{ def: princess, side: 1 as const, x: 440, y: 224, role: 'Princess' },
+			{ def: king, side: 1 as const, x: 320, y: 200, role: 'King' },
+			{ def: princess, side: 0 as const, x: 200, y: 416, role: 'Princess' },
+			{ def: princess, side: 0 as const, x: 440, y: 416, role: 'Princess' },
 			{ def: king, side: 0 as const, x: 320, y: 350, role: 'King' }
 		];
 		for (const tower of towers) {
@@ -144,10 +144,10 @@
 
 		// tropas decorativas
 		const units = [
-			{ slug: 'knight', side: 0 as const, x: 300, y: 292, size: 56 },
-			{ slug: 'giant', side: 0 as const, x: 236, y: 300, size: 88 },
-			{ slug: 'archer', side: 1 as const, x: 386, y: 176, size: 48 },
-			{ slug: 'musketeer', side: 1 as const, x: 420, y: 186, size: 54 }
+			{ slug: 'knight', side: 0 as const, x: 300, y: 390, size: 56 },
+			{ slug: 'giant', side: 0 as const, x: 236, y: 398, size: 88 },
+			{ slug: 'archer', side: 1 as const, x: 386, y: 260, size: 48 },
+			{ slug: 'musketeer', side: 1 as const, x: 420, y: 270, size: 54 }
 		];
 		const sorted = [...units].sort((a, b) => a.y - b.y);
 		for (const unit of sorted) {

@@ -251,11 +251,20 @@ export function drawArenaGround(
 	const riverTop = ARENA_LAYOUT.y + arena.river_top * ARENA_LAYOUT.tile * ARENA_LAYOUT.depth;
 	const riverBottom =
 		ARENA_LAYOUT.y + arena.river_bottom * ARENA_LAYOUT.tile * ARENA_LAYOUT.depth;
-	// ondas animadas
+	// ondas animadas (sem cobrir as pontes)
 	context.save();
 	context.beginPath();
 	context.rect(rect.x, riverTop, rect.w, riverBottom - riverTop);
-	context.clip();
+	const tileWidth = ARENA_LAYOUT.tile;
+	const tileHeight = ARENA_LAYOUT.tile * ARENA_LAYOUT.depth;
+	for (const [left, right] of arena.bridges) {
+		const bx = rect.x + left * tileWidth;
+		const bw = (right - left) * tileWidth;
+		const top = riverTop - tileHeight * 0.45;
+		const height = riverBottom - riverTop + tileHeight * 0.9;
+		context.rect(bx, top, bw, height);
+	}
+	context.clip('evenodd');
 	context.globalAlpha = 0.22;
 	for (let line = 0; line < 3; line += 1) {
 		context.beginPath();

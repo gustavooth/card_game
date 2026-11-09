@@ -164,11 +164,6 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 		roundRect(ctx, barX + index * (segmentWidth + segmentGap), barY, segmentWidth, HUD.elixirHeight, 4);
 		ctx.stroke();
 	}
-	ctx.textAlign = 'right';
-	ctx.font = 'bold 12px system-ui, sans-serif';
-	ctx.fillStyle = '#e9d5ff';
-	ctx.fillText(local.e.toFixed(1), DESIGN.width - 46, barY - 4);
-
 	// cartas
 	const layout = handLayout();
 	for (let slot = 0; slot < 4; slot += 1) {
@@ -267,15 +262,19 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 		if (next) {
 			const x = 8;
 			const y = HUD.handY + 6;
+			// mini carta com a mesma proporção das cartas da mão (148x160)
+			const width = 58;
+			const height = Math.round(width * (HUD.handHeight / HUD.cardWidth));
+			const iconSize = width - 8;
 			ctx.save();
 			ctx.globalAlpha = 0.92;
 			ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-			roundRect(ctx, x, y, 58, 112, 10);
+			roundRect(ctx, x, y, width, height, 10);
 			ctx.fill();
 			ctx.strokeStyle = '#475569';
 			ctx.lineWidth = 1.5;
 			ctx.stroke();
-			drawCardIcon(ctx, next, loaded.definitions, x + 4, y + 6, 50, 0);
+			drawCardIcon(ctx, next, loaded.definitions, x + 4, y + 4, iconSize, 0);
 			ctx.fillStyle = '#a855f7';
 			ctx.beginPath();
 			ctx.arc(x + 11, y + 11, 9, 0, Math.PI * 2);
@@ -286,7 +285,11 @@ export function drawHud(ctx: CanvasRenderingContext2D, options: HudOptions) {
 			ctx.fillText(String(Math.round(nextEntry[1])), x + 11, y + 15);
 			ctx.font = 'bold 9px system-ui, sans-serif';
 			ctx.fillStyle = '#94a3b8';
-			ctx.fillText(literal.t('battle.next').toUpperCase(), x + 29, y + 126);
+			ctx.fillText(literal.t('battle.next').toUpperCase(), x + width / 2, y + height + 14);
+			// elixir disponível (abaixo de "próxima")
+			ctx.font = 'bold 13px system-ui, sans-serif';
+			ctx.fillStyle = '#e9d5ff';
+			ctx.fillText(local.e.toFixed(1), x + width / 2, y + height + 31);
 			ctx.restore();
 		}
 	}

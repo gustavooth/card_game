@@ -19,6 +19,11 @@ export class GameView {
 	private selectedSlot: number | null = null;
 	private hover: { x: number; y: number } | null = null;
 	private pointerDown = false;
+	private pointer: { x: number; y: number } | null = null;
+	private pressPoint: { x: number; y: number } | null = null;
+	private pressedSlot: number | null = null;
+	private pressSelected = false;
+	private dragMoved = false;
 	private lastTick = -1;
 	private latest: Snapshot | null = null;
 
@@ -70,6 +75,11 @@ export class GameView {
 	clearSelection() {
 		this.selectedSlot = null;
 		this.hover = null;
+		this.pointer = null;
+		this.pressPoint = null;
+		this.pressedSlot = null;
+		this.pressSelected = false;
+		this.dragMoved = false;
 	}
 
 	private localSnapshot(pair: RenderPair | null): Snapshot | null {
@@ -138,7 +148,9 @@ export class GameView {
 				selectedSlot: this.selectedSlot,
 				hover: this.hover,
 				valid,
-				cardKind: card?.type.kind ?? 'troop'
+				cardKind: card?.type.kind ?? 'troop',
+				drag: this.pointer && this.dragMoved ? this.pointer : null,
+				dragCard: this.pointer && this.dragMoved ? (card ?? null) : null
 			},
 			{
 				opponent: this.match.opponent,
@@ -173,9 +185,15 @@ export class GameView {
 			if (!card) {
 				return;
 			}
-			this.selectedSlot = this.selectedSlot === slot ? null : slot;
+			// Seleciona já no pointerdown para permitir arrastar direto da mão.
+			this.pressSelected = this.selectedSlot === slot;
+			this.selectedSlot = slot;
 			this.hover = null;
 			this.pointerDown = true;
+			this.pointer = point;
+			this.pressPoint = point;
+			this.pressedSlot = slot;
+			this.dragMoved = false;
 			try {
 				this.canvas.setPointerCapture(event.pointerId);
 			} catch {
@@ -186,6 +204,11 @@ export class GameView {
 		if (this.selectedSlot !== null && insideArena(point.x, point.y)) {
 			this.pointerDown = true;
 			this.hover = point;
+			this.pointer = point;
+			this.pressPoint = point;
+			this.pressedSlot = null;
+			this.pressSelected = false;
+			this.dragMoved = false;
 			try {
 				this.canvas.setPointerCapture(event.pointerId);
 			} catch {
@@ -197,11 +220,23 @@ export class GameView {
 	};
 
 	private onPointerMove = (event: PointerEvent) => {
-		if (this.selectedSlot === null) {
+		if (!this.pointerDown && this.selectedSlot === null) {
 			return;
 		}
 		event.preventDefault();
 		const point = this.toDesign(event);
+		if (this.pointerDown) {
+			if (
+				this.pressPoint &&
+				Math.hypot(point.x - this.pressPoint.x, point.y - this.pressPoint.y) > 8
+			) {
+				this.dragMoved = true;
+			}
+			this.pointer = point;
+		}
+		if (this.selectedSlot === null) {
+			return;
+		}
 		this.hover = insideArena(point.x, point.y) ? point : null;
 	};
 
@@ -209,15 +244,26 @@ export class GameView {
 		if (!this.pointerDown) {
 			return;
 		}
+		const point = this.toDesign(event);
+		const releasedSlot = handCardAt(point.x, point.y);
+		const tappedCard =
+			this.pressedSlot !== null && !this.dragMoved && releasedSlot === this.pressedSlot;
+		const tappedSelectedCard = tappedCard && this.pressSelected;
 		this.pointerDown = false;
+		this.pointer = null;
+		this.pressPoint = null;
+		this.pressedSlot = null;
+		this.pressSelected = false;
+		this.dragMoved = false;
 		if (this.selectedSlot === null) {
 			return;
 		}
-		const point = this.toDesign(event);
 		if (!insideArena(point.x, point.y)) {
-			if (handCardAt(point.x, point.y) === null) {
-				this.hover = null;
+			// Tocar de novo na carta já selecionada desmarca.
+			if (tappedSelectedCard) {
+				this.selectedSlot = null;
 			}
+			this.hover = null;
 			return;
 		}
 		const snapshot = this.currentSnapshot();
@@ -254,6 +300,11 @@ export class GameView {
 
 	private onPointerCancel = () => {
 		this.pointerDown = false;
+		this.pointer = null;
+		this.pressPoint = null;
+		this.pressedSlot = null;
+		this.pressSelected = false;
+		this.dragMoved = false;
 		this.hover = null;
 	};
 
